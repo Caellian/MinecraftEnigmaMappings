@@ -1,0 +1,7 @@
+CLASS none/a net/minecraft/util/ChatStyle
+	FIELD A format Z
+	FIELD B stringValue Ljava/lang/String;
+	FIELD C intValue I
+	FIELD a BLACK Lnone/a;
+	FIELD b DARK_BLUE Lnone/a;
+	FIELD c DARK_GREEN Lnone/a;
