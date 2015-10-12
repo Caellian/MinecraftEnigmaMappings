@@ -16981,16 +16981,36 @@ CLASS none/avt net/minecraft/client/gui/GuiButton
 	FIELD g height I
 	FIELD h xPosition I
 	FIELD i yPosition I
-	FIELD j displayString Ljava/lang/String;
+	FIELD j label Ljava/lang/String;
 	FIELD k id I
 	FIELD l enabled Z
 	FIELD m drawButton Z
+	FIELD n drawnInside Z
+	METHOD <init> (IIIIILjava/lang/String;)V
+		ARG 0 id
+		ARG 1 xPosition
+		ARG 2 yPosition
+		ARG 3 width
+		ARG 4 height
+		ARG 5 label
+	METHOD <init> (IIILjava/lang/String;)V
+		ARG 0 id
+		ARG 1 xPosition
+		ARG 2 yPosition
+		ARG 3 label
+	METHOD a wasDrawnInside ()Z
 	METHOD a setButtonWidth (I)V
 	METHOD a mouseReleased (II)V
 	METHOD a drawButton (Lnone/avf;II)V
+		ARG 0 gameInstance
+		ARG 1 xPos
+		ARG 2 yPos
+	METHOD a playClickSound (Lnone/bqa;)V
+		ARG 0 soundManager
 	METHOD a getHoverState (Z)I
 	METHOD b getButtonWidth ()I
 	METHOD b mouseDragged (Lnone/avf;II)V
+		ARG 0 gameInstance
 	METHOD c mousePressed (Lnone/avf;II)Z
 CLASS none/avu net/minecraft/client/gui/GuiNewChat
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
@@ -17066,30 +17086,62 @@ CLASS none/awe net/minecraft/client/gui/GuiExtendedList
 		METHOD b onMouseReleased (IIIIII)V
 	METHOD <init> (Lnone/avf;IIIII)V
 		ARG 0 gameInstance
+		ARG 1 guiWidth
+		ARG 2 guiHeight
+		ARG 5 listItemHeight
 	METHOD a drawBackground ()V
 	METHOD a isSelected (I)Z
+		ARG 0 index
 	METHOD a drawListItem (IIIIII)V
 	METHOD a selectItem (IZII)V
 	METHOD b getEntry (I)Lnone/awe$a;
 CLASS none/awf net/minecraft/client/gui/button/GuiSmallButton
 	METHOD c returnEnumOptions ()Lnone/avi$a;
-CLASS none/awg
-	CLASS none/awg$a
+CLASS none/awg net/minecraft/client/gui/GuiOptionsRowList
+	CLASS none/awg$a Option
 		FIELD a mc Lnone/avf;
+		METHOD <init> (Lnone/avt;Lnone/avt;)V
+			ARG 0 button
 		METHOD a setSelected (III)V
 		METHOD a onMousePressed (IIIIII)Z
 		METHOD a drawEntry (IIIIIIIZ)V
+			ARG 5 xPos
+			ARG 6 yPos
 		METHOD b onMouseReleased (IIIIII)V
+	FIELD u options Ljava/util/List;
+	METHOD <init> (Lnone/avf;IIIII[Lnone/avi$a;)V
+		ARG 6 options
 	METHOD b getSize ()I
 	METHOD b getEntry (I)Lnone/awe$a;
 	METHOD c getWidth ()I
+	METHOD c getIndex (I)Lnone/awg$a;
+		ARG 0 index
 	METHOD d getHorisonalScrollBarPosition ()I
-CLASS none/awh
-	CLASS none/awh$d
+CLASS none/awh net/minecraft/client/gui/GuiPageButtonList
+	CLASS none/awh$a GuiButtonEntry
+	CLASS none/awh$b GuiResponder
+		METHOD a onTick (IF)V
+	CLASS none/awh$c EditBoxEntry
+	CLASS none/awh$d GuiEntry
 		METHOD a setSelected (III)V
 		METHOD a onMousePressed (IIIIII)Z
 		METHOD a drawEntry (IIIIIIIZ)V
 		METHOD b onMouseReleased (IIIIII)V
+	CLASS none/awh$e
+	CLASS none/awh$f GuiListEntry
+	CLASS none/awh$g GuiSlideEntry
+	FIELD u guiEntry Ljava/util/List;
+	FIELD v components Lnone/nn;
+	FIELD w textFields Ljava/util/List;
+	FIELD x listEntry [[Lnone/awh$f;
+	FIELD z responder Lnone/awh$b;
+	METHOD <init> (Lnone/avf;IIIIILnone/awh$b;[[Lnone/awh$f;)V
+		ARG 0 gameInstance
+		ARG 1 guiWidth
+		ARG 2 guiHeight
+		ARG 5 listItemHeight
+		ARG 6 responder
+		ARG 7 listEntry
 	METHOD b getSize ()I
 	METHOD b getEntry (I)Lnone/awe$a;
 	METHOD c getWidth ()I
@@ -17121,6 +17173,7 @@ CLASS none/awj net/minecraft/client/gui/GuiList
 	FIELD v scrollButtonDownID I
 	FIELD w enabled Z
 	METHOD <init> (Lnone/avf;IIIII)V
+		ARG 0 gameInstance
 		ARG 1 guiWidth
 		ARG 2 guiHeight
 		ARG 5 listItemHeight
@@ -17170,7 +17223,7 @@ CLASS none/awj net/minecraft/client/gui/GuiList
 	METHOD p handleMouseInput ()V
 	METHOD q isEnabled ()Z
 	METHOD r getItemHeight ()I
-CLASS none/awk net/minecraft/client/gui/button/bvl
+CLASS none/awk
 	METHOD a mouseReleased (II)V
 	METHOD a getHoverState (Z)I
 	METHOD b mouseDragged (Lnone/avf;II)V
@@ -17186,7 +17239,7 @@ CLASS none/awq net/minecraft/client/gui/button/bvr
 	METHOD b getButtonWidth ()I
 	METHOD b mouseDragged (Lnone/avf;II)V
 	METHOD c mousePressed (Lnone/avf;II)Z
-CLASS none/awr net/minecraft/client/gui/GuiRealmsProxyList
+CLASS none/awr net/minecraft/client/gui/GuiClickableScrolledSelectionRealmsList
 	FIELD u selectionList Lnet/minecraft/realms/RealmsClickableScrolledSelectionList;
 	METHOD a drawBackground ()V
 	METHOD a isSelected (I)Z
@@ -17203,6 +17256,9 @@ CLASS none/awr net/minecraft/client/gui/GuiRealmsProxyList
 	METHOD k getScrolledHeight ()I
 	METHOD p handleMouseInput ()V
 CLASS none/aws net/minecraft/client/gui/GuiRealms
+	FIELD a parent Lnet/minecraft/realms/RealmsScreen;
+	METHOD <init> (Lnet/minecraft/realms/RealmsScreen;)V
+		ARG 0 parent
 	METHOD a keyTyped (CI)V
 	METHOD a drawScreen (IIF)V
 	METHOD a mouseClicked (III)V
@@ -17221,16 +17277,25 @@ CLASS none/aws net/minecraft/client/gui/GuiRealms
 	METHOD k handleMouseInput ()V
 	METHOD l handleKeyboardInput ()V
 	METHOD m onGuiClosed ()V
-CLASS none/awt
+CLASS none/awt net/minecraft/client/gui/GuiScrolledSelectionRealmsList
+	FIELD u realmsList Lnet/minecraft/realms/RealmsScrolledSelectionList;
+	METHOD <init> (Lnet/minecraft/realms/RealmsScrolledSelectionList;IIIII)V
+		ARG 0 realmsList
+		ARG 1 guiWidth
+		ARG 2 guiHeight
+		ARG 5 listItemHeight
 	METHOD a drawBackground ()V
 	METHOD a isSelected (I)Z
 	METHOD a drawListItem (IIIIII)V
 	METHOD a selectItem (IZII)V
 	METHOD b getSize ()I
 	METHOD d getHorisonalScrollBarPosition ()I
+	METHOD e getWidth ()I
+	METHOD f getMouseY ()I
+	METHOD g getMouseX ()I
 	METHOD k getScrolledHeight ()I
 	METHOD p handleMouseInput ()V
-CLASS none/awu
+CLASS none/awu net/minecraft/client/gui/GuiSimpleScrolledSelectionRealmsList
 	FIELD u selectionList Lnet/minecraft/realms/RealmsSimpleScrolledSelectionList;
 	METHOD a drawBackground ()V
 	METHOD a isSelected (I)Z
@@ -17320,6 +17385,7 @@ CLASS none/axd net/minecraft/client/gui/GuiCustomWorldPresets
 	METHOD m onGuiClosed ()V
 CLASS none/axe net/minecraft/client/gui/GuiWorldSettings
 	METHOD a keyTyped (CI)V
+	METHOD a onTick (IF)V
 	METHOD a drawScreen (IIF)V
 	METHOD a mouseClicked (III)V
 	METHOD a actionPerformed (Lnone/avt;)V
@@ -17389,6 +17455,8 @@ CLASS none/axm net/minecraft/client/gui/GuiLanguage
 	METHOD b initGui ()V
 	METHOD k handleMouseInput ()V
 CLASS none/axo net/minecraft/client/gui/GuiOptions
+	CLASS none/axo$1
+		METHOD a playClickSound (Lnone/bqa;)V
 	FIELD a screenTitle Ljava/lang/String;
 	FIELD f RELEVANT_OPTIONS [Lnone/avi$a;
 	FIELD g parentScreen Lnone/axv;
@@ -17506,6 +17574,8 @@ CLASS none/axz net/minecraft/client/gui/GuiSnooper
 	METHOD b initGui ()V
 	METHOD k handleMouseInput ()V
 CLASS none/aya net/minecraft/client/gui/GuiSoundOptions
+	CLASS none/aya$a
+		METHOD a playClickSound (Lnone/bqa;)V
 	METHOD a drawScreen (IIF)V
 	METHOD a actionPerformed (Lnone/avt;)V
 	METHOD b initGui ()V
@@ -20690,6 +20760,8 @@ CLASS none/bpx net/minecraft/client/audio/SoundPoolEntry
 CLASS none/bpy net/minecraft/client/sound/SoundSystem
 	FIELD a MARKER Lorg/apache/logging/log4j/Marker;
 	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
+	METHOD c playSound (Lnone/bpk;)V
+		ARG 0 sound
 	METHOD d update ()V
 CLASS none/bpz
 	FIELD b random Ljava/util/Random;
@@ -20707,6 +20779,8 @@ CLASS none/bqa net/minecraft/client/sound/SoundManager
 	FIELD f soundSystem Lnone/bpy;
 	FIELD g resourceManager Lnone/bnj;
 	METHOD a onReload (Lnone/bnj;)V
+	METHOD a playSound (Lnone/bpk;)V
+		ARG 0 sound
 	METHOD c update ()V
 CLASS none/bqb net/minecraft/client/audio/SoundRegistry
 	FIELD a registry Ljava/util/Map;
@@ -20958,6 +21032,19 @@ CLASS net/minecraft/realms/Realms net/minecraft/realms/Realms
 	METHOD setScreen setScreen (Lnet/minecraft/realms/RealmsScreen;)V
 CLASS net/minecraft/client/main/Main
 	CLASS net/minecraft/client/main/Main$2 ThreadClientShutdown
+CLASS net/minecraft/realms/Tezzelator net/minecraft/realms/Tezzelator
+	FIELD instance instance Lnet/minecraft/realms/Tezzelator;
+	FIELD t t Lnone/bfy;
+	METHOD begin begin (ILnet/minecraft/realms/RealmsVertexFormat;)V
+		ARG 1 vertexFormat
+	METHOD color color (FFFF)V
+	METHOD color color (IIII)Lnet/minecraft/realms/RealmsBufferBuilder;
+	METHOD end end ()V
+	METHOD endVertex endVertex ()V
+	METHOD normal normal (FFF)V
+	METHOD offset offset (DDD)V
+	METHOD tex2 (SS)V
+	METHOD vertex vertex (DDD)Lnet/minecraft/realms/Tezzelator;
 CLASS net/minecraft/realms/RealmsBridge
 	METHOD init init ()V
 CLASS net/minecraft/realms/RealmsButton net/minecraft/realms/RealmsButton
@@ -20973,9 +21060,12 @@ CLASS net/minecraft/realms/RealmsScreen net/minecraft/realms/RealmsScreen
 	METHOD height height ()I
 	METHOD init init ()V
 	METHOD keyPressed keyPressed (CI)V
+	METHOD mouseDragged mouseDragged (IIIJ)V
+	METHOD mouseReleased mouseReleased (III)V
 	METHOD newButton newButton (IIILjava/lang/String;)Lnet/minecraft/realms/RealmsButton;
 	METHOD render render (IIF)V
 	METHOD renderBackground renderBackground ()V
+	METHOD tick onTick ()V
 	METHOD width width ()I
 CLASS net/minecraft/server/MinecraftServer net/minecraft/server/MinecraftServer
 	FIELD A canSpawnAnimals Z
@@ -21138,6 +21228,9 @@ CLASS net/minecraft/server/MinecraftServer net/minecraft/server/MinecraftServer
 	METHOD x getDataDirectory ()Ljava/io/File;
 	METHOD y systemExitNow ()V
 	METHOD z onTick ()V
+CLASS net/minecraft/realms/RealmsVertexFormat net/minecraft/realms/RealmsVertexFormat
+	METHOD getVertexFormat getVertexFormat ()Lnone/bmv;
+CLASS net/minecraft/realms/RealmsBufferBuilder net/minecraft/realms/RealmsBufferBuilder
 CLASS net/minecraft/client/ClientBrandRetriever net/minecraft/client/ClientBrandRetriever
 	METHOD getClientModName getClientModName ()Ljava/lang/String;
 CLASS net/minecraft/realms/DisconnectedRealmsScreen net/minecraft/realms/DisconnectedRealmsScreen
@@ -21157,6 +21250,28 @@ CLASS net/minecraft/realms/DisconnectedRealmsScreen net/minecraft/realms/Disconn
 		ARG 1 keyCode
 	METHOD render render (IIF)V
 CLASS net/minecraft/realms/RealmsServerStatusPinger
+CLASS net/minecraft/realms/RealmsScrolledSelectionList net/minecraft/realms/RealmsScrolledSelectionList
+	FIELD proxy proxy Lnone/awt;
+	METHOD getItemCount getItemCount ()I
+	METHOD getMaxPosition getMaxPosition ()I
+	METHOD getScrollbarPosition getScrollbarPosition ()I
+	METHOD isSelectedItem isSelectedItem (I)Z
+	METHOD render render (IIF)V
+	METHOD renderBackground renderBackground ()V
+	METHOD renderItem renderItem (IIIIII)V
+	METHOD renderItem renderItem (IIIILnet/minecraft/realms/Tezzelator;II)V
+	METHOD selectItem selectItem (IZII)V
+	METHOD width getWidth ()I
+	METHOD xm getMouseX ()I
+	METHOD ym getMouseY ()I
+CLASS net/minecraft/realms/RealmsSimpleScrolledSelectionList net/minecraft/realms/RealmsSimpleScrolledSelectionList
+	METHOD getItemCount getItemCount ()I
+	METHOD getMaxPosition getMaxPosition ()I
+	METHOD getScrollbarPosition getScrollbarPosition ()I
+	METHOD isSelectedItem isSelectedItem (I)Z
+	METHOD renderBackground renderBackground ()V
+	METHOD renderItem renderItem (IIIIII)V
+	METHOD selectItem selectItem (IZII)V
 CLASS net/minecraft/realms/RealmsClickableScrolledSelectionList net/minecraft/realms/RealmsClickableScrolledSelectionList
 	METHOD customMouseEvent customMouseEvent (IIIFI)V
 	METHOD getItemCount getItemCount ()I
