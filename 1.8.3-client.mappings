@@ -7582,7 +7582,7 @@ CLASS none/wo net/minecraft/entity/player/EntityPlayer
 	METHOD u onUseEntity (Lnone/pl;)Z
 	METHOD u_ shouldReceiveCommandFeedback ()Z
 	METHOD v isSpectating ()Z
-CLASS none/wp
+CLASS none/wp net/minecraft/entity/player/EnumPlayerModelParts
 	FIELD a CAPE Lnone/wp;
 	FIELD b JACKET Lnone/wp;
 	FIELD c LEFT_SLEEVE Lnone/wp;
@@ -7595,6 +7595,7 @@ CLASS none/wp
 	METHOD <init> (Ljava/lang/String;IILjava/lang/String;)V
 		ARG 2 id
 		ARG 3 name
+	METHOD values values ()[Lnone/wp;
 CLASS none/wr net/minecraft/entity/projectile/EntityArrow
 	FIELD a pickupBehavior I
 	FIELD ar life I
@@ -16816,6 +16817,7 @@ CLASS none/avi net/minecraft/client/settings/GameSettings
 	FIELD aM forceUnicodeFont Z
 	FIELD aN LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD aO GSON Lcom/google/gson/Gson;
+	FIELD aP typeListString Ljava/lang/reflect/ParameterizedType;
 	FIELD aQ GUI_SCALE_UNLOCALIZED_NAMES [Ljava/lang/String;
 	FIELD aR PARTICLES_UNLOCALIZED_NAMES [Ljava/lang/String;
 	FIELD aS AO_UNLOCALIZED_NAMES [Ljava/lang/String;
@@ -16824,6 +16826,8 @@ CLASS none/avi net/minecraft/client/settings/GameSettings
 	FIELD aV STREAM_CHAT_FILTER_UNLOCALIZED_NAMES [Ljava/lang/String;
 	FIELD aW STREAM_MIC_UNLOCALIZED_NAMES [Ljava/lang/String;
 	FIELD aX GRAPHICS_UNLOCALIZED_NAMES [Ljava/lang/String;
+	FIELD aY modelParts Ljava/util/Set;
+	FIELD aZ soundLevels Ljava/util/Map;
 	FIELD aa keyBindJump Lnone/avc;
 	FIELD ab keyBindSneak Lnone/avc;
 	FIELD ac keyBindInventory Lnone/avc;
@@ -16858,6 +16862,7 @@ CLASS none/avi net/minecraft/client/settings/GameSettings
 	FIELD f fboEnable Z
 	FIELD g maxFps I
 	FIELD j ambientOcclusion I
+	FIELD k resourcePacks Ljava/util/List;
 	FIELD l chatVisibility Lnone/wo$b;
 	FIELD m chatColors Z
 	FIELD n chatLinks Z
@@ -16873,6 +16878,13 @@ CLASS none/avi net/minecraft/client/settings/GameSettings
 	FIELD x advancedItemTooltips Z
 	FIELD y pauseOnLostFocus Z
 	FIELD z touchScreen Z
+	METHOD <init> (Lnone/avf;Ljava/io/File;)V
+		ARG 0 gameInstance
+	METHOD a loadOptions ()V
+	METHOD a isKeyDown (Lnone/avc;)Z
+		ARG 0 keyBinding
+	METHOD a setOptionKeyBinding (Lnone/avc;I)V
+		ARG 0 keyBinding
 	METHOD a setOptionValue (Lnone/avi$a;F)V
 		ARG 0 option
 		ARG 1 value
@@ -16881,6 +16893,8 @@ CLASS none/avi net/minecraft/client/settings/GameSettings
 		ARG 0 names
 		ARG 1 settingValue
 	METHOD b saveOptions ()V
+	METHOD c getKeyDisplayString (I)Ljava/lang/String;
+		ARG 0 keycode
 	METHOD c getKeyBinding (Lnone/avi$a;)Ljava/lang/String;
 CLASS none/avj net/minecraft/client/LoadingScreenRenderer
 	FIELD a progressBarMessage Ljava/lang/String;
@@ -17146,6 +17160,7 @@ CLASS none/awh net/minecraft/client/gui/GuiPageButtonList
 	METHOD b getEntry (I)Lnone/awe$a;
 	METHOD c getWidth ()I
 	METHOD d getHorisonalScrollBarPosition ()I
+	METHOD t refreshComponents ()V
 CLASS none/awi net/minecraft/client/gui/GuiScoreboard
 	FIELD f mc Lnone/avf;
 	METHOD a setFooter (Lnone/ev;)V
@@ -17223,7 +17238,20 @@ CLASS none/awj net/minecraft/client/gui/GuiList
 	METHOD p handleMouseInput ()V
 	METHOD q isEnabled ()Z
 	METHOD r getItemHeight ()I
-CLASS none/awk
+CLASS none/awk net/minecraft/client/gui/GuiOptionSlider
+	FIELD o dragging Z
+	FIELD p value F
+	FIELD q options Lnone/avi$a;
+	METHOD <init> (IIILnone/avi$a;)V
+		ARG 0 id
+		ARG 1 xPosition
+		ARG 2 yPosition
+		ARG 3 options
+	METHOD <init> (IIILnone/avi$a;FF)V
+		ARG 0 id
+		ARG 1 xPosition
+		ARG 2 yPosition
+		ARG 3 options
 	METHOD a mouseReleased (II)V
 	METHOD a getHoverState (Z)I
 	METHOD b mouseDragged (Lnone/avf;II)V
