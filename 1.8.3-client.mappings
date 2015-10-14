@@ -1507,7 +1507,7 @@ CLASS none/dk net/minecraft/util/StringTranslate
 	METHOD b isKeyTranslated (Ljava/lang/String;)Z
 	METHOD c getLastUpdateTimeInMilliseconds ()J
 	METHOD c tryTranslateKey (Ljava/lang/String;)Ljava/lang/String;
-CLASS none/dm net/minecraft/nbt/NbtByteArray
+CLASS none/dm net/minecraft/nbt/NBTByteArray
 	FIELD b dataValue [B
 	METHOD <init> ([B)V
 		ARG 0 dataValue
@@ -1515,14 +1515,14 @@ CLASS none/dm net/minecraft/nbt/NbtByteArray
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c getDataValue ()[B
 	METHOD equals (Ljava/lang/Object;)Z
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/dn net/minecraft/nbt/NbtByte
+CLASS none/dn net/minecraft/nbt/NBTByte
 	FIELD b dataValue B
 	METHOD <init> (B)V
 		ARG 0 dataValue
@@ -1531,9 +1531,9 @@ CLASS none/dn net/minecraft/nbt/NbtByte
 		ARG 0 dataInput
 		ARG 1 depth
 		ARG 2 nbtSizeUtil
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c getAsLong ()J
 	METHOD d getAsInt ()I
 	METHOD e getAsShort ()S
@@ -1543,7 +1543,7 @@ CLASS none/dn net/minecraft/nbt/NbtByte
 	METHOD h getAsFloat ()F
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/dp net/minecraft/nbt/NbtTagCompound
+CLASS none/dp net/minecraft/nbt/NBTTagCompound
 	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD c dataMap Ljava/util/Map;
 	METHOD a getNbtTypeId ()B
@@ -1555,6 +1555,8 @@ CLASS none/dp net/minecraft/nbt/NbtTagCompound
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
+	METHOD a saveData (Ljava/io/DataOutput;)V
+		ARG 0 dataOutput
 	METHOD a getAsNbt (Ljava/lang/String;)Lnone/ec;
 		ARG 0 nbtMapKey
 	METHOD a put (Ljava/lang/String;B)V
@@ -1597,6 +1599,7 @@ CLASS none/dp net/minecraft/nbt/NbtTagCompound
 		ARG 1 dataValue
 	METHOD a (Lnone/dp;)V
 		ARG 0 nbtMap
+	METHOD b copy ()Lnone/ec;
 	METHOD b (Ljava/io/DataInput;Lnone/dx;)Ljava/lang/String;
 		ARG 0 dataInput
 		ARG 1 nbtSizeUtil
@@ -1638,7 +1641,7 @@ CLASS none/dp net/minecraft/nbt/NbtTagCompound
 	METHOD o remove (Ljava/lang/String;)V
 		ARG 0 nbtMapKey
 	METHOD toString ()Ljava/lang/String;
-CLASS none/dq net/minecraft/nbt/NbtDouble
+CLASS none/dq net/minecraft/nbt/NBTDouble
 	FIELD b dataValue D
 	METHOD <init> (D)V
 		ARG 0 dataValue
@@ -1646,9 +1649,9 @@ CLASS none/dq net/minecraft/nbt/NbtDouble
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c getAsLong ()J
 	METHOD d getAsInt ()I
 	METHOD e getAsShort ()S
@@ -1658,16 +1661,16 @@ CLASS none/dq net/minecraft/nbt/NbtDouble
 	METHOD h getAsFloat ()F
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/dr net/minecraft/nbt/NbtEnd
+CLASS none/dr net/minecraft/nbt/NBTEnd
 	METHOD a getNbtTypeId ()B
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD toString ()Ljava/lang/String;
-CLASS none/ds net/minecraft/nbt/NbtFloat
+CLASS none/ds net/minecraft/nbt/NBTFloat
 	FIELD b dataValue F
 	METHOD <init> (F)V
 		ARG 0 dataValue
@@ -1675,9 +1678,9 @@ CLASS none/ds net/minecraft/nbt/NbtFloat
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c getAsLong ()J
 	METHOD d getAsInt ()I
 	METHOD e getAsShort ()S
@@ -1687,7 +1690,7 @@ CLASS none/ds net/minecraft/nbt/NbtFloat
 	METHOD h getAsFloat ()F
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/dt net/minecraft/nbt/NbtIntArray
+CLASS none/dt net/minecraft/nbt/NBTIntArray
 	FIELD b dataValue [I
 	METHOD <init> ([I)V
 		ARG 0 dataValue
@@ -1695,21 +1698,21 @@ CLASS none/dt net/minecraft/nbt/NbtIntArray
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c getDataValue ()[I
 	METHOD equals (Ljava/lang/Object;)Z
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/du net/minecraft/nbt/NbtInt
+CLASS none/du net/minecraft/nbt/NBTInt
 	FIELD b dataValue I
 	METHOD <init> (I)V
 		ARG 0 dataValue
 	METHOD a getNbtTypeId ()B
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c getAsLong ()J
 	METHOD d getAsInt ()I
 	METHOD e getAsShort ()S
@@ -1719,7 +1722,7 @@ CLASS none/du net/minecraft/nbt/NbtInt
 	METHOD h getAsFloat ()F
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/dv net/minecraft/nbt/NbtList
+CLASS none/dv net/minecraft/nbt/NBTList
 	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD c nbtList Ljava/util/List;
 	FIELD d listOfNbtTypeId B
@@ -1732,11 +1735,11 @@ CLASS none/dv net/minecraft/nbt/NbtList
 		ARG 0 dataInput
 		ARG 1 depth
 		ARG 2 nbtSizeUtil
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
 	METHOD a add (Lnone/ec;)V
 		ARG 0 nbt
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD b getAsNbtMap (I)Lnone/dp;
 		ARG 0 index
 	METHOD c getSize ()I
@@ -1755,14 +1758,16 @@ CLASS none/dv net/minecraft/nbt/NbtList
 		ARG 0 index
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/dw net/minecraft/nbt/NbtLong
+CLASS none/dw net/minecraft/nbt/NBTLong
 	FIELD b dataValue J
 	METHOD <init> (J)V
 		ARG 0 dataValue
+	METHOD a getNbtTypeId ()B
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
-	METHOD b clone ()Lnone/ec;
+	METHOD a saveData (Ljava/io/DataOutput;)V
+	METHOD b copy ()Lnone/ec;
 	METHOD c getAsLong ()J
 	METHOD d getAsInt ()I
 	METHOD e getAsShort ()S
@@ -1772,7 +1777,7 @@ CLASS none/dw net/minecraft/nbt/NbtLong
 	METHOD h getAsFloat ()F
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/dx net/minecraft/nbt/NbtSizeUtil
+CLASS none/dx net/minecraft/nbt/NBTSizeUtil
 	CLASS none/dx$1 NbtSizeUtilDefault
 		METHOD a addSize (J)V
 			ARG 0 size
@@ -1818,7 +1823,7 @@ CLASS none/dz net/minecraft/nbt/NBTUtil
 	METHOD a writeGameProfile (Lnone/dp;Lcom/mojang/authlib/GameProfile;)Lnone/dp;
 		ARG 0 nbtMap
 		ARG 1 gameProfile
-CLASS none/ea net/minecraft/nbt/NbtShort
+CLASS none/ea net/minecraft/nbt/NBTShort
 	FIELD b dataValue S
 	METHOD <init> (S)V
 		ARG 0 dataValue
@@ -1826,9 +1831,9 @@ CLASS none/ea net/minecraft/nbt/NbtShort
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c getAsLong ()J
 	METHOD d getAsInt ()I
 	METHOD e getAsShort ()S
@@ -1838,7 +1843,7 @@ CLASS none/ea net/minecraft/nbt/NbtShort
 	METHOD h getAsFloat ()F
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/eb net/minecraft/nbt/NbtStrings
+CLASS none/eb net/minecraft/nbt/NBTStrings
 	FIELD b dataValue Ljava/lang/String;
 	METHOD <init> (Ljava/lang/String;)V
 		ARG 0 dataValue
@@ -1846,16 +1851,16 @@ CLASS none/eb net/minecraft/nbt/NbtStrings
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
 	METHOD a_ getNbtString ()Ljava/lang/String;
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c_ isEmpty ()Z
 	METHOD equals (Ljava/lang/Object;)Z
 	METHOD hashCode ()I
 	METHOD toString ()Ljava/lang/String;
-CLASS none/ec net/minecraft/nbt/Nbt
-	CLASS none/ec$a NbtNumeric
+CLASS none/ec net/minecraft/nbt/NBTBase
+	CLASS none/ec$a NBTNumeric
 		METHOD c getAsLong ()J
 		METHOD d getAsInt ()I
 		METHOD e getAsShort ()S
@@ -1870,10 +1875,10 @@ CLASS none/ec net/minecraft/nbt/Nbt
 		ARG 0 dataInput
 		ARG 1 depth
 		ARG 2 nbtSizeUtil
-	METHOD a outputData (Ljava/io/DataOutput;)V
+	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
 	METHOD a_ getNbtString ()Ljava/lang/String;
-	METHOD b clone ()Lnone/ec;
+	METHOD b copy ()Lnone/ec;
 	METHOD c_ isEmpty ()Z
 	METHOD equals (Ljava/lang/Object;)Z
 	METHOD hashCode ()I
@@ -8286,10 +8291,35 @@ CLASS none/zx net/minecraft/item/Item
 	METHOD m isBreakable ()Z
 	METHOD t registerItems ()V
 CLASS none/zy net/minecraft/item/ItemStack
+	FIELD a FORMAT Ljava/text/DecimalFormat;
 	FIELD b count I
+	FIELD c animationsLeft I
 	FIELD d item Lnone/zx;
 	FIELD e nbt Lnone/dp;
 	FIELD f damage I
+	FIELD g itemFrame Lnone/up;
+	FIELD h canDestroyCacheBlock Lnone/afi;
+	FIELD i canDestroyCacheResult Z
+	FIELD j canPlaceOnCacheBlock Lnone/afi;
+	FIELD k canPlaceOnCacheResult Z
+	METHOD <init> (Lnone/afi;)V
+		ARG 0 block
+	METHOD <init> (Lnone/afi;I)V
+		ARG 0 block
+		ARG 1 count
+	METHOD <init> (Lnone/afi;II)V
+		ARG 0 block
+		ARG 1 count
+		ARG 2 metadata
+	METHOD <init> (Lnone/zx;)V
+		ARG 0 item
+	METHOD <init> (Lnone/zx;I)V
+		ARG 0 item
+		ARG 1 count
+	METHOD <init> (Lnone/zx;II)V
+		ARG 0 item
+		ARG 1 count
+		ARG 2 metadata
 	METHOD A getRepairCost ()I
 	METHOD B getAttributeModifiers ()Lcom/google/common/collect/Multimap;
 	METHOD C getDisplayNameChatMessage ()Lnone/ev;
@@ -8302,17 +8332,32 @@ CLASS none/zy net/minecraft/item/ItemStack
 	METHOD a addNbtTag (Ljava/lang/String;Lnone/ec;)V
 	METHOD a onUpdate (Lnone/adn;Lnone/pl;IZ)V
 	METHOD a doItemUseAction (Lnone/adn;Lnone/wo;)Lnone/zy;
+		ARG 0 world
+		ARG 1 player
 	METHOD a getMiningEfficiency (Lnone/afi;)F
-	METHOD a loadItemStackFromNBT (Lnone/dp;)Lnone/zy;
+		ARG 0 block
+	METHOD a tagCompund (Lnone/dp;)Lnone/zy;
+		ARG 0 tagCompound
+	METHOD a onItemUse (Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
+		ARG 0 player
+		ARG 1 world
+		ARG 2 pos
+		ARG 3 facing
+		ARG 4 hitX
+		ARG 5 hitY
+		ARG 6 hitZ
 	METHOD a setItem (Lnone/zx;)V
 	METHOD a isMergeable (Lnone/zy;)Z
 	METHOD a nbtEquals (Lnone/zy;Lnone/zy;)Z
 	METHOD b getItem ()Lnone/zx;
 	METHOD b setDamage (I)V
 	METHOD b doSwallowAction (Lnone/adn;Lnone/wo;)Lnone/zy;
+		ARG 0 world
+		ARG 1 player
 	METHOD b doReleaseItemAction (Lnone/adn;Lnone/wo;I)V
 	METHOD b givesSpecialDropOnBlock (Lnone/afi;)Z
 	METHOD b writeTo (Lnone/dp;)Lnone/dp;
+		ARG 0 tagCompound
 	METHOD b clone (Lnone/zy;)Lnone/zy;
 	METHOD b deepEquals (Lnone/zy;Lnone/zy;)Z
 	METHOD c getMaxStackSize ()I
@@ -15640,9 +15685,18 @@ CLASS none/atg net/minecraft/util/Vec4b
 CLASS none/ath net/minecraft/world/storage/MapData
 	CLASS none/ath$a MapInfo
 		FIELD a entPlayer Lnone/wo;
+		FIELD d initialized Z
+		FIELD e minX I
+		FIELD f minY I
+		FIELD g maxX I
+		FIELD h maxY I
+		FIELD i size I
 		METHOD <init> (Lnone/ath;Lnone/wo;)V
 			ARG 1 entPlayer
-		METHOD a (Lnone/zy;)Lnone/fg;
+		METHOD a update (II)V
+			ARG 0 xPos
+			ARG 1 yPos
+		METHOD a getPacket (Lnone/zy;)Lnone/fg;
 			ARG 0 itemStack
 	FIELD b xCenter I
 	FIELD c zCenter I
@@ -15652,22 +15706,28 @@ CLASS none/ath net/minecraft/world/storage/MapData
 	FIELD g playersArrayList Ljava/util/List;
 	FIELD h playersVisibleOnMap Ljava/util/Map;
 	FIELD i playersHashMap Ljava/util/Map;
+	METHOD <init> (Ljava/lang/String;)V
+		ARG 0 name
 	METHOD a setCenterForScale (DDI)V
 		ARG 0 oldCenterX
 		ARG 1 oldCenterZ
 		ARG 2 scale
+	METHOD a updateMapData (II)V
+		ARG 0 xPos
+		ARG 1 yPos
 	METHOD a addPlayerToMap (ILnone/adn;Ljava/lang/String;DDD)V
 		ARG 1 world
+		ARG 2 playerName
 		ARG 3 posX
 		ARG 4 posZ
 	METHOD a load (Lnone/dp;)V
 		ARG 0 tagCompound
-	METHOD a (Lnone/wo;)Lnone/ath$a;
+	METHOD a getMapInfo (Lnone/wo;)Lnone/ath$a;
 		ARG 0 entPlayer
 	METHOD a updateVisiblePlayers (Lnone/wo;Lnone/zy;)V
 		ARG 0 entPlayer
 		ARG 1 itemStack
-	METHOD a (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/fg;
+	METHOD a getMapPacket (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/fg;
 		ARG 0 itemStack
 		ARG 1 world
 		ARG 2 entPlayer
@@ -16940,14 +17000,129 @@ CLASS none/avn net/minecraft/client/main/MinecraftSession
 	METHOD c getUsername ()Ljava/lang/String;
 	METHOD f getAccountType ()Lnone/avn$a;
 CLASS none/avo net/minecraft/client/renderers/FontRenderer
+	FIELD a fontHeight I
+	FIELD b random Ljava/util/Random;
 	FIELD c UNICODE_PAGE_PNG_CACHE [Lnone/jz;
+	FIELD d unicodeLocations [I
+	FIELD e glyphWidth [B
+	FIELD f colorCode [I
+	FIELD g fontTextureLocation Lnone/jz;
+	FIELD h renderer Lnone/bmk;
+	FIELD i posX F
+	FIELD j posY F
+	FIELD k unicodeFlag Z
+	FIELD l bidiFlag Z
+	FIELD m red F
+	FIELD n blue F
+	FIELD o green F
+	FIELD p alpha F
+	FIELD q textColor I
+	FIELD r styleRandom Z
+	FIELD s styleBold Z
+	FIELD t styleItalic Z
+	FIELD u styleUnderline Z
+	FIELD v styleStriketrough Z
+	METHOD <init> (Lnone/avi;Lnone/jz;Lnone/bmk;Z)V
+		ARG 0 gameSettings
+		ARG 1 resourceLocation
+		ARG 2 textureManager
+		ARG 3 unicodeFlag
+	METHOD a getUnicodeFlag ()Z
+	METHOD a getCharWidth (C)I
+		ARG 0 character
+	METHOD a renderCharAtPos (CZ)F
+		ARG 0 character
+		ARG 1 italic
 	METHOD a getUnicodePage (I)Lnone/jz;
+		ARG 0 page
+	METHOD a renderDefaultChar (IZ)F
+		ARG 0 unicodePage
+		ARG 1 italic
 	METHOD a getStringWidth (Ljava/lang/String;)I
+		ARG 0 text
 	METHOD a drawStringWithShadow (Ljava/lang/String;FFI)I
+		ARG 0 text
+		ARG 1 x
+		ARG 2 y
+		ARG 3 color
+	METHOD a drawString (Ljava/lang/String;FFIZ)I
+		ARG 0 text
+		ARG 1 x
+		ARG 2 y
+		ARG 3 color
+		ARG 4 shadow
+	METHOD a trimStringToWidth (Ljava/lang/String;I)Ljava/lang/String;
+		ARG 0 text
+		ARG 1 width
 	METHOD a drawString (Ljava/lang/String;III)I
+		ARG 0 text
+		ARG 1 x
+		ARG 2 y
+		ARG 3 color
+	METHOD a drawSplitString (Ljava/lang/String;IIII)V
+		ARG 0 text
+		ARG 1 xPos
+		ARG 2 yPos
+		ARG 3 width
+		ARG 4 textColor
+	METHOD a renderStringAligned (Ljava/lang/String;IIIIZ)I
+		ARG 0 text
+		ARG 1 xPos
+		ARG 2 yPos
+		ARG 3 lineLength
+		ARG 4 colorCode
+	METHOD a renderSplitString (Ljava/lang/String;IIIZ)V
+		ARG 0 text
+		ARG 1 xPos
+		ARG 2 yPos
+		ARG 3 width
+	METHOD a trimStringToWidth (Ljava/lang/String;IZ)Ljava/lang/String;
+		ARG 0 text
+		ARG 1 width
+	METHOD a renderStringAtPos (Ljava/lang/String;Z)V
+		ARG 0 text
 	METHOD a onReload (Lnone/bnj;)V
+		ARG 0 resourceManager
 	METHOD a setUnicodeFlag (Z)V
+		ARG 0 value
+	METHOD b getBidiFlag ()Z
+	METHOD b getColorCode (C)I
+		ARG 0 colorChar
+	METHOD b renderUnicodeChar (CZ)F
+		ARG 0 character
+		ARG 1 italic
+	METHOD b bindUnicodePage (I)V
+		ARG 0 page
+	METHOD b getFormatFromString (Ljava/lang/String;)Ljava/lang/String;
+		ARG 0 str
+	METHOD b renderString (Ljava/lang/String;FFIZ)I
+		ARG 0 text
+		ARG 1 xPos
+		ARG 2 yPos
+		ARG 3 colorCode
+	METHOD b splitStringWidth (Ljava/lang/String;I)I
+		ARG 0 text
+		ARG 1 width
 	METHOD b setBidiFlag (Z)V
+		ARG 0 value
+	METHOD c readFontTexture ()V
+	METHOD c isFormatColor (C)Z
+		ARG 0 colorChar
+	METHOD c bidiReorder (Ljava/lang/String;)Ljava/lang/String;
+		ARG 0 text
+	METHOD c listFormattedStringToWidth (Ljava/lang/String;I)Ljava/util/List;
+	METHOD d readGlyphSizes ()V
+	METHOD d isFormatSpecial (C)Z
+		ARG 0 formatChar
+	METHOD d trimStringNewline (Ljava/lang/String;)Ljava/lang/String;
+		ARG 0 text
+	METHOD d wrapFormattedStringToWidth (Ljava/lang/String;I)Ljava/lang/String;
+		ARG 0 str
+		ARG 1 wrapWidth
+	METHOD e resetStyles ()V
+	METHOD e sizeStringToWidth (Ljava/lang/String;I)I
+		ARG 0 str
+		ARG 1 wrapWidth
 CLASS none/avp net/minecraft/client/gui/GuiIngame
 	FIELD a prevVignetteBrightness F
 	FIELD f VIGNETTE_TEXTURE Lnone/jz;
@@ -16985,7 +17160,13 @@ CLASS none/avq net/minecraft/client/gui/Gui
 	METHOD b drawTexturedModalRect (IIIIII)V
 	METHOD c drawString (Lnone/avo;Ljava/lang/String;III)V
 CLASS none/avr
+	CLASS none/avr$a
+		FIELD c texture Lnone/bma;
+		FIELD d resourceLocation Lnone/jz;
 	FIELD a MAP_ICONS_PNG Lnone/jz;
+	FIELD b textureManager Lnone/bmk;
+	METHOD <init> (Lnone/bmk;)V
+		ARG 0 textureManager
 CLASS none/avs net/minecraft/client/gui/ScaledResolution
 	METHOD a getScaledWidth ()I
 	METHOD b getScaledHeight ()I
@@ -17045,9 +17226,12 @@ CLASS none/avu net/minecraft/client/gui/GuiNewChat
 	METHOD e getChatOpen ()Z
 	METHOD h getChatScale ()F
 CLASS none/avv
-	METHOD a (Ljava/lang/String;Z)Ljava/lang/String;
+	METHOD a filterColors (Ljava/lang/String;Z)Ljava/lang/String;
 		ARG 0 message
 		ARG 1 keepColors
+	METHOD a (Lnone/ev;ILnone/avo;ZZ)Ljava/util/List;
+		ARG 0 chatComponent
+		ARG 2 fontRenderer
 CLASS none/avw net/minecraft/client/gui/GuiDebug
 	FIELD a minecraft Lnone/avf;
 	FIELD f fontRenderer Lnone/avo;
@@ -20446,6 +20630,7 @@ CLASS none/bmm net/minecraft/client/texture/TextureUtil
 	METHOD a genTexture ()I
 	METHOD a deleteTexture (I)V
 		ARG 0 textureId
+	METHOD a readBufferedImage (Ljava/io/InputStream;)Ljava/awt/image/BufferedImage;
 CLASS none/bmn net/minecraft/client/texture/ITickable
 	METHOD e tick ()V
 CLASS none/bmo net/minecraft/client/texture/ITickableTexture
@@ -20563,6 +20748,9 @@ CLASS none/bnb net/minecraft/client/resources/DefaultResourcePackReader
 	METHOD c setIcon (Lnone/jz;)Ljava/io/InputStream;
 CLASS none/bnc
 	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
+	METHOD a getResourceDomains ()Ljava/util/Set;
+	METHOD a getResource (Lnone/jz;)Lnone/bni;
+	METHOD b getAllResources (Lnone/jz;)Ljava/util/List;
 CLASS none/bnd net/minecraft/client/resources/ZippedResourcePackReader
 	FIELD b SLASH_SPLITTER Lcom/google/common/base/Splitter;
 	FIELD c zipFile Ljava/util/zip/ZipFile;
@@ -20587,8 +20775,15 @@ CLASS none/bng net/minecraft/client/resources/GrassColorReloadListener
 CLASS none/bnh net/minecraft/client/resources/IReloadableResourceManager
 	METHOD a registerReloadListener (Lnone/bnk;)V
 CLASS none/bni net/minecraft/client/resources/IResourcePack
+	METHOD a getResourceLocation ()Lnone/jz;
+	METHOD b getInputStream ()Ljava/io/InputStream;
 	METHOD d getName ()Ljava/lang/String;
 CLASS none/bnj net/minecraft/client/resources/IResourceManager
+	METHOD a getResourceDomains ()Ljava/util/Set;
+	METHOD a getResource (Lnone/jz;)Lnone/bni;
+		ARG 0 resourceLocation
+	METHOD b getAllResources (Lnone/jz;)Ljava/util/List;
+		ARG 0 resourceLocation
 CLASS none/bnk net/minecraft/client/resources/IResourceManagerReloadListener
 	METHOD a onReload (Lnone/bnj;)V
 CLASS none/bnl net/minecraft/client/resources/IResourcePackReader
@@ -20621,6 +20816,8 @@ CLASS none/bno net/minecraft/client/resources/SimpleReloadableResourceManager
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
 	METHOD a registerReloadListener (Lnone/bnk;)V
 CLASS none/bnp
+	METHOD a getResourceLocation ()Lnone/jz;
+	METHOD b getInputStream ()Ljava/io/InputStream;
 	METHOD d getName ()Ljava/lang/String;
 CLASS none/bnr net/minecraft/client/resources/I18n
 	METHOD a getString (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
