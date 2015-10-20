@@ -1678,6 +1678,7 @@ CLASS none/ds net/minecraft/nbt/NBTFloat
 	METHOD a inputData (Ljava/io/DataInput;ILnone/dx;)V
 		ARG 0 dataInput
 		ARG 1 depth
+		ARG 2 sizeUtil
 	METHOD a saveData (Ljava/io/DataOutput;)V
 		ARG 0 dataOutput
 	METHOD b copy ()Lnone/ec;
@@ -8263,6 +8264,8 @@ CLASS none/zx net/minecraft/item/Item
 		ARG 0 name
 	METHOD c registerItemBlock (Lnone/afi;)V
 		ARG 0 block
+	METHOD c setContainer (Lnone/zx;)Lnone/zx;
+		ARG 0 container
 	METHOD d setMaxDurability (I)Lnone/zx;
 	METHOD d getItem (Ljava/lang/String;)Lnone/zx;
 		ARG 0 s
@@ -8289,6 +8292,8 @@ CLASS none/zx net/minecraft/item/Item
 	METHOD l (Lnone/zy;)Z
 		ARG 0 itemStack
 	METHOD m isBreakable ()Z
+	METHOD q getContainer ()Lnone/zx;
+	METHOD r hasContainer ()Z
 	METHOD t registerItems ()V
 CLASS none/zy net/minecraft/item/ItemStack
 	FIELD a FORMAT Ljava/text/DecimalFormat;
@@ -8794,7 +8799,7 @@ CLASS none/abv
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
-CLASS none/abw net/minecraft/item/crafting/ShapedRecipe
+CLASS none/abw net/minecraft/item/crafting/RecipeShaped
 	FIELD a width I
 	FIELD b height I
 	FIELD c input [Lnone/zy;
@@ -8816,12 +8821,21 @@ CLASS none/abw net/minecraft/item/crafting/ShapedRecipe
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
 		ARG 0 craftingInventory
-CLASS none/abx
+CLASS none/abx net/minecraft/item/crafting/RecipeShapeless
+	FIELD a output Lnone/zy;
+	FIELD b ingredients Ljava/util/List;
+	METHOD <init> (Lnone/zy;Ljava/util/List;)V
+		ARG 0 output
+		ARG 1 ingredients
 	METHOD a getSize ()I
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
+		ARG 0 craftingInventory
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
+		ARG 0 craftingInventory
+		ARG 1 world
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
+		ARG 0 craftingInventory
 CLASS none/aby net/minecraft/item/crafting/MiscCraftingRecipes
 	METHOD a addToRecipes (Lnone/abu;)V
 CLASS none/abz net/minecraft/item/crafting/ToolCraftingRecipes
@@ -15074,8 +15088,24 @@ CLASS none/aqf net/minecraft/world/gen/structure/StructureBoundingBox
 	FIELD d maxX I
 	FIELD e maxY I
 	FIELD f maxZ I
+	METHOD <init> (IIII)V
+		ARG 0 minX
+		ARG 1 minZ
+		ARG 2 maxX
+		ARG 3 maxZ
+	METHOD <init> (IIIIII)V
+		ARG 0 minX
+		ARG 1 minY
+		ARG 2 minZ
+		ARG 3 maxX
+		ARG 4 maxY
+		ARG 5 maxZ
+	METHOD <init> (Lnone/aqf;)V
+		ARG 0 clone
 	METHOD <init> (Lnone/dg;Lnone/dg;)V
 		ARG 0 vec1
+	METHOD <init> ([I)V
+		ARG 0 data
 	METHOD a getMaxRange ()Lnone/aqf;
 	METHOD a ExpandRange (III)V
 		ARG 0 addX
@@ -15107,9 +15137,11 @@ CLASS none/aqf net/minecraft/world/gen/structure/StructureBoundingBox
 	METHOD b getSize ()Lnone/dg;
 	METHOD b addRange (Lnone/aqf;)V
 	METHOD b checkIfInRange (Lnone/dg;)Z
-	METHOD c xSize ()I
-	METHOD d ySize ()I
-	METHOD e zSize ()I
+		ARG 0 pos
+	METHOD c sizeX ()I
+	METHOD d sizeY ()I
+	METHOD e sizeZ ()I
+	METHOD f getCenter ()Lnone/dg;
 	METHOD g writeRangeToNBT ()Lnone/dt;
 CLASS none/aqg net/minecraft/world/gen/structure/MineshaftGenerator
 CLASS none/aqh
@@ -15132,15 +15164,23 @@ CLASS none/aqh
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
 			ARG 0 component
 			ARG 2 rand
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqh$b
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqh$c
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqh$d
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 CLASS none/aqi net/minecraft/world/gen/structure/MineshaftStart
 CLASS none/aqj net/minecraft/world/gen/structure/NetherFortressGenerator
 	CLASS none/aqj$a NetherBridgeStart
@@ -15156,6 +15196,8 @@ CLASS none/aqk net/minecraft/world/gen/structure/NetherFortressComponents
 	CLASS none/aqk$b ComponentNetherBridgeEnd
 		FIELD b fillSeed I
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqk$c ComponentNetherBridgeStraight
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
@@ -15174,12 +15216,16 @@ CLASS none/aqk net/minecraft/world/gen/structure/NetherFortressComponents
 	CLASS none/aqk$h ComponentNetherBridgeCorridor
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqk$i ComponentNetherBridgeCorridor5
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
 	CLASS none/aqk$j ComponentNetherBridgeCorridor2
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqk$k ComponentNetherBridgeNetherStalkRoom
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
@@ -15187,10 +15233,14 @@ CLASS none/aqk net/minecraft/world/gen/structure/NetherFortressComponents
 		FIELD b hasSpawner Z
 		METHOD a createValidComponent (Ljava/util/List;Ljava/util/Random;IIIILnone/cr;)Lnone/aqk$l;
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqk$m ComponentNetherBridgePiece
 		METHOD a isAboveGround (Lnone/aqf;)Z
 		METHOD a getNextComponentNormal (Lnone/aqk$q;Ljava/util/List;Ljava/util/Random;IIZ)Lnone/aqu;
+		METHOD a writeNBT (Lnone/dp;)V
 		METHOD b getNextComponentX (Lnone/aqk$q;Ljava/util/List;Ljava/util/Random;IIZ)Lnone/aqu;
+		METHOD b readNBT (Lnone/dp;)V
 		METHOD c getNextComponentZ (Lnone/aqk$q;Ljava/util/List;Ljava/util/Random;IIZ)Lnone/aqu;
 	CLASS none/aqk$o ComponentNetherBridgeCrossing
 		METHOD a createValidComponent (Ljava/util/List;Ljava/util/Random;IIILnone/cr;I)Lnone/aqk$o;
@@ -15200,6 +15250,8 @@ CLASS none/aqk net/minecraft/world/gen/structure/NetherFortressComponents
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
 	CLASS none/aqk$q ComponentNetherBridgeStartPiece
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 CLASS none/aql net/minecraft/world/gen/structure/OceanMonumentGenerator
 	CLASS none/aql$a OceanMonumentStart
 CLASS none/aqm
@@ -15222,6 +15274,8 @@ CLASS none/aqm
 	CLASS none/aqm$q
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 	CLASS none/aqm$r StructureGuardianTemple
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqm$s
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 	CLASS none/aqm$t
@@ -15230,15 +15284,81 @@ CLASS none/aqm
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 CLASS none/aqn net/minecraft/world/gen/structure/TempleGenerator
 	CLASS none/aqn$a TempleStart
-CLASS none/aqo
-	CLASS none/aqo$a
+CLASS none/aqo net/minecraft/world/gen/structure/TempleStructureGenerator
+	CLASS none/aqo$a DesertTemple
+		FIELD e placedTreasureChests [Z
+		FIELD f chestLoot Ljava/util/List;
+		METHOD <init> (Ljava/util/Random;II)V
+			ARG 0 rand
+			ARG 1 posX
+			ARG 2 posZ
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
-	CLASS none/aqo$b
+			ARG 0 world
+			ARG 1 rand
+			ARG 2 boundingBox
+		METHOD a writeNBT (Lnone/dp;)V
+			ARG 0 tagCompound
+		METHOD b readNBT (Lnone/dp;)V
+			ARG 0 tagCompound
+	CLASS none/aqo$b JungleTemple
+		CLASS none/aqo$b$a CobblestoneBlockSelector
+			METHOD a setSelectedBlockState (Ljava/util/Random;IIIZ)V
+				ARG 0 rand
+		FIELD e placedMainChest Z
+		FIELD f placedHiddenChest Z
+		FIELD g placedTrapA Z
+		FIELD h placedTrapB Z
+		FIELD i chestLoot Ljava/util/List;
+		FIELD j trapLoot Ljava/util/List;
+		FIELD k cobblestoneBlockSelector Lnone/aqo$b$a;
+		METHOD <init> (Ljava/util/Random;II)V
+			ARG 0 rand
+			ARG 1 posX
+			ARG 2 posZ
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+			ARG 0 world
+			ARG 1 rand
+			ARG 2 boundingBox
+		METHOD a writeNBT (Lnone/dp;)V
+			ARG 0 tagCompound
+		METHOD b readNBT (Lnone/dp;)V
+			ARG 0 tagCompound
 	CLASS none/aqo$c ComponentScatteredFeature
-	CLASS none/aqo$d ComponentScatteredFeatureSwampHut
+		FIELD a width I
+		FIELD b height I
+		FIELD c depth I
+		FIELD d hPos I
+		METHOD <init> (Ljava/util/Random;IIIIII)V
+			ARG 0 rand
+			ARG 1 posX
+			ARG 2 posY
+			ARG 3 posZ
+			ARG 4 width
+			ARG 5 height
+			ARG 6 depth
+		METHOD a canGenerate (Lnone/adn;Lnone/aqf;I)Z
+			ARG 0 world
+			ARG 1 boundingBox
+			ARG 2 baseHeight
+		METHOD a writeNBT (Lnone/dp;)V
+			ARG 0 tagCompound
+		METHOD b readNBT (Lnone/dp;)V
+			ARG 0 tagCompound
+	CLASS none/aqo$d WitchHut
 		FIELD e hasWitch Z
+		METHOD <init> (Ljava/util/Random;II)V
+			ARG 0 rand
+			ARG 1 posX
+			ARG 2 posZ
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+			ARG 0 world
+			ARG 1 rand
+			ARG 2 boundingBox
+		METHOD a writeNBT (Lnone/dp;)V
+			ARG 0 tagCompound
+		METHOD b readNBT (Lnone/dp;)V
+			ARG 0 tagCompound
+	METHOD a registerComponents ()V
 CLASS none/aqp net/minecraft/world/gen/structure/StrongholdGenerator
 	CLASS none/aqp$a StrongholdStart
 		METHOD <init> (Lnone/adn;Ljava/util/Random;II)V
@@ -15256,23 +15376,31 @@ CLASS none/aqq net/minecraft/world/gen/structure/StrongholdComponents
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
 			ARG 0 structureComponent
 			ARG 2 rand
-		METHOD a (Lnone/dp;)V
+		METHOD a writeNBT (Lnone/dp;)V
 			ARG 0 nbtTagCompound
-		METHOD b (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 			ARG 0 nbtTagCompound
 	CLASS none/aqq$b
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqq$c
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqq$d
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
 	CLASS none/aqq$e
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqq$g
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqq$h
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
@@ -15282,19 +15410,31 @@ CLASS none/aqq net/minecraft/world/gen/structure/StrongholdComponents
 	CLASS none/aqq$j
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
+	CLASS none/aqq$k
+		METHOD a setSelectedBlockState (Ljava/util/Random;IIIZ)V
 	CLASS none/aqq$l StrongholdComponentsStairs
 		METHOD <init> (ILjava/util/Random;II)V
 			ARG 1 rand
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
+	CLASS none/aqq$m
+		METHOD a getCenter ()Lnone/ck;
 	CLASS none/aqq$n
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqq$o
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
 	CLASS none/aqq$p StrongholdComponentsStronghold
 		FIELD d doorPiece Lnone/aqq$p$a;
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	FIELD a totalWeight I
 	FIELD b COMPONENT_WEIGHT_ARRAY [Lnone/aqq$f;
 	FIELD c structureComponentList Ljava/util/List;
@@ -15305,6 +15445,10 @@ CLASS none/aqr net/minecraft/world/gen/structure/StructureFeatureGenerator
 CLASS none/aqs net/minecraft/world/gen/structure/StructureIO
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
 	METHOD a registerComponent (Ljava/lang/Class;Ljava/lang/String;)V
+	METHOD a (Lnone/aqu;)Ljava/lang/String;
+		ARG 0 structureComponent
+	METHOD a (Lnone/aqv;)Ljava/lang/String;
+		ARG 0 structureStart
 CLASS none/aqt net/minecraft/world/storage/FeaturesData
 	FIELD b tagCompound Lnone/dp;
 	METHOD a getTagCompound ()Lnone/dp;
@@ -15315,19 +15459,136 @@ CLASS none/aqt net/minecraft/world/storage/FeaturesData
 	METHOD b save (Lnone/dp;)V
 		ARG 0 tagCompound
 CLASS none/aqu net/minecraft/world/gen/structure/StructureComponent
+	CLASS none/aqu$a BlockSelector
+		FIELD a selectedBlockState Lnone/ama;
+		METHOD a getSelectedBlock ()Lnone/ama;
+		METHOD a setSelectedBlockState (Ljava/util/Random;IIIZ)V
+			ARG 0 rand
 	FIELD l boundingBox Lnone/aqf;
 	FIELD m facing Lnone/cr;
+	FIELD n centerDistance I
+	METHOD <init> (I)V
+		ARG 0 centerDistance
+	METHOD a getCenter ()Lnone/ck;
 	METHOD a getXWithOffset (II)I
+		ARG 0 xOffsetA
+		ARG 1 xOffsetB
 	METHOD a findIntersecting (Ljava/util/List;Lnone/aqf;)Lnone/aqu;
+		ARG 0 componentList
+		ARG 1 boundingBox
+	METHOD a getBlockInRange (Lnone/adn;IIILnone/aqf;)Lnone/ama;
+		ARG 0 world
+		ARG 1 xOffset
+		ARG 2 yOffset
+		ARG 3 zOffset
+		ARG 4 boundingBox
 	METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
-	METHOD a fillWithBlocks (Lnone/adn;Lnone/ama;IIILnone/aqf;)V
-	METHOD a fillWithBlocks (Lnone/adn;Lnone/aqf;IIIIIILnone/ama;Lnone/ama;Z)V
+		ARG 0 world
+		ARG 1 rand
+		ARG 2 boundingBox
+	METHOD a setBlock (Lnone/adn;Lnone/ama;IIILnone/aqf;)V
+		ARG 0 world
+		ARG 1 block
+		ARG 2 xOffset
+		ARG 3 yOffset
+		ARG 4 zOffset
+		ARG 5 boundingBox
+	METHOD a isInFluid (Lnone/adn;Lnone/aqf;)Z
+		ARG 0 world
+		ARG 1 boundingBox
+	METHOD a clearArea (Lnone/adn;Lnone/aqf;IIIIII)V
+		ARG 0 world
+		ARG 1 boundingBox
+		ARG 2 xStart
+		ARG 3 yStart
+		ARG 4 zStart
+		ARG 5 xEnd
+		ARG 6 yEnd
+		ARG 7 zEnd
+	METHOD a fillAreaBordered (Lnone/adn;Lnone/aqf;IIIIIILnone/ama;Lnone/ama;Z)V
+		ARG 0 world
+		ARG 1 boundingBox
+		ARG 2 xStart
+		ARG 3 yStart
+		ARG 4 zStart
+		ARG 5 xEnd
+		ARG 6 yEnd
+		ARG 7 zEnd
+		ARG 8 borderBlock
+		ARG 9 coreBlock
+		ARG 10 inRangeOnly
+	METHOD a (Lnone/adn;Lnone/aqf;IIIIIILnone/ama;Z)V
+		ARG 0 world
+		ARG 1 boundingBox
+	METHOD a fillAreaWithSelector (Lnone/adn;Lnone/aqf;IIIIIIZLjava/util/Random;Lnone/aqu$a;)V
+		ARG 0 world
+		ARG 1 boundingBox
+		ARG 2 xStart
+		ARG 3 yStart
+		ARG 4 zStart
+		ARG 5 xEnd
+		ARG 6 yEnd
+		ARG 7 zEnd
+		ARG 8 inRangeOnly
+		ARG 9 rand
+		ARG 10 blockSelector
+	METHOD a randomFillAreaBordered (Lnone/adn;Lnone/aqf;Ljava/util/Random;FIIIIIILnone/ama;Lnone/ama;Z)V
+		ARG 0 world
+		ARG 1 boundingBox
+		ARG 2 rand
+		ARG 3 chance
+		ARG 4 xStart
+		ARG 5 yStart
+		ARG 6 zStart
+		ARG 7 xEnd
+		ARG 8 yEnd
+		ARG 9 zEnd
+		ARG 10 borderBlock
+		ARG 11 coreBlock
+		ARG 12 inRangeOnly
+	METHOD a randomSetBlock (Lnone/adn;Lnone/aqf;Ljava/util/Random;FIIILnone/ama;)V
+		ARG 0 world
+		ARG 1 boundingBox
+		ARG 2 rand
+		ARG 3 chance
+		ARG 4 xOffset
+		ARG 5 yOffset
+		ARG 6 zOffset
+		ARG 7 block
+	METHOD a (Lnone/adn;Lnone/aqf;Ljava/util/Random;IIIILjava/util/List;I)Z
+		ARG 0 world
+		ARG 1 boundingBox
+	METHOD a (Lnone/adn;Lnone/aqf;Ljava/util/Random;IIILjava/util/List;I)Z
+		ARG 0 world
+		ARG 1 boundingBox
+	METHOD a addWoodenDoor (Lnone/adn;Lnone/aqf;Ljava/util/Random;IIILnone/cr;)V
+		ARG 0 world
+		ARG 1 boundingBox
+	METHOD a readNBTForWorld (Lnone/adn;Lnone/dp;)V
+		ARG 0 world
+		ARG 1 tagCompound
 	METHOD a getMetadataWithOffset (Lnone/afi;I)I
+		ARG 0 block
+		ARG 1 offset
 	METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		ARG 2 rand
+	METHOD a writeNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD b writeStructureToNBT ()Lnone/dp;
 	METHOD b getZWithOffset (II)I
+		ARG 0 zOffsetA
+		ARG 1 zOffsetB
+	METHOD b (Lnone/adn;IIILnone/aqf;)V
+		ARG 0 world
+		ARG 4 boundingBox
 	METHOD b fillCurrentPositionBlocksDownwards (Lnone/adn;Lnone/ama;IIILnone/aqf;)V
+		ARG 5 boundingBox
+	METHOD b readNBT (Lnone/dp;)V
+		ARG 0 tagCompound
+	METHOD c getBoundingBox ()Lnone/aqf;
+	METHOD d getDistanceFromCenter ()I
 	METHOD d getYWithOffset (I)I
+		ARG 0 yOffset
 CLASS none/aqv net/minecraft/world/gen/structure/StructureStart
 	FIELD a components Ljava/util/LinkedList;
 	FIELD b boundingBox Lnone/aqf;
@@ -15372,29 +15633,43 @@ CLASS none/aqx
 		FIELD c cropTypeC Lnone/afi;
 		FIELD d cropTypeD Lnone/afi;
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqx$c
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqx$d
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 	CLASS none/aqx$f
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 	CLASS none/aqx$g ComponentVillageHouse4
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqx$h
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqx$i ComponentVillageChurch
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 	CLASS none/aqx$j
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqx$l
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
+		METHOD a writeNBT (Lnone/dp;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqx$m
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 	CLASS none/aqx$n ComponentVillage
-		METHOD a fillWithBlocks (Lnone/adn;Lnone/ama;IIILnone/aqf;)V
-		METHOD a fillWithBlocks (Lnone/adn;Lnone/aqf;IIIIIILnone/ama;Lnone/ama;Z)V
+		METHOD a setBlock (Lnone/adn;Lnone/ama;IIILnone/aqf;)V
+		METHOD a fillAreaBordered (Lnone/adn;Lnone/aqf;IIIIIILnone/ama;Lnone/ama;Z)V
+		METHOD a writeNBT (Lnone/dp;)V
 		METHOD b fillCurrentPositionBlocksDownwards (Lnone/adn;Lnone/ama;IIILnone/aqf;)V
+		METHOD b readNBT (Lnone/dp;)V
 	CLASS none/aqx$p
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 		METHOD a buildComponent (Lnone/aqu;Ljava/util/List;Ljava/util/Random;)V
@@ -15431,7 +15706,7 @@ CLASS none/arm net/minecraft/block/material/MaterialLiquid
 		ARG 0 color
 	METHOD a isSolid ()Z
 	METHOD c blocksMovement ()Z
-	METHOD d isLiquid ()Z
+	METHOD d isFluid ()Z
 CLASS none/arn net/minecraft/block/material/Material
 	CLASS none/arn$1 MaterialWeb
 		METHOD <init> (Lnone/aro;)V
@@ -15484,7 +15759,7 @@ CLASS none/arn net/minecraft/block/material/Material
 	METHOD a isSolid ()Z
 	METHOD b blocksLight ()Z
 	METHOD c blocksMovement ()Z
-	METHOD d isLiquid ()Z
+	METHOD d isFluid ()Z
 	METHOD f setRequiresTool ()Lnone/arn;
 	METHOD g setCanBurn ()Lnone/arn;
 	METHOD h canBurn ()Z
@@ -15558,19 +15833,23 @@ CLASS none/arr net/minecraft/world/gen/layer/GenLayerDeepOcean
 		ARG 1 zPos
 		ARG 2 xSize
 		ARG 3 zSize
-CLASS none/ars
+CLASS none/ars net/minecraft/world/gen/layer/GenLayerEdge
+	CLASS none/ars$a Mode
+		FIELD a COOL_WARM Lnone/ars$a;
+		FIELD b HEAT_ICE Lnone/ars$a;
+		FIELD c SPECIAL Lnone/ars$a;
 	METHOD a getInts (IIII)[I
-CLASS none/art
+CLASS none/art net/minecraft/world/gen/layer/GenLayerAddIsland
 	METHOD a getInts (IIII)[I
-CLASS none/aru
+CLASS none/aru net/minecraft/world/gen/layer/GenLayerMushroomIsland
 	METHOD a getInts (IIII)[I
-CLASS none/arv
+CLASS none/arv net/minecraft/world/gen/layer/GenLayerSnow
 	METHOD a getInts (IIII)[I
 CLASS none/arw
 	METHOD a getInts (IIII)[I
 CLASS none/arx
 	METHOD a getInts (IIII)[I
-CLASS none/asb
+CLASS none/asb net/minecraft/world/gen/layer/GenLayerFuzzyZoom
 	METHOD b smoothBiomesElseRandom (IIII)I
 CLASS none/asd net/minecraft/world/gen/layer/IntCache
 	FIELD a intCacheSize I
@@ -15581,7 +15860,7 @@ CLASS none/asd net/minecraft/world/gen/layer/IntCache
 	METHOD a resetIntCache ()V
 	METHOD a getIntCache (I)[I
 	METHOD b getDebugInfo ()Ljava/lang/String;
-CLASS none/ase
+CLASS none/ase net/minecraft/world/gen/layer/GenLayerIsland
 	METHOD a getInts (IIII)[I
 CLASS none/asf net/minecraft/world/gen/layer/GenLayerBase
 	FIELD a sourceLayer Lnone/asf;
@@ -15617,12 +15896,12 @@ CLASS none/asf net/minecraft/world/gen/layer/GenLayerBase
 		ARG 1 biomeID2
 		ARG 2 biomeID3
 		ARG 3 biomeID4
-CLASS none/asg
+CLASS none/asg net/minecraft/world/gen/layer/GenLayerRareBiome
 	METHOD a getInts (IIII)[I
 CLASS none/ash
 	FIELD c LOGGER Lorg/apache/logging/log4j/Logger;
 	METHOD a getInts (IIII)[I
-CLASS none/asi
+CLASS none/asi net/minecraft/world/gen/layer/GenLayerReduceOcean
 	METHOD a getInts (IIII)[I
 CLASS none/asj net/minecraft/world/gen/layer/GenLayerRiverInit
 	METHOD <init> (JLnone/asf;)V
@@ -15633,16 +15912,16 @@ CLASS none/asj net/minecraft/world/gen/layer/GenLayerRiverInit
 		ARG 1 zPos
 		ARG 2 xSize
 		ARG 3 zSize
-CLASS none/ask
+CLASS none/ask net/minecraft/world/gen/layer/GenLayerRiver
 	METHOD a getInts (IIII)[I
-CLASS none/asl
+CLASS none/asl net/minecraft/world/gen/layer/GenLayerRiverMix
 	METHOD a getInts (IIII)[I
 	METHOD a initializeLevelGenSeed (J)V
-CLASS none/asm
+CLASS none/asm net/minecraft/world/gen/layer/GenLAyerShore
 	METHOD a getInts (IIII)[I
-CLASS none/asn
+CLASS none/asn net/minecraft/world/gen/layer/GenLayerSmooth
 	METHOD a getInts (IIII)[I
-CLASS none/asr
+CLASS none/asr net/minecraft/world/gen/layer/GenLayerVoronoiZoom
 	METHOD a getInts (IIII)[I
 CLASS none/ass net/minecraft/world/gen/layer/GenLayerZoom
 	METHOD <init> (JLnone/asf;)V
@@ -17159,14 +17438,30 @@ CLASS none/avq net/minecraft/client/gui/Gui
 	METHOD b drawVerticalLine (IIII)V
 	METHOD b drawTexturedModalRect (IIIIII)V
 	METHOD c drawString (Lnone/avo;Ljava/lang/String;III)V
-CLASS none/avr
-	CLASS none/avr$a
+CLASS none/avr net/minecraft/client/renderers/ItemMapRenderer
+	CLASS none/avr$a ContentRenderer
+		FIELD b mapData Lnone/ath;
 		FIELD c texture Lnone/bma;
 		FIELD d resourceLocation Lnone/jz;
+		FIELD e rgbArray [I
+		METHOD <init> (Lnone/avr;Lnone/ath;)V
+			ARG 1 mapData
+		METHOD a uploadMapTexture ()V
+		METHOD a render (Z)V
+			ARG 0 renderPlayers
 	FIELD a MAP_ICONS_PNG Lnone/jz;
 	FIELD b textureManager Lnone/bmk;
+	FIELD c loadedMaps Ljava/util/Map;
 	METHOD <init> (Lnone/bmk;)V
 		ARG 0 textureManager
+	METHOD a resetMaps ()V
+	METHOD a uploadMapTexture (Lnone/ath;)V
+		ARG 0 mapData
+	METHOD a renderMap (Lnone/ath;Z)V
+		ARG 0 mapData
+		ARG 1 renderPlayers
+	METHOD b getContentRenderer (Lnone/ath;)Lnone/avr$a;
+		ARG 0 mapData
 CLASS none/avs net/minecraft/client/gui/ScaledResolution
 	METHOD a getScaledWidth ()I
 	METHOD b getScaledHeight ()I
@@ -17276,8 +17571,8 @@ CLASS none/awd net/minecraft/client/gui/button/GuiButtonLock
 	METHOD a drawButton (Lnone/avf;II)V
 	METHOD b setLocked (Z)V
 	METHOD c isLocked ()Z
-CLASS none/awe net/minecraft/client/gui/GuiExtendedList
-	CLASS none/awe$a IGuiSlot
+CLASS none/awe net/minecraft/client/gui/GuiListExtended
+	CLASS none/awe$a IListElement
 		METHOD a setSelected (III)V
 		METHOD a onMousePressed (IIIIII)Z
 		METHOD a drawEntry (IIIIIIIZ)V
@@ -18155,22 +18450,56 @@ CLASS none/azm net/minecraft/client/gui/ServerSelectionList
 	METHOD c getWidth ()I
 	METHOD d getHorisonalScrollBarPosition ()I
 CLASS none/azp net/minecraft/client/gui/GuiSelectResourcePack
+	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
+	FIELD f parent Lnone/axv;
+	FIELD g availableResourcePackElements Ljava/util/List;
+	FIELD h selectedResourcePackElements Ljava/util/List;
+	FIELD i availableResourcePackList Lnone/azu;
+	FIELD r selectedResourcePackList Lnone/azw;
+	METHOD <init> (Lnone/axv;)V
+		ARG 0 parent
+	METHOD a getAvailableElements ()Ljava/util/List;
 	METHOD a drawScreen (IIF)V
 	METHOD a mouseClicked (III)V
 	METHOD a actionPerformed (Lnone/avt;)V
+		ARG 0 button
+	METHOD a isResourcePackSelected (Lnone/azq;)Z
+		ARG 0 checkedResourcePack
 	METHOD b initGui ()V
 	METHOD b mouseMovedOrUp (III)V
+	METHOD f getSelectedElements ()Ljava/util/List;
 	METHOD k handleMouseInput ()V
-CLASS none/azq
+CLASS none/azq net/minecraft/client/gui/TexturedListElement
 	FIELD a minecraft Lnone/avf;
 	FIELD b parent Lnone/azp;
 	FIELD c RESOURCE_PACKS_PNG Lnone/jz;
 	METHOD <init> (Lnone/azp;)V
 		ARG 0 parent
+	METHOD a getFirstLine ()Ljava/lang/String;
 	METHOD a setSelected (III)V
 	METHOD a onMousePressed (IIIIII)Z
 	METHOD a drawEntry (IIIIIIIZ)V
+	METHOD b getSecondLine ()Ljava/lang/String;
 	METHOD b onMouseReleased (IIIIII)V
+	METHOD c getIcon ()V
+CLASS none/azr net/minecraft/client/gui/TexturedResourcePackListElement
+	FIELD c LOGGER Lorg/apache/logging/log4j/Logger;
+	FIELD d resourcePackReader Lnone/bnl;
+	FIELD e resourceLocation Lnone/jz;
+	METHOD <init> (Lnone/azp;)V
+		ARG 0 parent
+	METHOD a getFirstLine ()Ljava/lang/String;
+	METHOD b getSecondLine ()Ljava/lang/String;
+	METHOD c getIcon ()V
+CLASS none/azs net/minecraft/client/gui/ResourcePackListElement
+	FIELD c resourcePack Lnone/bnn$a;
+	METHOD <init> (Lnone/azp;Lnone/bnn$a;)V
+		ARG 0 parent
+		ARG 1 resourcePack
+	METHOD a getFirstLine ()Ljava/lang/String;
+	METHOD b getSecondLine ()Ljava/lang/String;
+	METHOD c getIcon ()V
+	METHOD i getResourcePack ()Lnone/bnn$a;
 CLASS none/azu net/minecraft/client/gui/GuiResourcePackAvailableList
 	METHOD e getTitle ()Ljava/lang/String;
 CLASS none/azv net/minecraft/client/gui/GuiResourcePackList
@@ -19147,8 +19476,10 @@ CLASS none/bfe net/minecraft/client/renderers/BufferBuilder
 		METHOD c getVertexFormat ()Lnone/bmv;
 	FIELD a byteBuffer Ljava/nio/ByteBuffer;
 	FIELD b rawIntBuffer Ljava/nio/IntBuffer;
+	FIELD c rawShortBuffer Ljava/nio/ShortBuffer;
 	FIELD d rawFloatBuffer Ljava/nio/FloatBuffer;
 	FIELD e byteIndex I
+	FIELD f vertexElement Lnone/bmw;
 	FIELD g brightness I
 	FIELD h needsUpdate Z
 	FIELD i rawBufferIndex I
@@ -20540,7 +20871,13 @@ CLASS none/blz net/minecraft/client/texture/TextureBase
 	METHOD b getId ()I
 	METHOD c delete ()V
 CLASS none/bma net/minecraft/client/texture/TextureImage
+	FIELD f rgbArray [I
+	METHOD <init> (Ljava/awt/image/BufferedImage;)V
+		ARG 0 bufferedImage
 	METHOD a load (Lnone/bnj;)V
+		ARG 0 resourceManager
+	METHOD d uploadTexture ()V
+	METHOD e getRGBArray ()[I
 CLASS none/bmb net/minecraft/client/texture/TextureDownloadable
 	FIELD g LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD h DOWNLOADER_NUMBER Ljava/util/concurrent/atomic/AtomicInteger;
@@ -20619,6 +20956,8 @@ CLASS none/bmk net/minecraft/client/texture/TextureManager
 	METHOD a onReload (Lnone/bnj;)V
 	METHOD a bindTexture (Lnone/jz;)V
 	METHOD a loadTexture (Lnone/jz;Lnone/bml;)Z
+	METHOD c deleteTexture (Lnone/jz;)V
+		ARG 0 resourceLocation
 	METHOD e tick ()V
 CLASS none/bml net/minecraft/client/texture/ITexture
 	METHOD a load (Lnone/bnj;)V
@@ -20630,6 +20969,11 @@ CLASS none/bmm net/minecraft/client/texture/TextureUtil
 	METHOD a genTexture ()I
 	METHOD a deleteTexture (I)V
 		ARG 0 textureId
+	METHOD a allocateTexture (III)V
+	METHOD a allocateTextureImpl (IIII)V
+	METHOD a uploadTexture (I[III)V
+		ARG 0 textureId
+		ARG 1 rgbArray
 	METHOD a readBufferedImage (Ljava/io/InputStream;)Ljava/awt/image/BufferedImage;
 CLASS none/bmn net/minecraft/client/texture/ITickable
 	METHOD e tick ()V
@@ -20797,21 +21141,44 @@ CLASS none/bnm net/minecraft/client/resources/ResourceNotFoundException
 		ARG 0 resourcePackFile
 		ARG 1 resource
 CLASS none/bnn net/minecraft/client/resources/ResourcePackRepository
+	CLASS none/bnn$1
+		METHOD accept accept (Ljava/io/File;)Z
+			ARG 0 rpFIle
 	CLASS none/bnn$a ResourcePack
 		FIELD b location Ljava/io/File;
+		FIELD c resourcePackReader Lnone/bnl;
 		FIELD d metadata Lnone/bok;
 		FIELD e icon Ljava/awt/image/BufferedImage;
 		FIELD f iconTexture Lnone/jz;
 		METHOD <init> (Lnone/bnn;Ljava/io/File;)V
 			ARG 1 location
+		METHOD a loadInfo ()V
 		METHOD a bindIconTexture (Lnone/bmk;)V
+			ARG 0 textureManager
+		METHOD b closeReader ()V
+		METHOD c getReader ()Lnone/bnl;
+		METHOD d getFilename ()Ljava/lang/String;
 		METHOD e getDescription ()Ljava/lang/String;
 	FIELD a defaultResourcePack Lnone/bnl;
+	FIELD b metadataSerializer Lnone/bnz;
 	FIELD c LOGGER Lorg/apache/logging/log4j/Logger;
+	FIELD d resourcePackFilter Ljava/io/FileFilter;
 	FIELD e resourcePackFolder Ljava/io/File;
+	FIELD g resourcePackReader Lnone/bnl;
 	FIELD h lock Ljava/util/concurrent/locks/ReentrantLock;
+	FIELD j available Ljava/util/List;
+	FIELD k selected Ljava/util/List;
+	METHOD <init> (Ljava/io/File;Ljava/io/File;Lnone/bnl;Lnone/bnz;Lnone/avi;)V
+		ARG 0 packFolder
+		ARG 2 resourcePackReader
+		ARG 3 metadataSerializer
+		ARG 4 gameSettings
 	METHOD a fetchResourcePack (Ljava/lang/String;Ljava/lang/String;)Lcom/google/common/util/concurrent/ListenableFuture;
 		ARG 1 hash
+	METHOD b getAvailable ()Ljava/util/List;
+	METHOD c getSelected ()Ljava/util/List;
+	METHOD e getReader ()Lnone/bnl;
+	METHOD h getResourcePacks ()Ljava/util/List;
 CLASS none/bno net/minecraft/client/resources/SimpleReloadableResourceManager
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
 	METHOD a registerReloadListener (Lnone/bnk;)V
