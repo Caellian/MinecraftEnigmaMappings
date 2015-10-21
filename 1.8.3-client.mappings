@@ -1107,9 +1107,16 @@ CLASS none/ce net/minecraft/command/CommandPlayerNotFoundException
 CLASS none/cf net/minecraft/command/CommandNotFoundException
 CLASS none/cg net/minecraft/command/CommandInvalidArgumentsException
 CLASS none/ck net/minecraft/util/BlockPos
+	CLASS none/ck$1
+		CLASS none/ck$1$1
+			FIELD b lastReturned Lnone/ck;
+			METHOD a computeNext ()Lnone/ck;
+		METHOD iterator iterator ()Ljava/util/Iterator;
 	CLASS none/ck$2
 		CLASS none/ck$2$1
 			FIELD b mutableBlockPos Lnone/ck$a;
+			METHOD a computeNext ()Lnone/ck$a;
+		METHOD iterator iterator ()Ljava/util/Iterator;
 	CLASS none/ck$a MutableBlockPos
 		FIELD c x I
 		FIELD d y I
@@ -1126,7 +1133,7 @@ CLASS none/ck net/minecraft/util/BlockPos
 		METHOD n getX ()I
 		METHOD o getY ()I
 		METHOD p getZ ()I
-	FIELD a ZEROED Lnone/ck;
+	FIELD a ORIGIN Lnone/ck;
 	FIELD c BITS_X I
 	FIELD d BITS_Z I
 	FIELD e BITS_Y I
@@ -1160,6 +1167,7 @@ CLASS none/ck net/minecraft/util/BlockPos
 		ARG 2 z
 	METHOD a fromLong (J)Lnone/ck;
 		ARG 0 l
+	METHOD a getSelection (Lnone/ck;Lnone/ck;)Ljava/lang/Iterable;
 	METHOD a getNeighbourFacing (Lnone/cr;)Lnone/ck;
 		ARG 0 facing
 	METHOD a addDirection (Lnone/cr;I)Lnone/ck;
@@ -2201,7 +2209,7 @@ CLASS none/en net/minecraft/network/PacketBuffer
 	METHOD unwrap ()Lio/netty/buffer/ByteBuf;
 	METHOD writableBytes ()I
 	METHOD writeBoolean writeBoolean (Z)Lio/netty/buffer/ByteBuf;
-	METHOD writeByte (I)Lio/netty/buffer/ByteBuf;
+	METHOD writeByte writeByte (I)Lio/netty/buffer/ByteBuf;
 	METHOD writeBytes (Lio/netty/buffer/ByteBuf;)Lio/netty/buffer/ByteBuf;
 	METHOD writeBytes (Lio/netty/buffer/ByteBuf;I)Lio/netty/buffer/ByteBuf;
 	METHOD writeBytes (Lio/netty/buffer/ByteBuf;II)Lio/netty/buffer/ByteBuf;
@@ -4576,6 +4584,9 @@ CLASS none/nt net/minecraft/math/MathHelper
 		ARG 2 blue
 	METHOD b smallestEncompassingPowerOfTwo (I)I
 		ARG 0 value
+	METHOD b normalizeAngle (II)I
+		ARG 0 value
+		ARG 1 max
 	METHOD b colorToInt (III)I
 		ARG 0 red
 		ARG 1 green
@@ -7980,19 +7991,20 @@ CLASS none/yp net/minecraft/item/ItemBlock
 	METHOD c getCreativeGroups ()Lnone/za;
 	METHOD c setName (Ljava/lang/String;)Lnone/zx;
 	METHOD d getBlockType ()Lnone/afi;
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/yq net/minecraft/item/ItemString
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 CLASS none/yr net/minecraft/item/ItemBoat
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 CLASS none/ys net/minecraft/item/ItemBook
+	METHOD f_ isItemTool (Lnone/zy;)Z
 CLASS none/yt net/minecraft/item/ItemGlassBottle
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 CLASS none/yu net/minecraft/item/ItemBow
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
-	METHOD a doReleaseItemAction (Lnone/zy;Lnone/adn;Lnone/wo;I)V
+	METHOD a onItemRightClickStop (Lnone/zy;Lnone/adn;Lnone/wo;I)V
 	METHOD b doSwallowAction (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
-	METHOD d getItemUseTimerDuration (Lnone/zy;)I
+	METHOD d getMaxItemDuration (Lnone/zy;)I
 	METHOD e getRightClickAction (Lnone/zy;)Lnone/abb;
 CLASS none/yv net/minecraft/item/ItemStew
 	METHOD b doSwallowAction (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
@@ -8003,7 +8015,7 @@ CLASS none/yx net/minecraft/item/ItemCarrotOnAStick
 CLASS none/yy net/minecraft/item/ItemCoal
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
 		ARG 0 item
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 		ARG 0 itemStack
 CLASS none/yz net/minecraft/item/ItemMap
 CLASS none/za net/minecraft/creativetab/CreativeTab
@@ -8090,6 +8102,7 @@ CLASS none/zb net/minecraft/item/ItemTool
 		ARG 1 itemMaterialTypes
 	METHOD a canBreak (Lnone/zy;Lnone/adn;Lnone/afi;Lnone/ck;Lnone/ps;)Z
 	METHOD a getMiningEfficiencyMultiplier (Lnone/zy;Lnone/afi;)F
+	METHOD i getAttributeModifiers ()Lcom/google/common/collect/Multimap;
 CLASS none/zc net/minecraft/item/ItemDoor
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 		ARG 0 itemStack
@@ -8128,11 +8141,11 @@ CLASS none/ze net/minecraft/item/EnumDyeColor
 CLASS none/zf net/minecraft/item/ItemDye
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
-	METHOD a doUseOnLivingEntityAction (Lnone/zy;Lnone/wo;Lnone/ps;)Z
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD a onRightClickEntity (Lnone/zy;Lnone/wo;Lnone/ps;)Z
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/zg net/minecraft/item/ItemBlockDyed
 	METHOD a getDataValueForBlockVersion (I)I
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/zh net/minecraft/item/ItemEgg
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 CLASS none/zi net/minecraft/item/ItemMapEmpty
@@ -8140,6 +8153,9 @@ CLASS none/zi net/minecraft/item/ItemMapEmpty
 CLASS none/zj net/minecraft/item/ItemEnchantedBook
 	METHOD a create (Lnone/acm;)Lnone/zy;
 	METHOD a addEnchantment (Lnone/zy;Lnone/acm;)V
+	METHOD f hasEffect (Lnone/zy;)Z
+	METHOD f_ isItemTool (Lnone/zy;)Z
+	METHOD g getRarity (Lnone/zy;)Lnone/aak;
 CLASS none/zk net/minecraft/item/ItemEnderEye
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
@@ -8147,6 +8163,7 @@ CLASS none/zl net/minecraft/item/ItemEnderPearl
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 CLASS none/zm net/minecraft/item/ItemExpBottle
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
+	METHOD f hasEffect (Lnone/zy;)Z
 CLASS none/zn net/minecraft/item/ItemFireCharge
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 CLASS none/zo net/minecraft/item/ItemFireworkCharge
@@ -8175,18 +8192,21 @@ CLASS none/zq net/minecraft/item/ItemFish
 			ARG 0 itemStack
 		METHOD b getSavegameName ()Ljava/lang/String;
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/zr net/minecraft/item/ItemFishingRod
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
+	METHOD f_ isItemTool (Lnone/zy;)Z
 CLASS none/zs net/minecraft/item/ItemFlintAndSteel
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 CLASS none/zt net/minecraft/item/ItemFood
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 	METHOD b doSwallowAction (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
-	METHOD d getItemUseTimerDuration (Lnone/zy;)I
+	METHOD d getMaxItemDuration (Lnone/zy;)I
 	METHOD e getRightClickAction (Lnone/zy;)Lnone/abb;
 CLASS none/zu net/minecraft/item/ItemGoldenApple
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
+	METHOD f hasEffect (Lnone/zy;)Z
+	METHOD g getRarity (Lnone/zy;)Lnone/aak;
 CLASS none/zv net/minecraft/item/ItemPainting
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 CLASS none/zw net/minecraft/item/ItemHoe
@@ -8269,7 +8289,8 @@ CLASS none/zx net/minecraft/item/Item
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 		ARG 0 itemStack
 		ARG 1 dimension
-	METHOD a doReleaseItemAction (Lnone/zy;Lnone/adn;Lnone/wo;I)V
+		ARG 2 player
+	METHOD a onItemRightClickStop (Lnone/zy;Lnone/adn;Lnone/wo;I)V
 		ARG 0 itemStack
 		ARG 1 dimension
 	METHOD a getMiningEfficiencyMultiplier (Lnone/zy;Lnone/afi;)F
@@ -8287,20 +8308,21 @@ CLASS none/zx net/minecraft/item/Item
 		ARG 2 dimension
 		ARG 3 blockCoords
 		ARG 4 facing
-	METHOD a doUseOnLivingEntityAction (Lnone/zy;Lnone/wo;Lnone/ps;)Z
+	METHOD a onRightClickEntity (Lnone/zy;Lnone/wo;Lnone/ps;)Z
 	METHOD a (Lnone/zy;Lnone/zy;)Z
 		ARG 0 itemStack
 	METHOD a setHasMetadata (Z)Lnone/zx;
 		ARG 0 hasMetadata
 	METHOD b getItem (I)Lnone/zx;
 		ARG 0 index
-	METHOD b givesSpecialDropOnBlock (Lnone/afi;)Z
+	METHOD b canHarvestBlock (Lnone/afi;)Z
 		ARG 0 block
 	METHOD b getItemId (Lnone/zx;)I
 		ARG 0 item
 	METHOD b doSwallowAction (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 		ARG 0 itemStack
 		ARG 1 dimension
+		ARG 2 player
 	METHOD c getCreativeGroups ()Lnone/za;
 	METHOD c setMaxStackSize (I)Lnone/zx;
 		ARG 0 maxStackSize
@@ -8313,23 +8335,24 @@ CLASS none/zx net/minecraft/item/Item
 	METHOD d setMaxDurability (I)Lnone/zx;
 	METHOD d getItem (Ljava/lang/String;)Lnone/zx;
 		ARG 0 s
-	METHOD d getItemUseTimerDuration (Lnone/zy;)I
+	METHOD d getMaxItemDuration (Lnone/zy;)I
 		ARG 0 itemStack
-	METHOD d (Lnone/zy;Lnone/adn;Lnone/wo;)V
+	METHOD d onCreated (Lnone/zy;Lnone/adn;Lnone/wo;)V
 		ARG 1 dimension
 	METHOD e getRightClickAction (Lnone/zy;)Lnone/abb;
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 		ARG 0 itemStack
-	METHOD f (Lnone/zy;)Z
+	METHOD f hasEffect (Lnone/zy;)Z
 		ARG 0 itemStack
-	METHOD f_ (Lnone/zy;)Z
+	METHOD f_ isItemTool (Lnone/zy;)Z
 		ARG 0 itemStack
-	METHOD g (Lnone/zy;)Lnone/aak;
+	METHOD g getRarity (Lnone/zy;)Lnone/aak;
 		ARG 0 itemStack
+	METHOD i getAttributeModifiers ()Lcom/google/common/collect/Multimap;
 	METHOD j getMaxStackSize ()I
 	METHOD j (Lnone/zy;)Ljava/lang/String;
 		ARG 0 itemStack
-	METHOD k hasMetadata ()Z
+	METHOD k hasAlternatives ()Z
 	METHOD k getDisplayName (Lnone/zy;)Ljava/lang/String;
 		ARG 0 itemStack
 	METHOD l getMaxDurability ()I
@@ -8338,13 +8361,14 @@ CLASS none/zx net/minecraft/item/Item
 	METHOD m isBreakable ()Z
 	METHOD q getContainer ()Lnone/zx;
 	METHOD r hasContainer ()Z
+	METHOD s canEditBlocks ()Z
 	METHOD t registerItems ()V
 CLASS none/zy net/minecraft/item/ItemStack
 	FIELD a FORMAT Ljava/text/DecimalFormat;
-	FIELD b count I
+	FIELD b size I
 	FIELD c animationsLeft I
 	FIELD d item Lnone/zx;
-	FIELD e nbt Lnone/dp;
+	FIELD e tagCompound Lnone/dp;
 	FIELD f damage I
 	FIELD g itemFrame Lnone/up;
 	FIELD h canDestroyCacheBlock Lnone/afi;
@@ -8371,22 +8395,51 @@ CLASS none/zy net/minecraft/item/ItemStack
 		ARG 2 metadata
 	METHOD A getRepairCost ()I
 	METHOD B getAttributeModifiers ()Lcom/google/common/collect/Multimap;
-	METHOD C getDisplayNameChatMessage ()Lnone/ev;
+	METHOD C getChatDisplayName ()Lnone/ev;
 	METHOD a getUnlocalizedName ()Ljava/lang/String;
 	METHOD a splitStack (I)Lnone/zy;
 		ARG 0 splitAmount
-	METHOD a shouldBreakAfterDamage (ILjava/util/Random;)Z
-	METHOD a applyDamage (ILnone/ps;)V
+	METHOD a shouldDamageItem (ILjava/util/Random;)Z
 		ARG 0 amount
-	METHOD a addNbtTag (Ljava/lang/String;Lnone/ec;)V
-	METHOD a onUpdate (Lnone/adn;Lnone/pl;IZ)V
-	METHOD a doItemUseAction (Lnone/adn;Lnone/wo;)Lnone/zy;
+		ARG 1 rand
+	METHOD a onDamageItem (ILnone/ps;)V
+		ARG 0 amount
+		ARG 1 owner
+	METHOD a addNBTTag (Ljava/lang/String;Lnone/ec;)V
+		ARG 0 key
+		ARG 1 value
+	METHOD a getChildCompound (Ljava/lang/String;Z)Lnone/dp;
+		ARG 0 key
+		ARG 1 create
+	METHOD a addEnchantment (Lnone/acj;I)V
+		ARG 0 enchantment
+		ARG 1 level
+	METHOD a onBlockDestroy (Lnone/adn;Lnone/afi;Lnone/ck;Lnone/wo;)V
+		ARG 0 world
+		ARG 1 block
+		ARG 2 blockPos
+		ARG 3 player
+	METHOD a onUpdateAnimation (Lnone/adn;Lnone/pl;IZ)V
+		ARG 0 world
+		ARG 1 entity
+		ARG 2 inventorySlot
+		ARG 3 isSelected
+	METHOD a onItemRightClick (Lnone/adn;Lnone/wo;)Lnone/zy;
 		ARG 0 world
 		ARG 1 player
+	METHOD a onCrafted (Lnone/adn;Lnone/wo;I)V
+		ARG 0 world
+		ARG 1 player
+		ARG 2 amount
 	METHOD a getMiningEfficiency (Lnone/afi;)F
 		ARG 0 block
 	METHOD a tagCompund (Lnone/dp;)Lnone/zy;
 		ARG 0 tagCompound
+	METHOD a onEntityHit (Lnone/ps;Lnone/wo;)V
+		ARG 0 entity
+		ARG 1 player
+	METHOD a setItemFrame (Lnone/up;)V
+		ARG 0 itemFrame
 	METHOD a onItemUse (Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 		ARG 0 player
 		ARG 1 world
@@ -8395,41 +8448,80 @@ CLASS none/zy net/minecraft/item/ItemStack
 		ARG 4 hitX
 		ARG 5 hitY
 		ARG 6 hitZ
+	METHOD a onRightClickEntity (Lnone/wo;Lnone/ps;)Z
+		ARG 0 player
+		ARG 1 entity
+	METHOD a getTooltip (Lnone/wo;Z)Ljava/util/List;
+		ARG 0 player
+		ARG 1 advanced
 	METHOD a setItem (Lnone/zx;)V
-	METHOD a isMergeable (Lnone/zy;)Z
-	METHOD a nbtEquals (Lnone/zy;Lnone/zy;)Z
+		ARG 0 item
+	METHOD a equalsItem (Lnone/zy;)Z
+		ARG 0 other
+	METHOD a compareNBTTags (Lnone/zy;Lnone/zy;)Z
+		ARG 0 stackA
+		ARG 1 stackB
 	METHOD b getItem ()Lnone/zx;
 	METHOD b setDamage (I)V
-	METHOD b doSwallowAction (Lnone/adn;Lnone/wo;)Lnone/zy;
+		ARG 0 damage
+	METHOD b onItemRightClickFinish (Lnone/adn;Lnone/wo;)Lnone/zy;
 		ARG 0 world
 		ARG 1 player
-	METHOD b doReleaseItemAction (Lnone/adn;Lnone/wo;I)V
-	METHOD b givesSpecialDropOnBlock (Lnone/afi;)Z
-	METHOD b writeTo (Lnone/dp;)Lnone/dp;
+	METHOD b onItemRightClickStop (Lnone/adn;Lnone/wo;I)V
+		ARG 0 world
+		ARG 1 player
+	METHOD b canHarvestBlock (Lnone/afi;)Z
+		ARG 0 block
+	METHOD b writeToNBT (Lnone/dp;)Lnone/dp;
 		ARG 0 tagCompound
 	METHOD b clone (Lnone/zy;)Lnone/zy;
-	METHOD b deepEquals (Lnone/zy;Lnone/zy;)Z
+		ARG 0 cloned
+	METHOD b compareNBTValues (Lnone/zy;Lnone/zy;)Z
+		ARG 0 stackA
+		ARG 1 stackB
 	METHOD c getMaxStackSize ()I
 	METHOD c setRepairCost (I)V
 		ARG 0 repairCost
 	METHOD c setDisplayName (Ljava/lang/String;)Lnone/zy;
-	METHOD c readFrom (Lnone/dp;)V
-	METHOD d setNbt (Lnone/dp;)V
+		ARG 0 displayName
+	METHOD c canDestroy (Lnone/afi;)Z
+		ARG 0 block
+	METHOD c readFromNBT (Lnone/dp;)V
+		ARG 0 tagCompound
+	METHOD c getIsItemStackEqual (Lnone/zy;)Z
+		ARG 0 other
+	METHOD c areItemsEqual (Lnone/zy;Lnone/zy;)Z
+		ARG 0 stackA
+		ARG 1 stackB
+	METHOD d isStackable ()Z
+	METHOD d canPlaceOn (Lnone/afi;)Z
+		ARG 0 block
+	METHOD d setNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD d equals (Lnone/zy;)Z
+		ARG 0 other
 	METHOD e isDamageable ()Z
-	METHOD g shouldDisplayDamageBar ()Z
+	METHOD f hasAlternatives ()Z
+	METHOD g displayDamageBar ()Z
 	METHOD h getDamage ()I
 	METHOD i getDataValue ()I
 	METHOD j getMaxDurability ()I
 	METHOD k copy ()Lnone/zy;
-	METHOD l getItemUseTimerDuration ()I
-	METHOD m getRightClickEvent ()Lnone/abb;
-	METHOD n hasNbtData ()Z
-	METHOD o getNbtData ()Lnone/dp;
+	METHOD l getMaxItemDuration ()I
+	METHOD m getRightClickAction ()Lnone/abb;
+	METHOD n hasNBTData ()Z
+	METHOD o getNBTData ()Lnone/dp;
 	METHOD p getEnchantments ()Lnone/dv;
 	METHOD q getDisplayName ()Ljava/lang/String;
+	METHOD r clearCustomName ()V
 	METHOD s hasDisplayName ()Z
+	METHOD t hasEffect ()Z
+	METHOD u getRarity ()Lnone/aak;
+	METHOD v isItemEnchantable ()Z
 	METHOD w isEnchanted ()Z
+	METHOD x canEditBlocks ()Z
+	METHOD y isOnItemFrame ()Z
+	METHOD z getItemFrame ()Lnone/up;
 CLASS none/zz net/minecraft/item/Items
 	FIELD A MUSHROOM_STEW Lnone/zx;
 	FIELD B GOLDEN_SWORD Lnone/zx;
@@ -8625,13 +8717,14 @@ CLASS none/aab net/minecraft/item/ItemBlockLeaves
 	FIELD b blockLeaves Lnone/aht;
 	METHOD a getDataValueForBlockVersion (I)I
 	METHOD a getColor (Lnone/zy;I)I
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/aac net/minecraft/item/ItemMapFilled
 	METHOD a onUpdate (Lnone/zy;Lnone/adn;Lnone/pl;IZ)V
+	METHOD d onCreated (Lnone/zy;Lnone/adn;Lnone/wo;)V
 CLASS none/aad net/minecraft/item/ItemMilkBucket
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 	METHOD b doSwallowAction (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
-	METHOD d getItemUseTimerDuration (Lnone/zy;)I
+	METHOD d getMaxItemDuration (Lnone/zy;)I
 	METHOD e getRightClickAction (Lnone/zy;)Lnone/abb;
 CLASS none/aae net/minecraft/item/ItemMinecart
 	CLASS none/aae$1 DispenseBehaviorMinecart
@@ -8645,12 +8738,12 @@ CLASS none/aaf net/minecraft/item/ItemMultiTexture
 		ARG 1 defaultBlockType
 		ARG 2 getVariantNameFunction
 	METHOD a getDataValueForBlockVersion (I)I
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/aag net/minecraft/item/ItemNameTag
-	METHOD a doUseOnLivingEntityAction (Lnone/zy;Lnone/wo;Lnone/ps;)Z
+	METHOD a onRightClickEntity (Lnone/zy;Lnone/wo;Lnone/ps;)Z
 CLASS none/aah net/minecraft/item/ItemPickaxe
 	METHOD a getMiningEfficiencyMultiplier (Lnone/zy;Lnone/afi;)F
-	METHOD b givesSpecialDropOnBlock (Lnone/afi;)Z
+	METHOD b canHarvestBlock (Lnone/afi;)Z
 CLASS none/aai net/minecraft/item/ItemBlockPiston
 	METHOD a getDataValueForBlockVersion (I)I
 CLASS none/aaj net/minecraft/item/ItemPotion
@@ -8659,8 +8752,9 @@ CLASS none/aaj net/minecraft/item/ItemPotion
 	METHOD a getColor (Lnone/zy;I)I
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
 	METHOD b doSwallowAction (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
-	METHOD d getItemUseTimerDuration (Lnone/zy;)I
+	METHOD d getMaxItemDuration (Lnone/zy;)I
 	METHOD e getRightClickAction (Lnone/zy;)Lnone/abb;
+	METHOD f hasEffect (Lnone/zy;)Z
 CLASS none/aak net/minecraft/item/EnumRarity
 	FIELD a COMMON Lnone/aak;
 	FIELD b UNCOMMON Lnone/aak;
@@ -8675,10 +8769,11 @@ CLASS none/aak net/minecraft/item/EnumRarity
 		ARG 3 displayName
 CLASS none/aal net/minecraft/item/ItemRecord
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
+	METHOD g getRarity (Lnone/zy;)Lnone/aak;
 CLASS none/aam net/minecraft/item/ItemRedstone
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 CLASS none/aan net/minecraft/item/ItemSaddle
-	METHOD a doUseOnLivingEntityAction (Lnone/zy;Lnone/wo;Lnone/ps;)Z
+	METHOD a onRightClickEntity (Lnone/zy;Lnone/wo;Lnone/ps;)Z
 CLASS none/aao net/minecraft/item/ItemFoodSeed
 	FIELD b block1 Lnone/afi;
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
@@ -8687,12 +8782,13 @@ CLASS none/aap net/minecraft/item/ItemSeeds
 CLASS none/aaq net/minecraft/item/ItemShears
 	METHOD a canBreak (Lnone/zy;Lnone/adn;Lnone/afi;Lnone/ck;Lnone/ps;)Z
 	METHOD a getMiningEfficiencyMultiplier (Lnone/zy;Lnone/afi;)F
-	METHOD b givesSpecialDropOnBlock (Lnone/afi;)Z
+	METHOD b canHarvestBlock (Lnone/afi;)Z
 CLASS none/aar net/minecraft/item/ItemShovel
-	METHOD b givesSpecialDropOnBlock (Lnone/afi;)Z
+	METHOD b canHarvestBlock (Lnone/afi;)Z
 CLASS none/aas net/minecraft/item/ItemSign
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 CLASS none/aat net/minecraft/item/ItemNetherStar
+	METHOD f hasEffect (Lnone/zy;)Z
 CLASS none/aau net/minecraft/item/ItemSkull
 	FIELD a SKULL_TYPES [Ljava/lang/String;
 	METHOD a getDataValueForBlockVersion (I)I
@@ -8700,7 +8796,7 @@ CLASS none/aau net/minecraft/item/ItemSkull
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
 	METHOD a getTitle (Lnone/zy;)Ljava/lang/String;
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/aav net/minecraft/item/ItemBlockSlab
 	FIELD b singleSlabBlockType Lnone/ahi;
 	FIELD c doubleSlabBlockType Lnone/ahi;
@@ -8708,7 +8804,7 @@ CLASS none/aav net/minecraft/item/ItemBlockSlab
 		ARG 0 baseBlockType
 	METHOD a getDataValueForBlockVersion (I)I
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/aaw net/minecraft/item/ItemBlockSnowLayer
 	METHOD a getDataValueForBlockVersion (I)I
 		ARG 0 blockVersion
@@ -8735,16 +8831,17 @@ CLASS none/aaz net/minecraft/item/ItemSword
 	METHOD a getMiningEfficiencyMultiplier (Lnone/zy;Lnone/afi;)F
 	METHOD a (Lnone/zy;Lnone/ps;Lnone/ps;)Z
 		ARG 0 itemStack
-	METHOD b givesSpecialDropOnBlock (Lnone/afi;)Z
-	METHOD d getItemUseTimerDuration (Lnone/zy;)I
+	METHOD b canHarvestBlock (Lnone/afi;)Z
+	METHOD d getMaxItemDuration (Lnone/zy;)I
 		ARG 0 itemStack
 	METHOD e getRightClickAction (Lnone/zy;)Lnone/abb;
 		ARG 0 itemStack
+	METHOD i getAttributeModifiers ()Lcom/google/common/collect/Multimap;
 CLASS none/aba net/minecraft/item/ItemBlockColored
 	FIELD b baseBlock Lnone/afi;
 	METHOD a getDataValueForBlockVersion (I)I
 	METHOD a getColor (Lnone/zy;I)I
-	METHOD e_ getLocalizableName (Lnone/zy;)Ljava/lang/String;
+	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/abb net/minecraft/item/EnumRightClickAction
 	FIELD a NONE Lnone/abb;
 	FIELD b EAT Lnone/abb;
@@ -8760,6 +8857,7 @@ CLASS none/abd net/minecraft/item/ItemWritableBook
 CLASS none/abe net/minecraft/item/ItemWrittenBook
 	METHOD a getTitle (Lnone/zy;)Ljava/lang/String;
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
+	METHOD f hasEffect (Lnone/zy;)Z
 	METHOD h getGeneration (Lnone/zy;)I
 CLASS none/abf net/minecraft/potion/PotionBrewer
 	FIELD r POTION_PREFIXES [Ljava/lang/String;
@@ -9079,10 +9177,16 @@ CLASS none/ada net/minecraft/village/RecipeTrader
 	METHOD j shouldGiveXpReward ()Z
 	METHOD k writeToTags ()Lnone/dp;
 CLASS none/adb net/minecraft/village/TraderRecipeList
-	METHOD a getAsNbt ()Lnone/dp;
-	METHOD a readFromNbt (Lnone/dp;)V
+	METHOD <init> (Lnone/dp;)V
+		ARG 0 tagCompound
+	METHOD a getNBT ()Lnone/dp;
+	METHOD a readFromNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD a writeToPacket (Lnone/en;)V
+		ARG 0 packetBuffer
+	METHOD a canRecipeBeUsed (Lnone/zy;Lnone/zy;I)Lnone/ada;
 	METHOD b processPacket (Lnone/en;)Lnone/adb;
+		ARG 0 packetBuffer
 CLASS none/add net/minecraft/command/server/CommandBlockSender
 	FIELD a DATE_FORMAT Ljava/text/SimpleDateFormat;
 	FIELD b successCount I
@@ -20369,6 +20473,7 @@ CLASS none/bgm net/minecraft/client/renderer/block/model/ModelBlock
 		ARG 0 str
 	METHOD e getResourceLocation ()Lnone/jz;
 	METHOD f getRootModel ()Lnone/bgm;
+	METHOD g initCameraItemTransformers ()Lnone/bgs;
 	METHOD h hasParent ()Z
 CLASS none/bgn net/minecraft/client/renderer/block/model/ModelBlockDefinition
 	CLASS none/bgn$a Deserializer
@@ -20430,9 +20535,31 @@ CLASS none/bgn net/minecraft/client/renderer/block/model/ModelBlockDefinition
 	METHOD a parseFromReader (Ljava/io/Reader;)Lnone/bgn;
 		ARG 0 reader
 	METHOD b getVariants (Ljava/lang/String;)Lnone/bgn$d;
+CLASS none/bgo net/minecraft/client/renderer/block/model/UVInterpolatedQuad
+	FIELD d texture Lnone/bmj;
+	METHOD <init> (Lnone/bgh;Lnone/bmj;)V
+		ARG 0 intQuad
+		ARG 1 textureSprite
+	METHOD a setSideToInterpolatedUV (I)V
+		ARG 0 side
+	METHOD e interpolateUVs ()V
 CLASS none/bgp net/minecraft/client/renderer/block/model/FaceMaker
 	METHOD a makeQuadVertexData (Lnone/bgj;Lnone/bmj;Lnone/cr;[FLnone/bos;Lnone/bgk;ZZ)[I
+		ARG 0 partFace
+		ARG 1 textureSprite
+		ARG 2 facing
+		ARG 4 modelRotation
+		ARG 5 partRotation
+	METHOD a (Lnone/cr;)I
+		ARG 0 facing
 	METHOD a makeIntQuad (Lorg/lwjgl/util/vector/Vector3f;Lorg/lwjgl/util/vector/Vector3f;Lnone/bgj;Lnone/bmj;Lnone/cr;Lnone/bos;Lnone/bgk;ZZ)Lnone/bgh;
+		ARG 2 partFace
+		ARG 3 textureSprite
+		ARG 4 facing
+		ARG 5 modelRotation
+		ARG 6 partRotation
+	METHOD b (Lnone/cr;)F
+		ARG 0 facing
 CLASS none/bgq net/minecraft/client/renderer/block/model/ItemModelGenerator
 	CLASS none/bgq$a Span
 		FIELD a spanFacing Lnone/bgq$b;
@@ -20479,13 +20606,54 @@ CLASS none/bgr net/minecraft/client/renderer/block/model/ItemTransformVec3f
 	METHOD equals (Ljava/lang/Object;)Z
 		ARG 0 other
 CLASS none/bgs net/minecraft/client/renderer/block/model/CameraItemTransformers
-	CLASS none/bgs$b EnumCameraType
+	CLASS none/bgs$a Deserializer
+		METHOD a deserialize (Lcom/google/gson/JsonDeserializationContext;Lcom/google/gson/JsonObject;Ljava/lang/String;)Lnone/bgr;
+			ARG 0 context
+			ARG 1 rootObject
+			ARG 2 str
+		METHOD a parse (Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Lnone/bgs;
+			ARG 0 rootObject
+			ARG 1 type
+			ARG 2 context
+	CLASS none/bgs$b CameraType
 		FIELD a NONE Lnone/bgs$b;
 		FIELD b THIRD_PERSON Lnone/bgs$b;
 		FIELD c FIRST_PERSON Lnone/bgs$b;
 		FIELD d HEAD Lnone/bgs$b;
 		FIELD e GUI Lnone/bgs$b;
+		FIELD f GROUND Lnone/bgs$b;
+		FIELD g FIXED Lnone/bgs$b;
 	FIELD a DEFAULT Lnone/bgs;
+	FIELD b xOffset F
+	FIELD c yOffset F
+	FIELD d zOffset F
+	FIELD e xRotationModifier F
+	FIELD f yRotationModifier F
+	FIELD g zRotationModifier F
+	FIELD h xScaleModifier F
+	FIELD i yScaleModifier F
+	FIELD j zScaleModifier F
+	FIELD k thirdPerson Lnone/bgr;
+	FIELD l firstPerson Lnone/bgr;
+	FIELD m head Lnone/bgr;
+	FIELD n gui Lnone/bgr;
+	FIELD o ground Lnone/bgr;
+	FIELD p fixed Lnone/bgr;
+	METHOD <init> (Lnone/bgr;Lnone/bgr;Lnone/bgr;Lnone/bgr;Lnone/bgr;Lnone/bgr;)V
+		ARG 0 thirdPerson
+		ARG 1 firstPerson
+		ARG 2 head
+		ARG 3 gui
+		ARG 4 ground
+		ARG 5 fixed
+	METHOD <init> (Lnone/bgs;)V
+		ARG 0 other
+	METHOD a transformForCamera (Lnone/bgs$b;)V
+		ARG 0 cameraType
+	METHOD b getTransformObjectForCamera (Lnone/bgs$b;)Lnone/bgr;
+		ARG 0 cameraType
+	METHOD c isCustomCameraTransform (Lnone/bgs$b;)Z
+		ARG 0 cameraType
 CLASS none/bgv net/minecraft/client/renderer/block/statemap/StateMapper
 	FIELD b modelLocations Ljava/util/Map;
 	METHOD a getPropertyString (Ljava/util/Map;)Ljava/lang/String;
@@ -21336,11 +21504,16 @@ CLASS none/blz net/minecraft/client/texture/TextureBase
 	METHOD a setUseLinearAndMipmap (ZZ)V
 	METHOD b getId ()I
 	METHOD c delete ()V
-CLASS none/bma net/minecraft/client/texture/TextureImage
+CLASS none/bma net/minecraft/client/renderer/texture/DynamicTexture
 	FIELD f rgbArray [I
+	FIELD g width I
+	FIELD h height I
+	METHOD <init> (II)V
+		ARG 0 width
+		ARG 1 height
 	METHOD <init> (Ljava/awt/image/BufferedImage;)V
 		ARG 0 bufferedImage
-	METHOD a load (Lnone/bnj;)V
+	METHOD a loadTexture (Lnone/bnj;)V
 		ARG 0 resourceManager
 	METHOD d uploadTexture ()V
 	METHOD e getRGBArray ()[I
@@ -21350,7 +21523,7 @@ CLASS none/bmb net/minecraft/client/texture/TextureDownloadable
 	FIELD i cachedFile Ljava/io/File;
 	FIELD j url Ljava/lang/String;
 	FIELD m textureDownloaderThread Ljava/lang/Thread;
-	METHOD a load (Lnone/bnj;)V
+	METHOD a loadTexture (Lnone/bnj;)V
 	METHOD b getId ()I
 	METHOD d download ()V
 CLASS none/bmc net/minecraft/client/renderer/texture/IIconCreator
@@ -21358,40 +21531,118 @@ CLASS none/bmc net/minecraft/client/renderer/texture/IIconCreator
 		ARG 0 textureBlock
 CLASS none/bmd net/minecraft/client/texture/TextureBanner
 	FIELD f LOGGER Lorg/apache/logging/log4j/Logger;
-	METHOD a load (Lnone/bnj;)V
+	METHOD a loadTexture (Lnone/bnj;)V
 CLASS none/bme
 	FIELD g LOGGER Lorg/apache/logging/log4j/Logger;
-	METHOD a load (Lnone/bnj;)V
+	METHOD a loadTexture (Lnone/bnj;)V
 CLASS none/bmf net/minecraft/client/texture/TextureExternal
 	FIELD f location Lnone/jz;
-	METHOD a load (Lnone/bnj;)V
+	METHOD a loadTexture (Lnone/bnj;)V
 CLASS none/bmg net/minecraft/client/texture/TextureAtlas
-	CLASS none/bmg$a
+	CLASS none/bmg$a Holder
+		FIELD a texture Lnone/bmj;
 		FIELD b width I
 		FIELD c height I
+		FIELD d mipmapLevelHolder I
+		FIELD e rotated Z
+		FIELD f scaleFactor F
+		METHOD <init> (Lnone/bmj;I)V
+			ARG 0 texture
+			ARG 1 mipmapLevelHolder
+		METHOD a getAtlasSprite ()Lnone/bmj;
+		METHOD a scale (I)V
+			ARG 0 scaleFactor
+		METHOD a compare (Lnone/bmg$a;)I
+			ARG 0 other
+		METHOD b getWidth ()I
+		METHOD c getHeight ()I
+		METHOD d rotate ()V
+		METHOD e isRotated ()Z
 		METHOD toString ()Ljava/lang/String;
-	CLASS none/bmg$b
+	CLASS none/bmg$b Slot
 		FIELD a originX I
 		FIELD b originY I
 		FIELD c width I
 		FIELD d height I
 		FIELD e subSlots Ljava/util/List;
 		FIELD f texture Lnone/bmg$a;
+		METHOD <init> (IIII)V
+			ARG 0 originX
+			ARG 1 originY
+			ARG 2 width
+			ARG 3 height
+		METHOD a getStitchHolder ()Lnone/bmg$a;
+		METHOD a getAllStitchSlots (Ljava/util/List;)V
+			ARG 0 slotList
+		METHOD a addSlot (Lnone/bmg$a;)Z
+			ARG 0 holder
+		METHOD b getOriginX ()I
+		METHOD c getOriginY ()I
 		METHOD toString ()Ljava/lang/String;
+	FIELD a mipmapLevelAtlas I
+	FIELD b setStitchHolders Ljava/util/Set;
+	FIELD c atlasSlots Ljava/util/List;
+	FIELD d currentWidth I
+	FIELD e currentHeight I
+	FIELD f maxWidth I
+	FIELD g maxHeight I
+	FIELD h forceSqrExponent Z
+	FIELD i maxTileDimension I
+	METHOD <init> (IIZII)V
+		ARG 0 maxWidth
+		ARG 1 maxHeight
+		ARG 2 sqrExponent
+		ARG 3 maxTileDimension
+		ARG 4 mipmapLevelAtlas
+	METHOD a getWidth ()I
+	METHOD a allocateSlot (Lnone/bmg$a;)Z
+		ARG 0 holder
+	METHOD a addSprite (Lnone/bmj;)V
+		ARG 0 textureSprite
+	METHOD b getHeight ()I
+	METHOD b getMipmapDimension (II)I
+		ARG 0 x
+		ARG 1 y
+	METHOD b expandAndAllocateSlot (Lnone/bmg$a;)Z
+		ARG 0 holder
+	METHOD c doStitch ()V
+	METHOD d getStichSlots ()Ljava/util/List;
+CLASS none/bmh net/minecraft/client/texture/SpriteHolderException
+	FIELD a parentObject Lnone/bmg$a;
+	METHOD <init> (Lnone/bmg$a;Ljava/lang/String;)V
+		ARG 0 parent
+		ARG 1 description
 CLASS none/bmi net/minecraft/client/texture/TextureMap
 	FIELD f MISSINGNO Lnone/jz;
 	FIELD g BLOCKS_PNG Lnone/jz;
 	FIELD h LOGGER Lorg/apache/logging/log4j/Logger;
+	FIELD i listAnimatedSprites Ljava/util/List;
+	FIELD j mapRegisteredSprites Ljava/util/Map;
+	FIELD k mapUploadedSprites Ljava/util/Map;
 	FIELD l atlasPath Ljava/lang/String;
 	FIELD m iconCreator Lnone/bmc;
 	FIELD n mipLevel I
 	FIELD o sprite Lnone/bmj;
 	METHOD a setMipLevel (I)V
+		ARG 0 mipmapLevel
 	METHOD a getSprite (Ljava/lang/String;)Lnone/bmj;
-	METHOD a load (Lnone/bnj;)V
+		ARG 0 iconName
+	METHOD a loadTexture (Lnone/bnj;)V
+		ARG 0 resourceManager
+	METHOD a loadSprites (Lnone/bnj;Lnone/bmc;)V
+		ARG 0 resourceManager
+		ARG 1 iconCreator
 	METHOD a getSpriteByResourceLocation (Lnone/jz;)Lnone/bmj;
+	METHOD a completeResourceLocation (Lnone/jz;I)Lnone/jz;
+		ARG 0 resourceLocation
+		ARG 1 spriteIndex
+	METHOD b loadTextureAtlas (Lnone/bnj;)V
+		ARG 0 resourceManager
+	METHOD d updateAnimations ()V
+	METHOD e onTick ()V
 	METHOD f getSprite ()Lnone/bmj;
-CLASS none/bmj net/minecraft/client/texture/TextureAtlasSprite
+	METHOD g initMissingImage ()V
+CLASS none/bmj net/minecraft/client/texture/TextureSprite
 	FIELD a frames Ljava/util/List;
 	FIELD b interpolatedFrameData [[I
 	FIELD c isRotated Z
@@ -21468,23 +21719,56 @@ CLASS none/bmk net/minecraft/client/texture/TextureManager
 		ARG 0 resourceLocation
 	METHOD e tick ()V
 CLASS none/bml net/minecraft/client/texture/ITexture
-	METHOD a load (Lnone/bnj;)V
+	METHOD a loadTexture (Lnone/bnj;)V
 		ARG 0 resourceManager
 	METHOD b getId ()I
 CLASS none/bmm net/minecraft/client/texture/TextureUtil
+	FIELD a missingTexture Lnone/bma;
+	FIELD b missingTextureData [I
 	FIELD c LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD d INTBUFFER Ljava/nio/IntBuffer;
+	FIELD e mipmapBuffer [I
 	METHOD a genTexture ()I
 	METHOD a deleteTexture (I)V
 		ARG 0 textureId
 	METHOD a allocateTexture (III)V
+		ARG 0 textureId
 	METHOD a allocateTextureImpl (IIII)V
+		ARG 0 textureId
+	METHOD a blendColorComponent (IIIII)I
+	METHOD a blendColors (IIIIZ)I
+		ARG 4 blend
 	METHOD a generateMipmapData (II[[I)[[I
+	METHOD a uploadTextureImage (ILjava/awt/image/BufferedImage;)I
+		ARG 0 textureId
+		ARG 1 bufferedImage
+	METHOD a uploadTextureImageSub (ILjava/awt/image/BufferedImage;IIZZ)I
+		ARG 0 textureId
+		ARG 1 bufferedImage
+	METHOD a uploadTextureImageAllocate (ILjava/awt/image/BufferedImage;ZZ)I
+		ARG 0 textureId
+		ARG 1 bufferedImage
 	METHOD a uploadTexture (I[III)V
 		ARG 0 textureId
 		ARG 1 rgbArray
+	METHOD a uploadTextureSub (I[IIIIIZZZ)V
+	METHOD a uploadTextureImageSubImpl (Ljava/awt/image/BufferedImage;IIZZ)V
 	METHOD a readBufferedImage (Ljava/io/InputStream;)Ljava/awt/image/BufferedImage;
+		ARG 0 inputStream
+	METHOD a readImageData (Lnone/bnj;Lnone/jz;)[I
+		ARG 0 resourceManager
+		ARG 1 resourceLocation
+	METHOD a setTextureClamped (Z)V
+	METHOD a setTextureBlurMipmap (ZZ)V
+	METHOD a updateAnaglyph ([I)[I
+	METHOD a copyToBuffer ([II)V
+	METHOD a processPixelValues ([III)V
 	METHOD a uploadTextureMipmap ([[IIIIIZZ)V
+	METHOD b bindTexture (I)V
+		ARG 0 textureId
+	METHOD b setTextureBlurred (Z)V
+	METHOD b copyToBufferPos ([III)V
+	METHOD c anaglyphColor (I)I
 CLASS none/bmn net/minecraft/client/texture/ITickable
 	METHOD e tick ()V
 CLASS none/bmo net/minecraft/client/texture/ITickableTexture
@@ -21781,7 +22065,26 @@ CLASS none/bos net/minecraft/util/BlockModelRotation
 	FIELD n X270_Y90 Lnone/bos;
 	FIELD o X270_Y180 Lnone/bos;
 	FIELD p X270_Y270 Lnone/bos;
+	FIELD q mapRotations Ljava/util/Map;
+	FIELD r combinedXY I
+	FIELD s matrix4f Lorg/lwjgl/util/vector/Matrix4f;
+	FIELD t quartersX I
+	FIELD u quartersY I
+	METHOD <init> (Ljava/lang/String;III)V
+		ARG 3 x
+	METHOD a getMatrix4f ()Lorg/lwjgl/util/vector/Matrix4f;
 	METHOD a getModelRotation (II)Lnone/bos;
+		ARG 0 x
+		ARG 1 y
+	METHOD a rotateFace (Lnone/cr;)Lnone/cr;
+		ARG 0 facing
+	METHOD a rotateVertex (Lnone/cr;I)I
+		ARG 0 facing
+		ARG 1 vertexIndex
+	METHOD b combineXY (II)I
+		ARG 0 x
+		ARG 1 y
+	METHOD values values ()[Lnone/bos;
 CLASS none/bot
 	METHOD a getGeneralQuads ()Ljava/util/List;
 	METHOD a getFaceQuads (Lnone/cr;)Ljava/util/List;
@@ -21791,8 +22094,13 @@ CLASS none/bot
 	METHOD e getTexture ()Lnone/bmj;
 	METHOD f getItemTransformers ()Lnone/bgs;
 CLASS none/bou net/minecraft/client/resources/model/ModelMaker
+	CLASS none/bou$1
+		METHOD a compare (Lnone/bow;Lnone/bow;)I
+			ARG 0 myResourceLocation
+			ARG 1 otherResourceLocation
 	CLASS none/bou$2
 		METHOD a registerSprites (Lnone/bmi;)V
+			ARG 0 textureMap
 	FIELD a MODEL_MISSING Lnone/bow;
 	FIELD b LOCATIONS_BUILTIN_TEXTURES Ljava/util/Set;
 	FIELD c LOGGER Lorg/apache/logging/log4j/Logger;
@@ -21824,7 +22132,16 @@ CLASS none/bou net/minecraft/client/resources/model/ModelMaker
 	METHOD a loadVariants (Ljava/util/Collection;)V
 		ARG 0 modelResourceLocations
 	METHOD a makeIntQuad (Lnone/bgi;Lnone/bgj;Lnone/bmj;Lnone/cr;Lnone/bos;Z)Lnone/bgh;
+		ARG 0 blockPart
+		ARG 1 blockPartFace
+		ARG 2 textureSprite
+		ARG 3 facing
+		ARG 4 modelRotation
+	METHOD a getTextureLocations (Lnone/bgm;)Ljava/util/Set;
+		ARG 0 modelBlock
 	METHOD a makeModel (Lnone/bgm;Lnone/bos;Z)Lnone/bor;
+		ARG 0 modelBlock
+		ARG 1 modelRotation
 	METHOD a registerVariant (Lnone/bgn;Lnone/bow;)V
 		ARG 0 blockDefiniton
 		ARG 1 modelResourceLocation
@@ -21833,20 +22150,31 @@ CLASS none/bou net/minecraft/client/resources/model/ModelMaker
 	METHOD a getVariantNames (Lnone/zx;)Ljava/util/List;
 		ARG 0 item
 	METHOD b loadVariantItemModels ()V
+	METHOD b isRootModelSpecial (Lnone/bgm;)Z
+		ARG 0 modelBlock
 	METHOD b getBlockStateLocation (Lnone/jz;)Lnone/jz;
 		ARG 0 resourceLocation
 	METHOD c loadVariantModels ()V
+	METHOD c isRootModelBlockEntity (Lnone/bgm;)Z
+		ARG 0 modelBlock
 	METHOD c loadModel (Lnone/jz;)Lnone/bgm;
 		ARG 0 resourceLocation
 	METHOD d loadItemModels ()V
+	METHOD d makeItemModel (Lnone/bgm;)Lnone/bgm;
+		ARG 0 modelBlock
 	METHOD d getModelLocation (Lnone/jz;)Lnone/jz;
 		ARG 0 resourceLocation
 	METHOD e registerVariantNames ()V
+	METHOD e getMatchingResourceLocations (Lnone/jz;)Ljava/util/List;
+		ARG 0 resourceLocation
 	METHOD f makeBlockModels ()V
+	METHOD f getMatchingResourceLocation (Lnone/jz;)Lnone/jz;
+		ARG 0 resourceLocation
 	METHOD g getVariantTextureLocations ()Ljava/util/Set;
 	METHOD h loadModelsCheck ()V
 	METHOD i loadModels ()V
 	METHOD j loadSprites ()V
+	METHOD k getSpriteResourceLocations ()Ljava/util/Set;
 	METHOD l makeItemModels ()V
 CLASS none/bov net/minecraft/client/resources/model/ModelManager
 	FIELD a modelRegistry Lnone/dc;
@@ -21877,12 +22205,53 @@ CLASS none/bow net/minecraft/client/resources/model/ModelResourceLocation
 		ARG 0 other
 	METHOD hashCode ()I
 	METHOD toString getFullName ()Ljava/lang/String;
-CLASS none/box
-	CLASS none/box$a
-		FIELD d particle Lnone/bmj;
+CLASS none/box net/minecraft/client/resources/model/SimpleModel
+	CLASS none/box$a Builder
+		FIELD a builderGeneralQuads Ljava/util/List;
+		FIELD b builderFaceQuads Ljava/util/List;
+		FIELD c builderAmbientOcclusion Z
+		FIELD d builderTextureSprite Lnone/bmj;
+		FIELD e builderGui3D Z
+		FIELD f builderCameraTransforms Lnone/bgs;
+		METHOD <init> (Lnone/bgm;)V
+			ARG 0 modelBlock
+		METHOD <init> (Lnone/bor;Lnone/bmj;)V
+			ARG 0 model
+			ARG 1 textureSprite
+		METHOD <init> (ZZLnone/bgs;)V
+			ARG 0 builderAmbientOcclusion
+			ARG 1 builderGui3D
+			ARG 2 builderCameraTransforms
+		METHOD a addGeneralQuad (Lnone/bgh;)Lnone/box$a;
+			ARG 0 intQuad
 		METHOD a setParticle (Lnone/bmj;)Lnone/box$a;
+			ARG 0 textureSprite
+		METHOD a addGeneralUVInterpolatedQuads (Lnone/bor;Lnone/bmj;)V
+			ARG 0 model
+			ARG 1 textureSprite
+		METHOD a addUVInterpolatedQuads (Lnone/bor;Lnone/bmj;Lnone/cr;)V
+			ARG 0 model
+			ARG 1 textureSprite
+			ARG 2 facing
+		METHOD a addFaceQuad (Lnone/cr;Lnone/bgh;)Lnone/box$a;
+			ARG 1 intQuad
+		METHOD b makeModel ()Lnone/bor;
+	FIELD a generalQuads Ljava/util/List;
+	FIELD b faceQuads Ljava/util/List;
+	FIELD c ambientOcclusion Z
+	FIELD d gui3D Z
+	FIELD e textureSprite Lnone/bmj;
+	FIELD f cameraTransforms Lnone/bgs;
+	METHOD <init> (Ljava/util/List;Ljava/util/List;ZZLnone/bmj;Lnone/bgs;)V
+		ARG 0 generalQuads
+		ARG 1 faceQuads
+		ARG 2 ambientOcclusion
+		ARG 3 gui3D
+		ARG 4 textureSprite
+		ARG 5 cameraTransforms
 	METHOD a getGeneralQuads ()Ljava/util/List;
 	METHOD a getFaceQuads (Lnone/cr;)Ljava/util/List;
+		ARG 0 facing
 	METHOD b applyAmbientOcclusion ()Z
 	METHOD c disply3DInGUI ()Z
 	METHOD d useBuiltInRenderer ()Z
