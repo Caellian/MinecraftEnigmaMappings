@@ -3999,12 +3999,18 @@ CLASS none/li
 	FIELD a entity1 Lnone/pl;
 	FIELD p LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD w entity2 Lnone/pl;
-CLASS none/lk
+CLASS none/lk net/minecraft/network/PingResponseHandler
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
-	METHOD a (Lio/netty/channel/ChannelHandlerContext;Lio/netty/buffer/ByteBuf;)V
+	FIELD b networkSystem Lnone/lm;
+	METHOD <init> (Lnone/lm;)V
+		ARG 0 networkSystem
+	METHOD a writeAndFlush (Lio/netty/channel/ChannelHandlerContext;Lio/netty/buffer/ByteBuf;)V
 		ARG 0 channelHandlerContext
-	METHOD channelRead (Lio/netty/channel/ChannelHandlerContext;Ljava/lang/Object;)V
+	METHOD a getStringBuffer (Ljava/lang/String;)Lio/netty/buffer/ByteBuf;
+		ARG 0 str
+	METHOD channelRead channelRead (Lio/netty/channel/ChannelHandlerContext;Ljava/lang/Object;)V
 		ARG 0 channelHandlerContext
+		ARG 1 data
 CLASS none/ll net/minecraft/network/handshake/NetHandlerHandshakeLocal
 	FIELD a server Lnet/minecraft/server/MinecraftServer;
 	FIELD b manager Lnone/el;
@@ -4076,9 +4082,42 @@ CLASS none/lq net/minecraft/network/status/NetHandlerStatusServer
 		ARG 1 manager
 	METHOD a handlePingRequest (Lnone/jv;)V
 	METHOD a handleStatusRequest (Lnone/jw;)V
-CLASS none/lt
+CLASS none/lt net/minecraft/server/management/BanEntry
+	FIELD a dateFormat Ljava/text/SimpleDateFormat;
+	FIELD b startDate Ljava/util/Date;
+	FIELD c requester Ljava/lang/String;
+	FIELD d endDate Ljava/util/Date;
+	FIELD e reason Ljava/lang/String;
+	METHOD <init> (Ljava/lang/Object;Lcom/google/gson/JsonObject;)V
+		ARG 0 user
+		ARG 1 rootObject
+	METHOD <init> (Ljava/lang/Object;Ljava/util/Date;Ljava/lang/String;Ljava/util/Date;Ljava/lang/String;)V
+		ARG 0 user
+		ARG 1 startDate
+		ARG 2 requester
+		ARG 3 endDate
+		ARG 4 reason
+	METHOD a onSerialization (Lcom/google/gson/JsonObject;)V
+		ARG 0 rootObject
+	METHOD c getEndDate ()Ljava/util/Date;
 	METHOD d getReason ()Ljava/lang/String;
+	METHOD e hasBanExpired ()Z
 CLASS none/lv net/minecraft/network/ListBannedIPs
+CLASS none/lw net/minecraft/server/management/IPBanEntry
+	METHOD <init> (Lcom/google/gson/JsonObject;)V
+		ARG 0 rootObject
+	METHOD <init> (Ljava/lang/String;)V
+		ARG 0 user
+	METHOD <init> (Ljava/lang/String;Ljava/util/Date;Ljava/lang/String;Ljava/util/Date;Ljava/lang/String;)V
+		ARG 0 user
+		ARG 1 startDate
+		ARG 2 requester
+		ARG 3 endDate
+		ARG 4 reson
+	METHOD a onSerialization (Lcom/google/gson/JsonObject;)V
+		ARG 0 rootObject
+	METHOD b getIPFromJson (Lcom/google/gson/JsonObject;)Ljava/lang/String;
+		ARG 0 rootObject
 CLASS none/lx
 	FIELD a BANNED_IPS_FILE Ljava/io/File;
 	FIELD b BANNED_PLAYERS_FILE Ljava/io/File;
@@ -4138,30 +4177,64 @@ CLASS none/ly net/minecraft/server/ServerConfigurationManager
 CLASS none/lz net/minecraft/network/ListOps
 	METHOD a getUserNames ()[Ljava/lang/String;
 	METHOD a objectToString (Ljava/lang/Object;)Ljava/lang/String;
-CLASS none/mb
-	METHOD f getObject ()Ljava/lang/Object;
+CLASS none/ma net/minecraft/server/management/UserOpsEntry
+	FIELD a opLevel I
+	METHOD <init> (Lcom/google/gson/JsonObject;)V
+		ARG 0 rootObject
+	METHOD <init> (Lcom/mojang/authlib/GameProfile;I)V
+		ARG 0 user
+		ARG 1 level
+	METHOD a getOpLevel ()I
+	METHOD a onSerialization (Lcom/google/gson/JsonObject;)V
+		ARG 0 rootObject
+	METHOD b parseUserProfile (Lcom/google/gson/JsonObject;)Lcom/mojang/authlib/GameProfile;
+		ARG 0 rootObject
+CLASS none/mb net/minecraft/server/management/UserEntry
+	FIELD a user Ljava/lang/Object;
+	METHOD <init> (Ljava/lang/Object;)V
+		ARG 0 user
+	METHOD <init> (Ljava/lang/Object;Lcom/google/gson/JsonObject;)V
+		ARG 0 user
+		ARG 1 rootObject
+	METHOD a onSerialization (Lcom/google/gson/JsonObject;)V
+		ARG 0 rootObject
+	METHOD e hasBanExpired ()Z
+	METHOD f getUser ()Ljava/lang/Object;
 CLASS none/mc net/minecraft/network/UserList
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD b gson Lcom/google/gson/Gson;
-	FIELD c file Ljava/io/File;
+	FIELD c saveFile Ljava/io/File;
 	FIELD d users Ljava/util/Map;
+	FIELD e lanServer Z
+	METHOD <init> (Ljava/io/File;)V
+		ARG 0 saveFile
 	METHOD a getUserNames ()[Ljava/lang/String;
 	METHOD a objectToString (Ljava/lang/Object;)Ljava/lang/String;
+		ARG 0 userIdentifier
 	METHOD a addUser (Lnone/mb;)V
 		ARG 0 user
+	METHOD a setLanServer (Z)V
+		ARG 0 lan
+	METHOD b isLanServer ()Z
 	METHOD b getUser (Ljava/lang/Object;)Lnone/mb;
+		ARG 0 userIdentifier
 	METHOD c removeUser (Ljava/lang/Object;)V
 		ARG 0 user
 	METHOD d hasUser (Ljava/lang/Object;)Z
+		ARG 0 userIdentifier
 	METHOD e getUsers ()Ljava/util/Map;
 	METHOD f saveList ()V
+	METHOD h removeExpired ()V
 CLASS none/md net/minecraft/network/ListBannedPlayers
 	METHOD a getUserNames ()[Ljava/lang/String;
 	METHOD a objectToString (Ljava/lang/Object;)Ljava/lang/String;
 CLASS none/me net/minecraft/network/BanRecord
+	METHOD a onSerialization (Lcom/google/gson/JsonObject;)V
 CLASS none/mf net/minecraft/network/ListWhitelist
 	METHOD a getUserNames ()[Ljava/lang/String;
 	METHOD a objectToString (Ljava/lang/Object;)Ljava/lang/String;
+CLASS none/mg
+	METHOD a onSerialization (Lcom/google/gson/JsonObject;)V
 CLASS none/mk net/minecraft/command/RconSender
 	FIELD a sender Lnone/mk;
 	METHOD e getWorld ()Lnone/adn;
@@ -4433,8 +4506,32 @@ CLASS none/nj net/minecraft/util/JsonUtils
 	METHOD t getArrayByKey (Lcom/google/gson/JsonObject;Ljava/lang/String;)Lcom/google/gson/JsonArray;
 		ARG 0 obj
 		ARG 1 key
-CLASS none/nk
+CLASS none/nk net/minecraft/util/HTTPUtil
+	CLASS none/nk$1
+		METHOD run run ()V
+	FIELD a executorService Lcom/google/common/util/concurrent/ListeningExecutorService;
+	FIELD b downloadThreadsStarted Ljava/util/concurrent/atomic/AtomicInteger;
 	FIELD c LOGGER Lorg/apache/logging/log4j/Logger;
+	METHOD a getSuitableLanPort ()I
+	METHOD a download (Ljava/io/File;Ljava/lang/String;Ljava/util/Map;ILnone/nv;Ljava/net/Proxy;)Lcom/google/common/util/concurrent/ListenableFuture;
+		ARG 0 path
+		ARG 1 url
+		ARG 2 map
+		ARG 3 limit
+		ARG 4 progressBar
+		ARG 5 proxy
+	METHOD a get (Ljava/net/URL;)Ljava/lang/String;
+		ARG 0 url
+	METHOD a post (Ljava/net/URL;Ljava/lang/String;Z)Ljava/lang/String;
+		ARG 0 url
+		ARG 1 content
+		ARG 2 debug
+	METHOD a postMap (Ljava/net/URL;Ljava/util/Map;Z)Ljava/lang/String;
+		ARG 0 url
+		ARG 1 map
+		ARG 2 debug
+	METHOD a buildPostString (Ljava/util/Map;)Ljava/lang/String;
+		ARG 0 map
 CLASS none/nl net/minecraft/util/CaseInsensitiveHashMap
 	FIELD a wrapped Ljava/util/Map;
 	METHOD clear ()V
@@ -4511,6 +4608,18 @@ CLASS none/nr net/minecraft/util/LongHashMap
 		ARG 0 key
 	METHOD f hashKey (J)I
 		ARG 0 key
+CLASS none/ns net/minecraft/util/EnumTypeAdapterFactory
+	CLASS none/ns$1
+		METHOD read read (Lcom/google/gson/stream/JsonReader;)Ljava/lang/Object;
+			ARG 0 rootObject
+		METHOD write write (Lcom/google/gson/stream/JsonWriter;Ljava/lang/Object;)V
+			ARG 0 writer
+			ARG 1 object
+	METHOD a getName (Ljava/lang/Object;)Ljava/lang/String;
+		ARG 0 enumObject
+	METHOD create create (Lcom/google/gson/Gson;Lcom/google/gson/reflect/TypeToken;)Lcom/google/gson/TypeAdapter;
+		ARG 0 gson
+		ARG 1 token
 CLASS none/nt net/minecraft/math/MathHelper
 	FIELD a SQRT_TWO F
 	FIELD b SIN_LOOKUP [F
@@ -4572,6 +4681,7 @@ CLASS none/nt net/minecraft/math/MathHelper
 		ARG 0 valuesArray
 	METHOD b fastFloor (D)I
 		ARG 0 value
+	METHOD b atan2 (DD)D
 	METHOD b clampedLerp (DDD)D
 		ARG 0 lowValue
 		ARG 1 highValue
@@ -4616,7 +4726,7 @@ CLASS none/nt net/minecraft/math/MathHelper
 		ARG 0 value
 	METHOD g wrapDegreesToPosNeg180 (D)D
 		ARG 0 value
-	METHOD g wrapDegreesToPosNeg180 (F)F
+	METHOD g wrapAngleTo180f (F)F
 		ARG 0 value
 	METHOD h fractional (D)D
 CLASS none/nu net/minecraft/profiler/Profiler
@@ -4645,8 +4755,9 @@ CLASS none/nu net/minecraft/profiler/Profiler
 	METHOD c addSection (Ljava/lang/String;)V
 		ARG 0 section
 CLASS none/nv net/minecraft/util/IProgressBar
+	METHOD a setDoneWorking ()V
 	METHOD a setProgressBarPercentage (I)V
-	METHOD b (Ljava/lang/String;)V
+	METHOD b resetProgressAndMessage (Ljava/lang/String;)V
 	METHOD c setProgressBarMessage (Ljava/lang/String;)V
 CLASS none/nx net/minecraft/block/IBlockPropertyValue
 	METHOD l getName ()Ljava/lang/String;
@@ -4791,16 +4902,43 @@ CLASS none/or net/minecraft/container/inventory/TempInventory
 	METHOD p_ onChanged ()V
 	METHOD q_ getMaxStackSize ()I
 CLASS none/os net/minecraft/profiler/PlayerUsageSnooper
+	CLASS none/os$1
+		METHOD run run ()V
+	FIELD a stats Ljava/util/Map;
+	FIELD b clientStats Ljava/util/Map;
+	FIELD c uniqueID Ljava/lang/String;
+	FIELD d serverUrl Ljava/net/URL;
+	FIELD e playerStatsCollector Lnone/ot;
+	FIELD f threadTrigger Ljava/util/Timer;
+	FIELD g syncLock Ljava/lang/Object;
+	FIELD h gameStartTime J
+	FIELD i isRunning Z
+	FIELD j counter I
+	METHOD <init> (Ljava/lang/String;Lnone/ot;J)V
+		ARG 0 serverUrl
+		ARG 1 playerStatsCollector
+		ARG 2 gameStartTime
 	METHOD a startSnooper ()V
-	METHOD a addData (Ljava/lang/String;Ljava/lang/Object;)V
-	METHOD b addMemoryStatsToSnooper ()V
-	METHOD b addData2 (Ljava/lang/String;Ljava/lang/Object;)V
+	METHOD a addClientStat (Ljava/lang/String;Ljava/lang/Object;)V
+		ARG 0 key
+		ARG 1 value
+	METHOD b addMemoryStats ()V
+	METHOD b addStat (Ljava/lang/String;Ljava/lang/Object;)V
+		ARG 0 key
+		ARG 1 value
+	METHOD c getCurrentStats ()Ljava/util/Map;
 	METHOD d isSnooperRunning ()Z
 	METHOD e stopSnooper ()V
-CLASS none/ot
+	METHOD f getUniqueID ()Ljava/lang/String;
+	METHOD g getGameStartTime ()J
+	METHOD h addEnvironmentInfo ()V
+	METHOD i addJVMArgs ()V
+CLASS none/ot net/minecraft/profiler/IPlayerUsage
 	METHOD a addServerStatsToSnooper (Lnone/os;)V
+		ARG 0 snooper
 	METHOD ac isSnooperEnabled ()Z
 	METHOD b addServerTypeToSnooper (Lnone/os;)V
+		ARG 0 snooper
 CLASS none/ov net/minecraft/entity/DeathCause
 	FIELD a damageSource Lnone/ox;
 	FIELD e environmentDescription Ljava/lang/String;
@@ -5206,6 +5344,9 @@ CLASS none/pl net/minecraft/entity/Entity
 		ARG 0 width
 		ARG 1 height
 	METHOD a moveFlying (FFF)V
+		ARG 0 strafe
+		ARG 1 forward
+		ARG 2 friction
 	METHOD a canUseCommand (ILjava/lang/String;)Z
 	METHOD a setCustomName (Ljava/lang/String;)V
 	METHOD a playSound (Ljava/lang/String;FF)V
@@ -5508,10 +5649,20 @@ CLASS none/pq net/minecraft/entity/EntityXPOrb
 	METHOD l getLevels ()I
 	METHOD s_ canTriggerWalking ()Z
 	METHOD t_ update ()V
-CLASS none/pr
+CLASS none/pr net/minecraft/entity/EntityFlying
+	METHOD <init> (Lnone/adn;)V
+		ARG 0 world
 	METHOD a updateFall (DZLnone/afi;Lnone/ck;)V
+		ARG 0 distance
+		ARG 1 onGround
+		ARG 2 block
+		ARG 3 pos
 	METHOD e onHitGround (FF)V
+		ARG 0 distance
+		ARG 1 damageMultiplier
 	METHOD g moveByHeading (FF)V
+		ARG 0 strafe
+		ARG 1 forward
 	METHOD k_ isOnLadder ()Z
 CLASS none/ps net/minecraft/entity/EntityLiving
 	FIELD aA prevLimbSwingAmount F
@@ -5704,7 +5855,8 @@ CLASS none/pt net/minecraft/entity/EntityMob
 		FIELD a ON_GROUND Lnone/pt$a;
 		FIELD b IN_AIR Lnone/pt$a;
 		FIELD c IN_WATER Lnone/pt$a;
-	FIELD bi goals2 Lnone/rf;
+	FIELD b_ experienceValue I
+	FIELD bi targetTasks Lnone/rf;
 	FIELD bj dropChances [F
 	FIELD bl inventory [Lnone/zy;
 	FIELD bm canPickUpLoot Z
@@ -5712,12 +5864,14 @@ CLASS none/pt net/minecraft/entity/EntityMob
 	FIELD bo leashed Z
 	FIELD bp leashedEntity Lnone/pl;
 	FIELD bq leash Lnone/dp;
+	FIELD f moveHelper Lnone/qr;
 	FIELD i goals Lnone/rf;
 	METHOD A getDroppedItem ()Lnone/zx;
 	METHOD C canDespawn ()Z
 	METHOD K tick ()V
 	METHOD a handleEntityStatusPacket (B)V
 	METHOD a setDropChance (IF)V
+	METHOD a canAttack (Ljava/lang/Class;)Z
 	METHOD a readFromNBT (Lnone/dp;)V
 	METHOD a onSpawnWithEgg (Lnone/ol;Lnone/pv;)Lnone/pv;
 	METHOD a doInteractionWith (Lnone/wo;)Z
@@ -5731,12 +5885,15 @@ CLASS none/pt net/minecraft/entity/EntityMob
 	METHOD bA getCurrentlyHoldingItemStack ()Lnone/zy;
 	METHOD bK updateEntityAI ()V
 	METHOD bM isServerWorld ()Z
+	METHOD bR getCanSpawnHere ()Z
+	METHOD bV getMaxSpawnedInChunk ()I
 	METHOD bX setPersistenceRequired ()V
 	METHOD bY getCanPickUpLoot ()Z
 	METHOD bZ isPersistenceRequired ()Z
 	METHOD c setItemStackInSlot (ILnone/zy;)V
 	METHOD ce getNoAI ()Z
 	METHOD d replaceItem (ILnone/zy;)Z
+	METHOD d setAttackTarget (Lnone/ps;)V
 	METHOD e onUseByPlayer (Lnone/wo;)Z
 	METHOD h init ()V
 	METHOD j setCanPickUpLoot (Z)V
@@ -5744,9 +5901,15 @@ CLASS none/pt net/minecraft/entity/EntityMob
 	METHOD k setNoAI (Z)V
 	METHOD m entityInit ()V
 	METHOD n attackGoals ()V
+	METHOD n setMoveForward (F)V
 	METHOD p getEquipmentInSlot (I)Lnone/zy;
+	METHOD q getMoveHelper ()Lnone/qr;
 	METHOD q getCurrentArmor (I)Lnone/zy;
+	METHOD r getJumpHelper ()Lnone/qp;
+	METHOD s getNavigator ()Lnone/sx;
+	METHOD t getSenses ()Lnone/tb;
 	METHOD t_ update ()V
+	METHOD u getAttackTarget ()Lnone/ps;
 	METHOD z getIdleSound ()Ljava/lang/String;
 CLASS none/pu net/minecraft/entity/CreatureTypes
 	FIELD a MONSTER Lnone/pu;
@@ -5781,7 +5944,9 @@ CLASS none/py net/minecraft/entity/ITamable
 CLASS none/pz net/minecraft/entity/EntityCreature
 	FIELD bk FLEEING_SPEED_ID Ljava/util/UUID;
 	FIELD bl FLEEING_SPEED_BONUS Lnone/qe;
+	METHOD bR getCanSpawnHere ()Z
 	METHOD cf getNoAI ()Z
+	METHOD e isHomeDistanceFromPosition (Lnone/ck;)Z
 CLASS none/qa net/minecraft/entity/DataWatcher
 	CLASS none/qa$a xw
 		FIELD a typeID I
@@ -5972,23 +6137,64 @@ CLASS none/qk net/minecraft/entity/attribute/Attribute
 	METHOD a setDisplayName (Ljava/lang/String;)Lnone/qk;
 		ARG 0 displayName
 	METHOD g getDisplayName ()Ljava/lang/String;
+CLASS none/qp
+	METHOD a setJumping ()V
+CLASS none/qr net/minecraft/entity/ai/MovementHelper
+	FIELD a entity Lnone/pt;
+	FIELD b posX D
+	FIELD c posY D
+	FIELD d posZ D
+	FIELD e speed D
+	FIELD f update Z
+	METHOD <init> (Lnone/pt;)V
+		ARG 0 entity
+	METHOD a isUpdateing ()Z
+	METHOD a moveTo (DDDD)V
+		ARG 0 posX
+		ARG 1 posY
+		ARG 2 posZ
+		ARG 3 speed
+	METHOD a limitAngle (FFF)F
+		ARG 0 roll
+		ARG 1 pitch
+		ARG 2 yaw
+	METHOD b getSpeed ()D
+	METHOD c onUpdateMoveHelper ()V
+	METHOD d getPosX ()D
+	METHOD e getPosY ()D
+	METHOD f getPosZ ()D
 CLASS none/qt net/minecraft/entity/ai/GoalAvoidEntity
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/qu net/minecraft/entity/ai/GoalBeg
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/qv net/minecraft/entity/ai/GoalBreakDoor
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/qw net/minecraft/entity/ai/GoalMate
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/qx net/minecraft/entity/ai/GoalPlayerControl
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/qy net/minecraft/entity/ai/GoalDoorInteract
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
 	METHOD e opUpdate ()V
 CLASS none/qz net/minecraft/entity/ai/GoalEatGrass
 	FIELD b PREDICATE Lcom/google/common/base/Predicate;
@@ -5996,133 +6202,271 @@ CLASS none/qz net/minecraft/entity/ai/GoalEatGrass
 	FIELD d level Lnone/adn;
 	METHOD <init> (Lnone/pt;)V
 		ARG 0 executor
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/ra net/minecraft/entity/ai/GoalFleeSun
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
 CLASS none/rb net/minecraft/entity/ai/GoalSwimming
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
 	METHOD e opUpdate ()V
 CLASS none/rc net/minecraft/entity/ai/GoalFollowOwner
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rd net/minecraft/entity/ai/GoalFollowParent
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/re net/minecraft/entity/ai/Goal
-	METHOD a ()Z
+	FIELD a mutexBits I
+	METHOD a shouldExecute ()Z
+	METHOD a setMutexBits (I)V
+		ARG 0 mutexBits
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
+	METHOD i isInterruptible ()Z
+	METHOD j getMutexBits ()I
 CLASS none/rf net/minecraft/entity/ai/EntityGoals
 	METHOD a add (ILnone/re;)V
 	METHOD a add (Lnone/re;)V
 CLASS none/rg net/minecraft/entity/ai/GoalPlantCrops
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/ri net/minecraft/entity/ai/GoalLeapAtTarget
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
 CLASS none/rj net/minecraft/entity/ai/GoalWatchEntity
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rk net/minecraft/entity/ai/GoalWatchTradingPlayer
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
 CLASS none/rl net/minecraft/entity/ai/GoalVillagerReproduce
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rm net/minecraft/entity/ai/GoalTargetEntity
 	FIELD g targetEntity Ljava/lang/Class;
 	METHOD <init> (Lnone/pz;Ljava/lang/Class;DZ)V
 		ARG 0 goalExecutor
 		ARG 1 targetEntity
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
 	METHOD a (Lnone/ps;)D
 		ARG 0 entity
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rn net/minecraft/entity/ai/GoalMoveIndoors
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 CLASS none/ro net/minecraft/entity/ai/GoalMoveThroughVillage
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 CLASS none/rp net/minecraft/entity/ai/GoalMoveToBlock
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rq
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
 CLASS none/rr net/minecraft/entity/ai/GoalMoveToTarget
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 CLASS none/rs net/minecraft/entity/ai/GoalOcelotAttack
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rt net/minecraft/entity/ai/GoalOcelotSit
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
 	METHOD a (Lnone/adn;Lnone/ck;)Z
 		ARG 0 level
 		ARG 1 blockPos
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/ru net/minecraft/entity/ai/GoalWatchVillager
 	FIELD a executor Lnone/tz;
 	METHOD <init> (Lnone/tz;)V
 		ARG 0 golem
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rv net/minecraft/entity/ai/GoalOpenDoor
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rw net/minecraft/entity/ai/GoalPanic
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
 CLASS none/rx net/minecraft/entity/ai/GoalVillagerPlay
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/rz net/minecraft/entity/ai/GoalIdleLook
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
 	METHOD e opUpdate ()V
 CLASS none/sa net/minecraft/entity/ai/GoalWander
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
 CLASS none/sb net/minecraft/entity/ai/GoalArrowAttack
 	FIELD b rangedAttackMob Lnone/vy;
 	METHOD <init> (Lnone/vy;DIF)V
 		ARG 0 rangedAttackMob
 	METHOD <init> (Lnone/vy;DIIF)V
 		ARG 0 rangedAttackMob
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/sc net/minecraft/entity/ai/GoalRestrictOpenDoor
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/sd net/minecraft/entity/ai/GoalAvoidSun
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 CLASS none/se
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
 	METHOD e opUpdate ()V
 CLASS none/sf net/minecraft/entity/ai/GoalSit
 	FIELD a entity Lnone/qb;
 	FIELD b sitting Z
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
 	METHOD a setSitting (Z)V
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 CLASS none/sg net/minecraft/entity/ai/GoalCreeperSwell
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/sh net/minecraft/entity/ai/GoalFollowGolem
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/si net/minecraft/entity/ai/GoalTempt
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
 CLASS none/sj net/minecraft/entity/ai/GoalTradePlayer
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 CLASS none/sk net/minecraft/entity/ai/GoalExchangeProduce
+	METHOD c startExecuting ()V
 	METHOD e opUpdate ()V
 CLASS none/sm net/minecraft/entity/ai/GoalDefendVillage
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
 CLASS none/sn
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
 CLASS none/so
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
-	METHOD a ()Z
-CLASS none/sp
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
+CLASS none/sp net/minecraft/entity/ai/GoalFindNearestPlayer
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
 CLASS none/sq net/minecraft/entity/ai/GoalFollowEntity
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
 CLASS none/sr
-	METHOD a ()Z
+	METHOD a shouldExecute ()Z
+CLASS none/ss
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
+CLASS none/st
+	METHOD a shouldExecute ()Z
+	METHOD c startExecuting ()V
+CLASS none/su net/minecraft/entity/ai/GoalTarget
+	FIELD a nearbyOnly Z
+	FIELD b targetSearchStatus I
+	FIELD c targetSearchDelay I
+	FIELD d targetUnseenTicks I
+	FIELD e entity Lnone/pz;
+	FIELD f shouldCheckSight Z
+	METHOD <init> (Lnone/pz;Z)V
+		ARG 0 entity
+		ARG 1 shouldCheckSight
+	METHOD <init> (Lnone/pz;ZZ)V
+		ARG 0 entity
+		ARG 1 shouldCheckSight
+		ARG 2 nearbyOnly
+	METHOD a canEasilyReach (Lnone/ps;)Z
+		ARG 0 target
+	METHOD a isSuitableTarget (Lnone/ps;Z)Z
+		ARG 0 target
+		ARG 1 ignoreInvulnerable
+	METHOD a isSuitableTarget (Lnone/pt;Lnone/ps;ZZ)Z
+		ARG 0 entity
+		ARG 1 target
+		ARG 2 ignoreInvulnerable
+		ARG 3 attackVisible
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
+	METHOD f getTargetDistance ()D
+CLASS none/sx
+	METHOD a getPathToEntityLiving (Lnone/pl;)Lnone/asy;
+CLASS none/sy
+	METHOD a getPathToEntityLiving (Lnone/pl;)Lnone/asy;
+CLASS none/tb
+	METHOD a canSee (Lnone/pl;)Z
 CLASS none/th net/minecraft/world/ZombieSpawner
 	FIELD a world Lnone/adn;
 	FIELD g x I
@@ -6157,6 +6501,7 @@ CLASS none/tl net/minecraft/entity/passive/EntityBat
 	METHOD bB getMovementSpeed ()F
 	METHOD bC ()F
 	METHOD bL collideWithNearbyEntities ()V
+	METHOD bR getCanSpawnHere ()Z
 	METHOD bo getHurtSound ()Ljava/lang/String;
 	METHOD bp getDeathSound ()Ljava/lang/String;
 	METHOD e onHitGround (FF)V
@@ -6175,6 +6520,7 @@ CLASS none/tn net/minecraft/entity/passive/EntityAnimal
 	METHOD a doInteractionWith (Lnone/wo;)Z
 	METHOD b writeToNBT (Lnone/dp;)V
 	METHOD b getDroppedXp (Lnone/wo;)I
+	METHOD bR getCanSpawnHere ()Z
 	METHOD m entityInit ()V
 CLASS none/to net/minecraft/entity/passive/EntityChicken
 	FIELD bs eggLayTime I
@@ -6232,6 +6578,8 @@ CLASS none/tq net/minecraft/entity/passive/EntityHorse
 	METHOD b writeToNBT (Lnone/dp;)V
 	METHOD bB getMovementSpeed ()F
 	METHOD bD isMovementBlocked ()Z
+	METHOD bR getCanSpawnHere ()Z
+	METHOD bV getMaxSpawnedInChunk ()I
 	METHOD bo getHurtSound ()Ljava/lang/String;
 	METHOD bp getDeathSound ()Ljava/lang/String;
 	METHOD br getTotalArmorValue ()I
@@ -6291,6 +6639,7 @@ CLASS none/tt net/minecraft/entity/passive/EntityOcelot
 	METHOD b writeToNBT (Lnone/dp;)V
 	METHOD b spawnLoot (ZI)V
 	METHOD bB getMovementSpeed ()F
+	METHOD bR getCanSpawnHere ()Z
 	METHOD bo getHurtSound ()Ljava/lang/String;
 	METHOD bp getDeathSound ()Ljava/lang/String;
 	METHOD ct getCatType ()I
@@ -6325,10 +6674,15 @@ CLASS none/tv net/minecraft/entity/passive/EntityRabbit
 		FIELD c STEP Lnone/tv$b;
 		FIELD d SPRINT Lnone/tv$b;
 		FIELD e ATTACK Lnone/tv$b;
+	CLASS none/tv$f
+		METHOD c onUpdateMoveHelper ()V
 	CLASS none/tv$g
 		METHOD e opUpdate ()V
 	CLASS none/tv$h
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
+		METHOD b continueExecuting ()Z
+		METHOD c startExecuting ()V
+		METHOD d resetTask ()V
 		METHOD e opUpdate ()V
 	FIELD bs moreCarrotTicks I
 	METHOD Y checkDoSprintEffect ()V
@@ -6383,7 +6737,7 @@ CLASS none/tx net/minecraft/entity/monster/EntitySnowMan
 	METHOD m entityInit ()V
 CLASS none/ty net/minecraft/entity/passive/EntitySquid
 	CLASS none/ty$a
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 		METHOD e opUpdate ()V
 	METHOD A getDroppedItem ()Lnone/zx;
 	METHOD V isInWater ()Z
@@ -6392,6 +6746,7 @@ CLASS none/ty net/minecraft/entity/passive/EntitySquid
 	METHOD aX setAttributes ()V
 	METHOD b spawnLoot (ZI)V
 	METHOD bB getMovementSpeed ()F
+	METHOD bR getCanSpawnHere ()Z
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD g moveByHeading (FF)V
@@ -6400,6 +6755,7 @@ CLASS none/ty net/minecraft/entity/passive/EntitySquid
 	METHOD z getIdleSound ()Ljava/lang/String;
 CLASS none/tz net/minecraft/entity/monster/EntityIronGolem
 	METHOD a handleEntityStatusPacket (B)V
+	METHOD a canAttack (Ljava/lang/Class;)Z
 	METHOD a playStepSound (Lnone/ck;Lnone/afi;)V
 	METHOD a readFromNBT (Lnone/dp;)V
 	METHOD a handleDeathFrom (Lnone/ox;)V
@@ -6421,6 +6777,7 @@ CLASS none/ua net/minecraft/entity/EntityUnderwaterCreature
 	METHOD aL isPushedByWater ()Z
 	METHOD aY breathesUnderwater ()Z
 	METHOD b getDroppedXp (Lnone/wo;)I
+	METHOD bR getCanSpawnHere ()Z
 CLASS none/ub net/minecraft/entity/passive/EntityWolf
 	METHOD A getDroppedItem ()Lnone/zx;
 	METHOD C canDespawn ()Z
@@ -6435,10 +6792,12 @@ CLASS none/ub net/minecraft/entity/passive/EntityWolf
 	METHOD aX setAttributes ()V
 	METHOD b writeToNBT (Lnone/dp;)V
 	METHOD bB getMovementSpeed ()F
+	METHOD bV getMaxSpawnedInChunk ()I
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD ct isAngry ()Z
 	METHOD cw getCollarColor ()Lnone/ze;
+	METHOD d setAttackTarget (Lnone/ps;)V
 	METHOD h init ()V
 	METHOD m entityInit ()V
 	METHOD m setOwned (Z)V
@@ -6717,12 +7076,22 @@ CLASS none/ut net/minecraft/util/WeightedRandomFishable
 		ARG 0 percent
 	METHOD a getItemStack (Ljava/util/Random;)Lnone/zy;
 		ARG 0 rand
-CLASS none/uv
+CLASS none/uv net/minecraft/entity/effect/EntityWeather
 	METHOD <init> (Lnone/adn;)V
 		ARG 0 world
 CLASS none/uw net/minecraft/entity/effect/EntityLightningBolt
+	FIELD a boltVertex J
+	FIELD b lightningState I
+	FIELD c boltLivingTime I
+	METHOD <init> (Lnone/adn;DDD)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
 	METHOD a readFromNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD b writeToNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD h init ()V
 	METHOD t_ update ()V
 CLASS none/uy net/minecraft/entity/item/EntityBoat
@@ -7019,7 +7388,9 @@ CLASS none/vk net/minecraft/entity/item/EntityTNTPrimed
 	METHOD t_ update ()V
 CLASS none/vm net/minecraft/entity/monster/EntityBlaze
 	CLASS none/vm$a
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
+		METHOD c startExecuting ()V
+		METHOD d resetTask ()V
 		METHOD e opUpdate ()V
 	METHOD <init> (Lnone/adn;)V
 		ARG 0 level
@@ -7061,13 +7432,16 @@ CLASS none/vo net/minecraft/entity/monster/EntityCreeper
 	METHOD t_ update ()V
 CLASS none/vp net/minecraft/entity/monster/EntityEnderman
 	CLASS none/vp$a
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 		METHOD e opUpdate ()V
 	CLASS none/vp$b
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
+		METHOD b continueExecuting ()Z
+		METHOD c startExecuting ()V
+		METHOD d resetTask ()V
 		METHOD e opUpdate ()V
 	CLASS none/vp$c
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 		METHOD e opUpdate ()V
 	METHOD A getDroppedItem ()Lnone/zx;
 	METHOD a setCarriedBlockState (Lnone/ama;)V
@@ -7096,6 +7470,7 @@ CLASS none/vq net/minecraft/entity/EntityEndermite
 	METHOD aS getEyeHeight ()F
 	METHOD aX setAttributes ()V
 	METHOD b writeToNBT (Lnone/dp;)V
+	METHOD bR getCanSpawnHere ()Z
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD bz getCreatureAttribute ()Lnone/px;
@@ -7106,25 +7481,59 @@ CLASS none/vq net/minecraft/entity/EntityEndermite
 	METHOD z getIdleSound ()Ljava/lang/String;
 CLASS none/vr net/minecraft/entity/IEnemy
 CLASS none/vs net/minecraft/entity/monster/EntityGhast
-	CLASS none/vs$a
-		METHOD a ()Z
+	CLASS none/vs$a AILookAround
+		FIELD a ghast Lnone/vs;
+		METHOD <init> (Lnone/vs;)V
+			ARG 0 entity
+		METHOD a shouldExecute ()Z
 		METHOD e opUpdate ()V
-	CLASS none/vs$c
-		METHOD a ()Z
+	CLASS none/vs$b GhastMoveHelper
+		FIELD g ghast Lnone/vs;
+		FIELD h courseChangeCooldown I
+		METHOD <init> (Lnone/vs;)V
+			ARG 0 entity
+		METHOD b canMove (DDDD)Z
+		METHOD c onUpdateMoveHelper ()V
+	CLASS none/vs$c AIFireballAttack
+		FIELD a attackTimer I
+		FIELD b ghast Lnone/vs;
+		METHOD <init> (Lnone/vs;)V
+			ARG 0 entity
+		METHOD a shouldExecute ()Z
+		METHOD c startExecuting ()V
+		METHOD d resetTask ()V
 		METHOD e opUpdate ()V
-	CLASS none/vs$d
-		METHOD a ()Z
+	CLASS none/vs$d AIRandomFly
+		FIELD a ghast Lnone/vs;
+		METHOD <init> (Lnone/vs;)V
+			ARG 0 entity
+		METHOD a shouldExecute ()Z
+		METHOD b continueExecuting ()Z
+		METHOD c startExecuting ()V
 	FIELD a explosionPower I
+	METHOD <init> (Lnone/adn;)V
+		ARG 0 world
 	METHOD A getDroppedItem ()Lnone/zx;
 	METHOD a readFromNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD a attackEntity (Lnone/ox;F)Z
+		ARG 0 source
+		ARG 1 amount
+	METHOD a setAttacking (Z)V
+		ARG 0 attacking
 	METHOD aS getEyeHeight ()F
 	METHOD aX setAttributes ()V
 	METHOD b writeToNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD b spawnLoot (ZI)V
+		ARG 0 tearMax
+		ARG 1 gunpowderMax
 	METHOD bB getMovementSpeed ()F
+	METHOD bR getCanSpawnHere ()Z
+	METHOD bV getMaxSpawnedInChunk ()I
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
+	METHOD cf getFireballStrength ()I
 	METHOD h init ()V
 	METHOD n isShooting ()Z
 	METHOD t_ update ()V
@@ -7136,8 +7545,13 @@ CLASS none/vt net/minecraft/entity/monster/EntityGiantZombie
 	METHOD aX setAttributes ()V
 CLASS none/vu net/minecraft/entity/monster/EntityGuardian
 	CLASS none/vu$a
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
+		METHOD b continueExecuting ()Z
+		METHOD c startExecuting ()V
+		METHOD d resetTask ()V
 		METHOD e opUpdate ()V
+	CLASS none/vu$c
+		METHOD c onUpdateMoveHelper ()V
 	METHOD a readFromNBT (Lnone/dp;)V
 	METHOD a attackEntity (Lnone/ox;F)Z
 	METHOD a (Z)V
@@ -7145,6 +7559,7 @@ CLASS none/vu net/minecraft/entity/monster/EntityGuardian
 	METHOD aX setAttributes ()V
 	METHOD b writeToNBT (Lnone/dp;)V
 	METHOD b spawnLoot (ZI)V
+	METHOD bR getCanSpawnHere ()Z
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD bq spawnSpecialLoot ()V
@@ -7162,6 +7577,7 @@ CLASS none/vv net/minecraft/entity/monster/EntityMagmaCube
 	METHOD b spawnLoot (ZI)V
 	METHOD bF jump ()V
 	METHOD bH floatInLava ()V
+	METHOD bR getCanSpawnHere ()Z
 	METHOD br getTotalArmorValue ()I
 	METHOD c getBrightness (F)F
 	METHOD cf createChildSlime ()Lnone/wc;
@@ -7171,6 +7587,7 @@ CLASS none/vw net/minecraft/entity/monster/EntityMonster
 	METHOD a attackEntity (Lnone/ox;F)Z
 	METHOD aX setAttributes ()V
 	METHOD aa getSplashSound ()Ljava/lang/String;
+	METHOD bR getCanSpawnHere ()Z
 	METHOD ba isAdult ()Z
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
@@ -7180,7 +7597,7 @@ CLASS none/vw net/minecraft/entity/monster/EntityMonster
 	METHOD t_ update ()V
 CLASS none/vx net/minecraft/entity/monster/EntityPigZombie
 	CLASS none/vx$a
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 	FIELD bm anger I
 	FIELD bo hurtBy Ljava/util/UUID;
 	METHOD a readFromNBT (Lnone/dp;)V
@@ -7191,6 +7608,7 @@ CLASS none/vx net/minecraft/entity/monster/EntityPigZombie
 	METHOD b writeToNBT (Lnone/dp;)V
 	METHOD b setDamager (Lnone/ps;)V
 	METHOD b spawnLoot (ZI)V
+	METHOD bR getCanSpawnHere ()Z
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD bq spawnSpecialLoot ()V
@@ -7209,15 +7627,18 @@ CLASS none/vz net/minecraft/entity/attribute/GenericAttributes
 	METHOD a toNbtTagCompound (Lnone/qe;)Lnone/dp;
 CLASS none/wa net/minecraft/entity/monster/EntitySilverfish
 	CLASS none/wa$a
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
+		METHOD b continueExecuting ()Z
+		METHOD c startExecuting ()V
 	CLASS none/wa$b
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 		METHOD e opUpdate ()V
 	METHOD A getDroppedItem ()Lnone/zx;
 	METHOD a playStepSound (Lnone/ck;Lnone/afi;)V
 	METHOD a attackEntity (Lnone/ox;F)Z
 	METHOD aS getEyeHeight ()F
 	METHOD aX setAttributes ()V
+	METHOD bR getCanSpawnHere ()Z
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD bz getCreatureAttribute ()Lnone/px;
@@ -7255,18 +7676,22 @@ CLASS none/wb net/minecraft/entity/monster/EntitySkeleton
 	METHOD z getIdleSound ()Ljava/lang/String;
 CLASS none/wc net/minecraft/entity/monster/EntitySlime
 	CLASS none/wc$a
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
+		METHOD b continueExecuting ()Z
+		METHOD c startExecuting ()V
 		METHOD e opUpdate ()V
 	CLASS none/wc$b
 		METHOD <init> (Lnone/wc;)V
 			ARG 0 slime
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 		METHOD e opUpdate ()V
 	CLASS none/wc$c
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 		METHOD e opUpdate ()V
+	CLASS none/wc$d
+		METHOD c onUpdateMoveHelper ()V
 	CLASS none/wc$e
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 		METHOD e opUpdate ()V
 	FIELD b squishFactor F
 	FIELD bk wasOnGround Z
@@ -7280,6 +7705,7 @@ CLASS none/wc net/minecraft/entity/monster/EntitySlime
 	METHOD b writeToNBT (Lnone/dp;)V
 	METHOD bB getMovementSpeed ()F
 	METHOD bF jump ()V
+	METHOD bR getCanSpawnHere ()Z
 	METHOD bo getHurtSound ()Ljava/lang/String;
 	METHOD bp getDeathSound ()Ljava/lang/String;
 	METHOD cf createChildSlime ()Lnone/wc;
@@ -7289,8 +7715,10 @@ CLASS none/wc net/minecraft/entity/monster/EntitySlime
 	METHOD i applyCollisionWithEntity (Lnone/pl;)V
 	METHOD t_ update ()V
 CLASS none/wd net/minecraft/entity/monster/EntitySpider
+	CLASS none/wd$a
+		METHOD b continueExecuting ()Z
 	CLASS none/wd$c
-		METHOD a ()Z
+		METHOD a shouldExecute ()Z
 	METHOD A getDroppedItem ()Lnone/zx;
 	METHOD a playStepSound (Lnone/ck;Lnone/afi;)V
 	METHOD a onSpawnWithEgg (Lnone/ol;Lnone/pv;)Lnone/pv;
@@ -9615,7 +10043,7 @@ CLASS none/adn net/minecraft/world/World
 		ARG 1 time
 	METHOD a playSoundAtEntity (Lnone/pl;Ljava/lang/String;FF)V
 		ARG 0 ent
-	METHOD a (Lnone/pl;Lnone/auh;)Ljava/util/List;
+	METHOD a getCollidingBoundingBoxes (Lnone/pl;Lnone/auh;)Ljava/util/List;
 		ARG 0 ent
 		ARG 1 aaBB
 	METHOD a findEntitiesExcept (Lnone/pl;Lnone/auh;Lcom/google/common/base/Predicate;)Ljava/util/List;
@@ -16134,7 +16562,7 @@ CLASS none/ass net/minecraft/world/gen/layer/GenLayerZoom
 		ARG 0 seed
 		ARG 1 source
 		ARG 2 zoomLevel
-CLASS none/asw
+CLASS none/asw net/minecraft/pathfinding/PathPoint
 	FIELD a x I
 	FIELD b y I
 	FIELD c z I
@@ -16145,6 +16573,8 @@ CLASS none/asw
 		ARG 0 other
 	METHOD equals (Ljava/lang/Object;)Z
 		ARG 0 other
+CLASS none/asy net/minecraft/pathfinding/PathEntity
+	METHOD c getFinalPathPoint ()Lnone/asw;
 CLASS none/atf net/minecraft/world/WorldData
 	FIELD a name Ljava/lang/String;
 	FIELD b requiresSave Z
@@ -16669,7 +17099,7 @@ CLASS none/auh net/minecraft/util/AxisAlignedBB
 		ARG 1 y
 		ARG 2 z
 	METHOD b intersects (Lnone/auh;)Z
-	METHOD c shift (DDD)Lnone/auh;
+	METHOD c offset (DDD)Lnone/auh;
 		ARG 0 x
 		ARG 1 y
 		ARG 2 z
@@ -17460,8 +17890,9 @@ CLASS none/avj net/minecraft/client/LoadingScreenRenderer
 	FIELD d lastProgressBarUpdateTime J
 	METHOD <init> (Lnone/avf;)V
 		ARG 0 minecraft
+	METHOD a setDoneWorking ()V
 	METHOD a setProgressBarPercentage (I)V
-	METHOD b (Ljava/lang/String;)V
+	METHOD b resetProgressAndMessage (Ljava/lang/String;)V
 		ARG 0 action
 	METHOD c setProgressBarMessage (Ljava/lang/String;)V
 CLASS none/avk net/minecraft/util/ScreenShotHelper
@@ -18221,9 +18652,10 @@ CLASS none/axr net/minecraft/client/gui/GuiWorldPresets
 	METHOD m onGuiClosed ()V
 CLASS none/axs net/minecraft/client/gui/GuiResourcePackProgress
 	FIELD a progressAction Ljava/lang/String;
+	METHOD a setDoneWorking ()V
 	METHOD a setProgressBarPercentage (I)V
 	METHOD a drawScreen (IIF)V
-	METHOD b (Ljava/lang/String;)V
+	METHOD b resetProgressAndMessage (Ljava/lang/String;)V
 	METHOD c setProgressBarMessage (Ljava/lang/String;)V
 CLASS none/axt net/minecraft/client/gui/GuiDownloadingTerrain
 	METHOD a keyTyped (CI)V
@@ -22682,6 +23114,9 @@ CLASS net/minecraft/realms/RealmsScreen net/minecraft/realms/RealmsScreen
 	METHOD tick onTick ()V
 	METHOD width width ()I
 CLASS net/minecraft/server/MinecraftServer net/minecraft/server/MinecraftServer
+	CLASS net/minecraft/server/MinecraftServer$1
+		METHOD a setDoneWorking ()V
+		METHOD b resetProgressAndMessage (Ljava/lang/String;)V
 	FIELD A canSpawnAnimals Z
 	FIELD B canSpawnNPCs Z
 	FIELD C pvpEnabled Z
