@@ -4071,6 +4071,13 @@ CLASS none/lo net/minecraft/network/handshake/NetHandlerHandshakeRemote
 	FIELD a minecraftServer Lnet/minecraft/server/MinecraftServer;
 	METHOD a handleHandshake (Lnone/jd;)V
 CLASS none/lp net/minecraft/network/login/NetHandlerLoginServer
+	CLASS none/lp$a
+		FIELD a HELLO Lnone/lp$a;
+		FIELD b KEY Lnone/lp$a;
+		FIELD c AUTHENTICATING Lnone/lp$a;
+		FIELD d READY_TO_ACCEPT Lnone/lp$a;
+		FIELD e DELAY_ACCEPT Lnone/lp$a;
+		FIELD f ACCEPTED Lnone/lp$a;
 	METHOD a handleLoginStart (Lnone/jm;)V
 	METHOD a handleEncryptionResponse (Lnone/jn;)V
 	METHOD c update ()V
@@ -5937,7 +5944,9 @@ CLASS none/pw net/minecraft/entity/MobTypes
 	METHOD a getMobType (Ljava/lang/Class;)Lnone/pt$a;
 		ARG 0 mobClass
 CLASS none/px net/minecraft/entity/EnumCreatureAttribute
+	FIELD a UNDEFINED Lnone/px;
 	FIELD b UNDEAD Lnone/px;
+	FIELD c ARTHROPOD Lnone/px;
 CLASS none/py net/minecraft/entity/ITamable
 	METHOD b getOwner ()Ljava/lang/String;
 	METHOD m_ getTamableEntity ()Lnone/pl;
@@ -13762,11 +13771,46 @@ CLASS none/akt net/minecraft/block/BlockCarpet
 CLASS none/aku net/minecraft/block/BlockYellowFlower
 	METHOD l getFlowerColor ()Lnone/agx$b;
 CLASS none/akv net/minecraft/block/entity/BlockEntityBanner
-	CLASS none/akv$a
+	CLASS none/akv$a EnumPattern
+		FIELD A HALF_VERTICAL Lnone/akv$a;
+		FIELD B HALF_HORIZONTAL Lnone/akv$a;
+		FIELD C HALF_VERTICAL_MIRROR Lnone/akv$a;
+		FIELD D HALF_HORIZONTAL_MIRROR Lnone/akv$a;
+		FIELD E BORDER Lnone/akv$a;
+		FIELD F CURLY_BORDER Lnone/akv$a;
+		FIELD G CREEPER Lnone/akv$a;
+		FIELD H GRADIENT Lnone/akv$a;
+		FIELD I GRADIENT_UP Lnone/akv$a;
 		FIELD J BRICKS Lnone/akv$a;
 		FIELD K SKULL Lnone/akv$a;
 		FIELD L FLOWER Lnone/akv$a;
 		FIELD M MOJANG Lnone/akv$a;
+		FIELD a BASE Lnone/akv$a;
+		FIELD b SQUARE_BOTTOM_LEFT Lnone/akv$a;
+		FIELD c SQUARE_BOTTOM_RIGHT Lnone/akv$a;
+		FIELD d SQUARE_TOP_LEFT Lnone/akv$a;
+		FIELD e SQUARE_TOP_RIGHT Lnone/akv$a;
+		FIELD f STRIPE_BOTTOM Lnone/akv$a;
+		FIELD g STRIPE_TOP Lnone/akv$a;
+		FIELD h STRIPE_LEFT Lnone/akv$a;
+		FIELD i STRIPE_RIGHT Lnone/akv$a;
+		FIELD j STRIPE_CENTER Lnone/akv$a;
+		FIELD k STRIPE_MIDDLE Lnone/akv$a;
+		FIELD l STRIPE_DOWNRIGHT Lnone/akv$a;
+		FIELD m STRIPE_DOWNLEFT Lnone/akv$a;
+		FIELD n STRIPE_SMALL Lnone/akv$a;
+		FIELD o CROSS Lnone/akv$a;
+		FIELD p STRAIGHT_CROSS Lnone/akv$a;
+		FIELD q TRIANGLE_BOTTOM Lnone/akv$a;
+		FIELD r TRIANGLE_TOP Lnone/akv$a;
+		FIELD s TRIANGLES_BOTTOM Lnone/akv$a;
+		FIELD t TRIANGLES_TOP Lnone/akv$a;
+		FIELD u DIAGONAL_LEFT Lnone/akv$a;
+		FIELD v DIAGONAL_RIGHT Lnone/akv$a;
+		FIELD w DIAGONAL_LEFT_MIRROR Lnone/akv$a;
+		FIELD x DIAGONAL_RIGHT_MIRROR Lnone/akv$a;
+		FIELD y CIRCLE_MIDDLE Lnone/akv$a;
+		FIELD z RHOMBUS Lnone/akv$a;
 	FIELD a baseColor I
 	FIELD f patterns Lnone/dv;
 	FIELD g hasPattern Z
@@ -17913,7 +17957,7 @@ CLASS none/avm net/minecraft/util/Timer
 	METHOD a update ()V
 CLASS none/avn net/minecraft/client/main/MinecraftSession
 	CLASS none/avn$a AccountType
-		FIELD a MINECRAFT Lnone/avn$a;
+		FIELD a LEGACY Lnone/avn$a;
 		FIELD b MOJANG Lnone/avn$a;
 		FIELD c ID_TO_TYPE Ljava/util/Map;
 		FIELD d id Ljava/lang/String;
@@ -20711,6 +20755,13 @@ CLASS none/bgg
 		FIELD d SOUTH Lnone/bgg$a;
 		FIELD e WEST Lnone/bgg$a;
 		FIELD f EAST Lnone/bgg$a;
+	CLASS none/bgg$c
+		FIELD a DOWN Lnone/bgg$c;
+		FIELD b UP Lnone/bgg$c;
+		FIELD c NORTH Lnone/bgg$c;
+		FIELD d SOUTH Lnone/bgg$c;
+		FIELD e WEST Lnone/bgg$c;
+		FIELD f EAST Lnone/bgg$c;
 	CLASS none/bgg$d
 		FIELD a DOWN Lnone/bgg$d;
 		FIELD b UP Lnone/bgg$d;
@@ -21201,8 +21252,10 @@ CLASS none/bho net/minecraft/client/renderers/ChunkSectionRunnablesManager
 		FIELD a PENDING Lnone/bho$a;
 		FIELD b COMPILING Lnone/bho$a;
 		FIELD c UPLOADING Lnone/bho$a;
-		FIELD d BUILT Lnone/bho$a;
+		FIELD d DONE Lnone/bho$a;
 	CLASS none/bho$b Enum1
+		FIELD a REBUILD_CHUNK Lnone/bho$b;
+		FIELD b RESORT_TRANSPARENCY Lnone/bho$b;
 	FIELD a chunkSectionRenderer Lnone/bhu;
 	FIELD b lock Ljava/util/concurrent/locks/ReentrantLock;
 	FIELD c runnables Ljava/util/List;
@@ -21838,8 +21891,8 @@ CLASS none/blt net/minecraft/client/shader/Shader
 	METHOD d preLoadShader ()V
 CLASS none/blu net/minecraft/client/shader/ShaderLoader
 	CLASS none/blu$a ShaderLoaderShaderType
-		FIELD a VERT Lnone/blu$a;
-		FIELD b FRAG Lnone/blu$a;
+		FIELD a VERTEX Lnone/blu$a;
+		FIELD b FRAGMENT Lnone/blu$a;
 		FIELD c name Ljava/lang/String;
 		FIELD d extension Ljava/lang/String;
 		FIELD e mode I
@@ -22744,6 +22797,9 @@ CLASS none/bpi
 			FIELD a FILE Lnone/bpi$a$a;
 			FIELD b SOUND_EVENT Lnone/bpi$a$a;
 CLASS none/bpk net/minecraft/client/audio/ISound
+	CLASS none/bpk$a
+		FIELD a NONE Lnone/bpk$a;
+		FIELD b LINEAR Lnone/bpk$a;
 CLASS none/bpo
 	FIELD f playerNbt Lnone/dp;
 	METHOD a getRejectionMessage (Ljava/net/SocketAddress;Lcom/mojang/authlib/GameProfile;)Ljava/lang/String;
