@@ -3590,7 +3590,7 @@ CLASS none/kl net/minecraft/scoreboard/ServerScoreboardManager
 		ARG 0 objective
 CLASS none/kn net/minecraft/server/gui/IUpdatePlayerListBox
 	METHOD c update ()V
-CLASS none/kx net/minecraft/client/renderers/DestroyBlockProgress
+CLASS none/kx net/minecraft/client/renderer/DestroyBlockProgress
 	FIELD a playerID I
 	FIELD b blockPos Lnone/ck;
 	FIELD c progress I
@@ -9686,7 +9686,7 @@ CLASS none/adf net/minecraft/world/QueuedBlockEvent
 	METHOD d getBlock ()Lnone/afi;
 	METHOD equals (Ljava/lang/Object;)Z
 		ARG 0 other
-CLASS none/adg net/minecraft/client/renderers/BlockLayer
+CLASS none/adg net/minecraft/client/renderer/BlockLayer
 	FIELD a SOLID Lnone/adg;
 	FIELD b CUTOUT_MIPPED Lnone/adg;
 	FIELD c CUTOUT Lnone/adg;
@@ -10454,7 +10454,7 @@ CLASS none/adu net/minecraft/world/MobSpawner
 	METHOD a spawnMobs (Lnone/lf;ZZZ)I
 		ARG 0 worldServer
 	METHOD a canSpawnMobAt (Lnone/pt$a;Lnone/adn;Lnone/ck;)Z
-CLASS none/adv net/minecraft/world/TheEndObsidianThings
+CLASS none/adv net/minecraft/world/ObsidianPillar
 	CLASS none/adv$a TimedBlockPos
 		FIELD c time J
 		METHOD <init> (Lnone/adv;Lnone/ck;J)V
@@ -10464,7 +10464,7 @@ CLASS none/adv net/minecraft/world/TheEndObsidianThings
 	FIELD c blockPositions Lnone/nr;
 	METHOD a doObsidianThingsNearEntity (Lnone/pl;)Z
 		ARG 0 entity
-	METHOD a stopEntityInEndAndDoObsidianThings (Lnone/pl;F)V
+	METHOD a generate (Lnone/pl;F)V
 		ARG 0 entity
 	METHOD b (Lnone/pl;F)Z
 		ARG 0 entity
@@ -17565,7 +17565,7 @@ CLASS none/avc net/minecraft/client/KeyBinding
 	METHOD h defaultKey ()I
 	METHOD i keyCode ()I
 	METHOD j reset ()V
-CLASS none/avd net/minecraft/client/renderers/RenderHelper
+CLASS none/avd net/minecraft/client/renderer/RenderHelper
 	METHOD a disableStandardItemLighting ()V
 	METHOD b enableStandardItemLighting ()V
 	METHOD c enableGUIStandardItemLighting ()V
@@ -17971,7 +17971,7 @@ CLASS none/avn net/minecraft/client/main/MinecraftSession
 	METHOD a getSessionID ()Ljava/lang/String;
 	METHOD c getUsername ()Ljava/lang/String;
 	METHOD f getAccountType ()Lnone/avn$a;
-CLASS none/avo net/minecraft/client/renderers/FontRenderer
+CLASS none/avo net/minecraft/client/renderer/FontRenderer
 	FIELD a fontHeight I
 	FIELD b random Ljava/util/Random;
 	FIELD c UNICODE_PAGE_PNG_CACHE [Lnone/jz;
@@ -18131,7 +18131,7 @@ CLASS none/avq net/minecraft/client/gui/Gui
 	METHOD b drawVerticalLine (IIII)V
 	METHOD b drawTexturedModalRect (IIIIII)V
 	METHOD c drawString (Lnone/avo;Ljava/lang/String;III)V
-CLASS none/avr net/minecraft/client/renderers/ItemMapRenderer
+CLASS none/avr net/minecraft/client/renderer/ItemMapRenderer
 	CLASS none/avr$a ContentRenderer
 		FIELD b mapData Lnone/ath;
 		FIELD c texture Lnone/bma;
@@ -19012,7 +19012,7 @@ CLASS none/ayv net/minecraft/client/gui/GuiContainerCreative
 CLASS none/ayw net/minecraft/client/gui/GuiDispenser
 	METHOD a drawGuiContainerBackgroundLayer (FII)V
 	METHOD b drawGuiContainerForegroundLayer (II)V
-CLASS none/ayx net/minecraft/client/renderers/InventoryEffectRenderer
+CLASS none/ayx net/minecraft/client/renderer/InventoryEffectRenderer
 	METHOD a drawScreen (IIF)V
 	METHOD b initGui ()V
 CLASS none/ayy net/minecraft/util/EnchantmentWordPicker
@@ -19348,53 +19348,53 @@ CLASS none/bap net/minecraft/main/MinecraftInitializer
 		ARG 2 mcAssets
 		ARG 3 mcVersion
 		ARG 4 mcServerArgs
-CLASS none/bat net/minecraft/client/renderers/models/ModelArmorStandArmor
+CLASS none/bat net/minecraft/client/renderer/models/ModelArmorStandArmor
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
-CLASS none/bau net/minecraft/client/renderers/models/ModelArmorStand
+CLASS none/bau net/minecraft/client/renderer/models/ModelArmorStand
 	FIELD a standRightSide Lnone/bcu;
 	FIELD b standLeftSide Lnone/bcu;
 	FIELD c standCenter Lnone/bcu;
 	FIELD d standBase Lnone/bcu;
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bav net/minecraft/client/renderers/models/ModelBanner
-CLASS none/baw net/minecraft/client/renderers/models/ModelBat
+CLASS none/bav net/minecraft/client/renderer/models/ModelBanner
+CLASS none/baw net/minecraft/client/renderer/models/ModelBat
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bax net/minecraft/client/renderers/models/ModelBlaze
+CLASS none/bax net/minecraft/client/renderer/models/ModelBlaze
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bay net/minecraft/client/renderers/models/ModelBoat
+CLASS none/bay net/minecraft/client/renderer/models/ModelBoat
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/baz net/minecraft/client/renderers/models/ModelBook
+CLASS none/baz net/minecraft/client/renderer/models/ModelBook
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bba net/minecraft/client/renderers/models/ModelSingleChest
-CLASS none/bbb net/minecraft/client/renderers/models/ModelChicken
+CLASS none/bba net/minecraft/client/renderer/models/ModelSingleChest
+CLASS none/bbb net/minecraft/client/renderer/models/ModelChicken
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbc net/minecraft/client/renderers/models/ModelCow
-CLASS none/bbd net/minecraft/client/renderers/models/ModelCreeper
+CLASS none/bbc net/minecraft/client/renderer/models/ModelCow
+CLASS none/bbd net/minecraft/client/renderer/models/ModelCreeper
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbe net/minecraft/client/renderers/models/ModelEnderman
+CLASS none/bbe net/minecraft/client/renderer/models/ModelEnderman
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
-CLASS none/bbf net/minecraft/client/renderers/models/ModelEnderMite
-	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
-	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbg net/minecraft/client/renderers/models/ModelGhast
+CLASS none/bbf net/minecraft/client/renderer/models/ModelEnderMite
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbh net/minecraft/client/renderers/models/ModelGuardian
+CLASS none/bbg net/minecraft/client/renderer/models/ModelGhast
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbi net/minecraft/client/renderers/models/ModelHorse
+CLASS none/bbh net/minecraft/client/renderer/models/ModelGuardian
+	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
+	METHOD a render (Lnone/pl;FFFFFF)V
+CLASS none/bbi net/minecraft/client/renderer/models/ModelHorse
 	METHOD a render (Lnone/pl;FFFFFF)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bbj net/minecraft/client/renderers/models/Model_cck
+CLASS none/bbj net/minecraft/client/renderer/models/Model_cck
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbk net/minecraft/client/renderers/models/ModelBiped
+CLASS none/bbk net/minecraft/client/renderer/models/ModelBiped
 	FIELD e bipedHead Lnone/bcu;
 	FIELD f bipedHeadgear Lnone/bcu;
 	FIELD g bipedBody Lnone/bcu;
@@ -19409,16 +19409,16 @@ CLASS none/bbk net/minecraft/client/renderers/models/ModelBiped
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a setModelAttributes (Lnone/bbp;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbl net/minecraft/client/renderers/models/ModelLargeChest
-CLASS none/bbm net/minecraft/client/renderers/models/ModelMagmaCube
+CLASS none/bbl net/minecraft/client/renderer/models/ModelLargeChest
+CLASS none/bbm net/minecraft/client/renderer/models/ModelMagmaCube
 	METHOD a render (Lnone/pl;FFFFFF)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bbn net/minecraft/client/renderers/models/ModelLeashKnot
+CLASS none/bbn net/minecraft/client/renderer/models/ModelLeashKnot
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbo net/minecraft/client/renderers/models/ModelMinecart
+CLASS none/bbo net/minecraft/client/renderer/models/ModelMinecart
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbp net/minecraft/client/renderers/models/ModelBase
+CLASS none/bbp net/minecraft/client/renderer/models/ModelBase
 	FIELD a modelTextureMap Ljava/util/Map;
 	FIELD p swingProgress F
 	FIELD q isRiding Z
@@ -19435,12 +19435,12 @@ CLASS none/bbp net/minecraft/client/renderers/models/ModelBase
 	METHOD a render (Lnone/pl;FFFFFF)V
 		ARG 0 ent
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bbq net/minecraft/client/renderers/models/ModelOcelot
+CLASS none/bbq net/minecraft/client/renderer/models/ModelOcelot
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bbr net/minecraft/client/renderers/models/ModelPig
-CLASS none/bbs net/minecraft/client/renderers/models/Model_cct
+CLASS none/bbr net/minecraft/client/renderer/models/ModelPig
+CLASS none/bbs net/minecraft/client/renderer/models/Model_cct
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
 CLASS none/bbt net/minecraft/client/model/TexturedQuad
@@ -19448,40 +19448,40 @@ CLASS none/bbt net/minecraft/client/model/TexturedQuad
 	FIELD b verticesCount I
 	FIELD c invertNormal Z
 	METHOD a flipFace ()V
-CLASS none/bbu net/minecraft/client/renderers/models/Model_ccv
+CLASS none/bbu net/minecraft/client/renderer/models/Model_ccv
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bbv net/minecraft/client/renderers/models/ModelRabbit
+CLASS none/bbv net/minecraft/client/renderer/models/ModelRabbit
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bbw net/minecraft/client/renderers/models/ModelSheep
+CLASS none/bbw net/minecraft/client/renderer/models/ModelSheep
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bbx net/minecraft/client/renderers/models/ModelSheep2
+CLASS none/bbx net/minecraft/client/renderer/models/ModelSheep2
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bby net/minecraft/client/renderers/models/ModelSign
+CLASS none/bby net/minecraft/client/renderer/models/ModelSign
 	FIELD b signStick Lnone/bcu;
 	METHOD a renderSign ()V
-CLASS none/bbz net/minecraft/client/renderers/models/ModelSilverfish
+CLASS none/bbz net/minecraft/client/renderer/models/ModelSilverfish
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bca net/minecraft/client/renderers/models/ModelSkull
+CLASS none/bca net/minecraft/client/renderer/models/ModelSkull
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bcb net/minecraft/client/renderers/models/ModelSkeleton
+CLASS none/bcb net/minecraft/client/renderer/models/ModelSkeleton
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bcd net/minecraft/client/renderers/models/ModelSlime
+CLASS none/bcd net/minecraft/client/renderer/models/ModelSlime
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bce net/minecraft/client/renderers/models/ModelSnowman
+CLASS none/bce net/minecraft/client/renderer/models/ModelSnowman
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bcf net/minecraft/client/renderers/models/ModelSpider
+CLASS none/bcf net/minecraft/client/renderer/models/ModelSpider
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bcg net/minecraft/client/renderers/models/ModelSquid
+CLASS none/bcg net/minecraft/client/renderer/models/ModelSquid
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
 CLASS none/bch net/minecraft/client/model/PositionTextureVertex
@@ -19497,31 +19497,31 @@ CLASS none/bch net/minecraft/client/model/PositionTextureVertex
 	METHOD a setTexturePosition (FF)Lnone/bch;
 		ARG 0 texturePositionX
 		ARG 1 texturePositionY
-CLASS none/bci net/minecraft/client/renderers/models/ModelIronGolem
+CLASS none/bci net/minecraft/client/renderer/models/ModelIronGolem
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bcj net/minecraft/client/renderers/models/Model_cdk
+CLASS none/bcj net/minecraft/client/renderer/models/Model_cdk
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
-CLASS none/bck net/minecraft/client/renderers/models/Model_cdl
+CLASS none/bck net/minecraft/client/renderer/models/Model_cdl
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
-CLASS none/bcl net/minecraft/client/renderers/models/ModelWitch
+CLASS none/bcl net/minecraft/client/renderer/models/ModelWitch
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
-CLASS none/bcm net/minecraft/client/renderers/models/ModelWither
-	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
-	METHOD a render (Lnone/pl;FFFFFF)V
-	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bcn net/minecraft/client/renderers/models/ModelWolf
+CLASS none/bcm net/minecraft/client/renderer/models/ModelWither
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
 	METHOD a render (Lnone/pl;FFFFFF)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bco net/minecraft/client/renderers/models/ModelZombie
+CLASS none/bcn net/minecraft/client/renderer/models/ModelWolf
 	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
-CLASS none/bcp net/minecraft/client/renderers/models/ModelEnderDragon
 	METHOD a render (Lnone/pl;FFFFFF)V
 	METHOD a setLivingAnimations (Lnone/ps;FFF)V
-CLASS none/bcq net/minecraft/client/renderers/models/ModelEnderCrystal
+CLASS none/bco net/minecraft/client/renderer/models/ModelZombie
+	METHOD a setRotationAngles (FFFFFFLnone/pl;)V
+CLASS none/bcp net/minecraft/client/renderer/models/ModelEnderDragon
+	METHOD a render (Lnone/pl;FFFFFF)V
+	METHOD a setLivingAnimations (Lnone/ps;FFF)V
+CLASS none/bcq net/minecraft/client/renderer/models/ModelEnderCrystal
 	METHOD a render (Lnone/pl;FFFFFF)V
 CLASS none/bcs net/minecraft/client/model/ModelBox
 	FIELD a posX1 F
@@ -19535,7 +19535,7 @@ CLASS none/bcs net/minecraft/client/model/ModelBox
 	FIELD i quadList [Lnone/bbt;
 	METHOD a getRenamedBox (Ljava/lang/String;)Lnone/bcs;
 	METHOD a render (Lnone/bfe;F)V
-CLASS none/bcu net/minecraft/client/renderers/ModelRenderer
+CLASS none/bcu net/minecraft/client/renderer/ModelRenderer
 	FIELD a textureWidth F
 	FIELD b textureHeight F
 	FIELD c rotationPointX F
@@ -19993,7 +19993,7 @@ CLASS none/bec net/minecraft/entity/particle/EntityParticle
 	METHOD s_ canTriggerWalking ()Z
 	METHOD t_ update ()V
 	METHOD toString ()Ljava/lang/String;
-CLASS none/bed net/minecraft/client/renderers/EffectRenderer
+CLASS none/bed net/minecraft/client/renderer/EffectRenderer
 	FIELD a level Lnone/adn;
 	FIELD b PARTICLES_PNG Lnone/jz;
 	FIELD f random Ljava/util/Random;
@@ -20171,7 +20171,7 @@ CLASS none/bfa
 	METHOD g getFieldAmount ()I
 	METHOD i getLock ()Lnone/oo;
 	METHOD r_ isLocked ()Z
-CLASS none/bfe net/minecraft/client/renderers/BufferBuilder
+CLASS none/bfe net/minecraft/client/renderer/BufferBuilder
 	CLASS none/bfe$a VertexFormatWithInts
 		FIELD c vertexFormat Lnone/bmv;
 		METHOD <init> (Lnone/bfe;[ILnone/bmv;)V
@@ -20243,7 +20243,7 @@ CLASS none/bfe net/minecraft/client/renderers/BufferBuilder
 	METHOD h getVertexCount ()I
 	METHOD i getDrawMode ()I
 	METHOD j getByteIndex ()I
-CLASS none/bff net/minecraft/client/renderers/LevelVertexBufferUploader
+CLASS none/bff net/minecraft/client/renderer/LevelVertexBufferUploader
 	CLASS none/bff$1
 		FIELD a VALUES [I
 CLASS none/bfg net/minecraft/world/OverriddenBlockStatesChunkCache
@@ -20267,13 +20267,13 @@ CLASS none/bfg net/minecraft/world/OverriddenBlockStatesChunkCache
 		ARG 0 pos
 	METHOD s getBlockEntityAt (Lnone/ck;)Lnone/akx;
 		ARG 0 pos
-CLASS none/bfh net/minecraft/client/renderers/BlockLayerBufferBuilders
+CLASS none/bfh net/minecraft/client/renderer/BlockLayerBufferBuilders
 	FIELD a bufferBuilders [Lnone/bfe;
 	METHOD a getBufferBuilder (I)Lnone/bfe;
 		ARG 0 blockLayerId
 	METHOD a getBufferBuilder (Lnone/adg;)Lnone/bfe;
 		ARG 0 blockLayer
-CLASS none/bfk net/minecraft/client/renderers/EnumBlockVertices
+CLASS none/bfk net/minecraft/client/renderer/EnumBlockVertices
 	CLASS none/bfk$a FacingId
 		FIELD a SOUTH I
 		FIELD b UP I
@@ -20293,19 +20293,24 @@ CLASS none/bfk net/minecraft/client/renderers/EnumBlockVertices
 	FIELD f EAST Lnone/bfk;
 	METHOD a getBlockVertex (I)Lnone/bfk$b;
 	METHOD a getBlockVerticesFromBlockFace (Lnone/cr;)Lnone/bfk;
-CLASS none/bfl net/minecraft/client/renderers/GameRenderer
+CLASS none/bfl net/minecraft/client/renderer/EntityRenderer
 	FIELD E lastFocusTime J
 	FIELD a anaglyph3D Z
 	FIELD aa activeShaderGroup Lnone/bls;
 	FIELD ab SHADERS [Lnone/jz;
 	FIELD ac activeShaderCount I
 	FIELD ad alternativeShaderGroupActive Z
+	FIELD b anaglyphField I
 	FIELD d SHADER_COUNT I
 	FIELD e LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD f RAIN_PNG Lnone/jz;
 	FIELD g SNOW_PNG Lnone/jz;
 	FIELD h minecraft Lnone/avf;
+	FIELD i resourceManager Lnone/bnj;
 	FIELD j random Ljava/util/Random;
+	FIELD k farPlaneDistance F
+	FIELD l mapItemRenderer Lnone/avr;
+	FIELD m rendererUpdateCount I
 	METHOD a onReload (Lnone/bnj;)V
 	METHOD a loadShaderGroup (Lnone/jz;)V
 	METHOD a setViewEntity (Lnone/pl;)V
@@ -20540,14 +20545,14 @@ CLASS none/bfm net/minecraft/client/OpenGL
 	METHOD x disableActiveTexture ()V
 	METHOD y glGenTextures ()I
 	METHOD z enableNormalize ()V
-CLASS none/bfo net/minecraft/client/renderers/PlayerRenderer
-	FIELD a MAP_BACKGROUND_PNG Lnone/jz;
-	FIELD b UNDERWATER_PNG Lnone/jz;
+CLASS none/bfo net/minecraft/client/renderer/ItemRenderer
+	FIELD a MAP_BACKGROUND Lnone/jz;
+	FIELD b UNDERWATER Lnone/jz;
 	FIELD c minecraft Lnone/avf;
 	FIELD d heldItemStack Lnone/zy;
 	FIELD g entityRenderer Lnone/biv;
 	FIELD h itemRenderer Lnone/bji;
-CLASS none/bfs net/minecraft/client/renderers/WorldRenderer
+CLASS none/bfs net/minecraft/client/renderer/WorldRenderer
 	CLASS none/bfs$a ChunkSectionRendererWithFacings
 		FIELD a chunkSectionRenderer Lnone/bhu;
 		FIELD b facing Lnone/cr;
@@ -20664,7 +20669,7 @@ CLASS none/bfx net/minecraft/client/shader/FrameBuffer
 	METHOD d unbindTexture ()V
 	METHOD e unbindFrameBuffer ()V
 	METHOD f frameBufferClear ()V
-CLASS none/bfy net/minecraft/client/renderers/Tessellator
+CLASS none/bfy net/minecraft/client/renderer/Tessellator
 	FIELD a levelRenderer Lnone/bfe;
 	FIELD b vboUploader Lnone/bff;
 	FIELD c INSTANCE Lnone/bfy;
@@ -20674,7 +20679,7 @@ CLASS none/bfy net/minecraft/client/renderers/Tessellator
 CLASS none/bfz
 	METHOD a loadBufferPointers ()V
 CLASS none/bga
-CLASS none/bgb net/minecraft/client/renderers/ChunkSectionRenderers
+CLASS none/bgb net/minecraft/client/renderer/ChunkSectionRenderers
 	FIELD a worldRenderer Lnone/bfs;
 	FIELD b world Lnone/adn;
 	FIELD c numYBlockRenderers I
@@ -20755,13 +20760,6 @@ CLASS none/bgg
 		FIELD d SOUTH Lnone/bgg$a;
 		FIELD e WEST Lnone/bgg$a;
 		FIELD f EAST Lnone/bgg$a;
-	CLASS none/bgg$c
-		FIELD a DOWN Lnone/bgg$c;
-		FIELD b UP Lnone/bgg$c;
-		FIELD c NORTH Lnone/bgg$c;
-		FIELD d SOUTH Lnone/bgg$c;
-		FIELD e WEST Lnone/bgg$c;
-		FIELD f EAST Lnone/bgg$c;
 	CLASS none/bgg$d
 		FIELD a DOWN Lnone/bgg$d;
 		FIELD b UP Lnone/bgg$d;
@@ -21176,16 +21174,16 @@ CLASS none/bgy
 CLASS none/bgz net/minecraft/client/renderer/block/statemap/IStateMapper
 	METHOD a putStateModelLocations (Lnone/afi;)Ljava/util/Map;
 		ARG 0 block
-CLASS none/bhb net/minecraft/client/renderers/blockentity/BlockEntityBannerRenderer
+CLASS none/bhb net/minecraft/client/renderer/blockentity/BlockEntityBannerRenderer
 	FIELD d BANNER_BASE_PNG Lnone/jz;
 	FIELD e modelBanner Lnone/bav;
 	METHOD a render (Lnone/akv;DDDFI)V
 	METHOD a render (Lnone/akx;DDDFI)V
-CLASS none/bhc net/minecraft/client/renderers/blockentity/BlockEntityBeaconRenderer
+CLASS none/bhc net/minecraft/client/renderer/blockentity/BlockEntityBeaconRenderer
 	FIELD c BEACON_BEAM_PNG Lnone/jz;
 	METHOD a render (Lnone/akw;DDDFI)V
 	METHOD a render (Lnone/akx;DDDFI)V
-CLASS none/bhd net/minecraft/client/renderers/blockentity/BlockEntityRendererRegistry
+CLASS none/bhd net/minecraft/client/renderer/blockentity/BlockEntityRendererRegistry
 	FIELD a instance Lnone/bhd;
 	FIELD e textureManager Lnone/bmk;
 	FIELD f level Lnone/adn;
@@ -21198,7 +21196,7 @@ CLASS none/bhd net/minecraft/client/renderers/blockentity/BlockEntityRendererReg
 	METHOD a render (Lnone/akx;DDDF)V
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD b getDetailsRendererForBlockEntity (Lnone/akx;)Lnone/bhe;
-CLASS none/bhe net/minecraft/client/renderers/blockentity/BlockEntityRenderer
+CLASS none/bhe net/minecraft/client/renderer/blockentity/BlockEntityRenderer
 	FIELD a DESTROY_STAGE_PNGS [Lnone/jz;
 	FIELD b blockEntityRenderer Lnone/bhd;
 	METHOD a render (Lnone/akx;DDDFI)V
@@ -21206,7 +21204,7 @@ CLASS none/bhe net/minecraft/client/renderers/blockentity/BlockEntityRenderer
 	METHOD a bindTexture (Lnone/jz;)V
 	METHOD b getLevel ()Lnone/adn;
 	METHOD c getFontRenderer ()Lnone/avo;
-CLASS none/bhf net/minecraft/client/renderers/blockentity/BlockEntityChestRenderer
+CLASS none/bhf net/minecraft/client/renderer/blockentity/BlockEntityChestRenderer
 	FIELD c TRAPPED_DOUBLE_PNG Lnone/jz;
 	FIELD d CHRISTMAS_DOUBLE_PNG Lnone/jz;
 	FIELD e CHEST_DOUBLE_PNG Lnone/jz;
@@ -21215,27 +21213,27 @@ CLASS none/bhf net/minecraft/client/renderers/blockentity/BlockEntityChestRender
 	FIELD h CHEST_PNG Lnone/jz;
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/akz;DDDFI)V
-CLASS none/bhg net/minecraft/client/renderers/blockentity/BlockEntityEnchantmentTableRenderer
+CLASS none/bhg net/minecraft/client/renderer/blockentity/BlockEntityEnchantmentTableRenderer
 	FIELD c ENCHANTING_TABLE_BOOK_PNG Lnone/jz;
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/alf;DDDFI)V
-CLASS none/bhh net/minecraft/client/renderers/blockentity/BlockEntityEnderChestRenderer
+CLASS none/bhh net/minecraft/client/renderer/blockentity/BlockEntityEnderChestRenderer
 	FIELD c ENDER_PNG Lnone/jz;
 	FIELD d modelSingleChest Lnone/bba;
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/alg;DDDFI)V
-CLASS none/bhi net/minecraft/client/renderers/blockentity/BlockEntityMobSpawnerRenderer
+CLASS none/bhi net/minecraft/client/renderer/blockentity/BlockEntityMobSpawnerRenderer
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/alm;DDDFI)V
-CLASS none/bhj net/minecraft/client/renderers/blockentity/BlockEntityPistonRenderer
+CLASS none/bhj net/minecraft/client/renderer/blockentity/BlockEntityPistonRenderer
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/alv;DDDFI)V
-CLASS none/bhk net/minecraft/client/renderers/blockentity/BlockEntitySignRenderer
+CLASS none/bhk net/minecraft/client/renderer/blockentity/BlockEntitySignRenderer
 	FIELD c SIGN_PNG Lnone/jz;
 	FIELD d modelSign Lnone/bby;
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/alo;DDDFI)V
-CLASS none/bhl net/minecraft/client/renderers/blockentity/BlockEntitySkullRenderer
+CLASS none/bhl net/minecraft/client/renderer/blockentity/BlockEntitySkullRenderer
 	FIELD d SKELETON_PNG Lnone/jz;
 	FIELD e WITHER_SKELETON_PNG Lnone/jz;
 	FIELD f ZOMBIE_PNG Lnone/jz;
@@ -21243,19 +21241,17 @@ CLASS none/bhl net/minecraft/client/renderers/blockentity/BlockEntitySkullRender
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/alp;DDDFI)V
 	METHOD a setBlockEntityRenderer (Lnone/bhd;)V
-CLASS none/bhm net/minecraft/client/renderers/blockentity/BlockEntityEndPortalRenderer
+CLASS none/bhm net/minecraft/client/renderer/blockentity/BlockEntityEndPortalRenderer
 	FIELD d END_SKY_PNG Lnone/jz;
 	FIELD e END_PORTAL_PNG Lnone/jz;
 	METHOD a render (Lnone/akx;DDDFI)V
-CLASS none/bho net/minecraft/client/renderers/ChunkSectionRunnablesManager
+CLASS none/bho net/minecraft/client/renderer/ChunkSectionRunnablesManager
 	CLASS none/bho$a State
 		FIELD a PENDING Lnone/bho$a;
 		FIELD b COMPILING Lnone/bho$a;
 		FIELD c UPLOADING Lnone/bho$a;
 		FIELD d DONE Lnone/bho$a;
 	CLASS none/bho$b Enum1
-		FIELD a REBUILD_CHUNK Lnone/bho$b;
-		FIELD b RESORT_TRANSPARENCY Lnone/bho$b;
 	FIELD a chunkSectionRenderer Lnone/bhu;
 	FIELD b lock Ljava/util/concurrent/locks/ReentrantLock;
 	FIELD c runnables Ljava/util/List;
@@ -21281,7 +21277,7 @@ CLASS none/bho net/minecraft/client/renderers/ChunkSectionRunnablesManager
 	METHOD f getLock ()Ljava/util/concurrent/locks/ReentrantLock;
 	METHOD g getEnum1Val ()Lnone/bho$b;
 	METHOD h shouldRunImmediately ()Z
-CLASS none/bhp net/minecraft/client/renderers/ChunkSectionRenderQueue
+CLASS none/bhp net/minecraft/client/renderer/ChunkSectionRenderQueue
 	FIELD a log Lorg/apache/logging/log4j/Logger;
 	FIELD b threadFactory Ljava/util/concurrent/ThreadFactory;
 	FIELD d chunkSectionRunnablesManagerQueue Ljava/util/concurrent/BlockingQueue;
@@ -21296,7 +21292,7 @@ CLASS none/bhp net/minecraft/client/renderers/ChunkSectionRenderQueue
 	METHOD c queueChunkSectionRender (Lnone/bhu;)Z
 		ARG 0 chunkSectionRenderer
 	METHOD e runUntilEmpty ()V
-CLASS none/bhr net/minecraft/client/renderers/BlockLayerFlagsAndBlockEntities
+CLASS none/bhr net/minecraft/client/renderer/BlockLayerFlagsAndBlockEntities
 	CLASS none/bhr$1
 		METHOD a setBlockLayerFlag1On (Lnone/adg;)V
 		METHOD a isFacingPairFlagOn (Lnone/cr;Lnone/cr;)Z
@@ -21328,13 +21324,13 @@ CLASS none/bhr net/minecraft/client/renderers/BlockLayerFlagsAndBlockEntities
 		ARG 0 layer
 	METHOD d isBlockLayerFlag2On (Lnone/adg;)Z
 		ARG 0 layer
-CLASS none/bhs net/minecraft/client/renderers/DisplayListChunkSectionRendererCreator
+CLASS none/bhs net/minecraft/client/renderer/DisplayListChunkSectionRendererCreator
 	METHOD a getBlockRenderer (Lnone/adn;Lnone/bfs;Lnone/ck;I)Lnone/bhu;
-CLASS none/bht net/minecraft/client/renderers/DisplayListChunkSectionRenderer
+CLASS none/bht net/minecraft/client/renderer/DisplayListChunkSectionRenderer
 	FIELD d displayListID I
 	METHOD a cleanup ()V
 	METHOD a getDisplayListID (Lnone/adg;Lnone/bhr;)I
-CLASS none/bhu net/minecraft/client/renderers/ChunkSectionRenderer
+CLASS none/bhu net/minecraft/client/renderer/ChunkSectionRenderer
 	FIELD a numChunkUpdates I
 	FIELD b blockLayerFlagsAndBlockEntities Lnone/bhr;
 	FIELD c aabb Lnone/auh;
@@ -21382,18 +21378,18 @@ CLASS none/bhu net/minecraft/client/renderers/ChunkSectionRenderer
 	METHOD j getBlockPos ()Lnone/ck;
 	METHOD l needsBuilding ()Z
 	METHOD m calculateMatrixBuffer ()V
-CLASS none/bhv net/minecraft/client/renderers/IChunkSectionRendererSource
+CLASS none/bhv net/minecraft/client/renderer/IChunkSectionRendererSource
 	METHOD a getBlockRenderer (Lnone/adn;Lnone/bfs;Lnone/ck;I)Lnone/bhu;
 		ARG 0 world
 		ARG 1 worldRenderer
 		ARG 2 pos
-CLASS none/bhw net/minecraft/client/renderers/ChunkSectionRendererCreator
+CLASS none/bhw net/minecraft/client/renderer/ChunkSectionRendererCreator
 	METHOD a getBlockRenderer (Lnone/adn;Lnone/bfs;Lnone/ck;I)Lnone/bhu;
 		ARG 0 world
 		ARG 1 worldRenderer
 		ARG 2 pos
 		ARG 3 viewDistance
-CLASS none/bhx net/minecraft/client/renderers/ChunkSectionFacingCalculator
+CLASS none/bhx net/minecraft/client/renderer/ChunkSectionFacingCalculator
 	FIELD a one I
 	FIELD b sixteen I
 	FIELD c twofiftysix I
@@ -21433,68 +21429,68 @@ CLASS none/bhy net/minecraft/util/FacingPairFlags
 		ARG 2 val
 	METHOD a setAllFlags (Z)V
 		ARG 0 val
-CLASS none/bih net/minecraft/client/renderers/entity/RenderArmorStand
+CLASS none/bih net/minecraft/client/renderer/entity/RenderArmorStand
 	FIELD a ARMOR_STAND_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a rotateCorpse (Lnone/ps;FFF)V
 	METHOD a getTextureLocation (Lnone/un;)Lnone/jz;
 	METHOD b getModel ()Lnone/bbp;
-CLASS none/bii net/minecraft/client/renderers/entity/RenderArrow
+CLASS none/bii net/minecraft/client/renderer/entity/RenderArrow
 	FIELD a ARROW_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/wr;)Lnone/jz;
-CLASS none/bij net/minecraft/client/renderers/RenderBat
+CLASS none/bij net/minecraft/client/renderer/RenderBat
 	FIELD a BAT_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a rotateCorpse (Lnone/ps;FFF)V
 	METHOD a getTextureLocation (Lnone/tl;)Lnone/jz;
-CLASS none/bik net/minecraft/client/renderers/RenderBlaze
+CLASS none/bik net/minecraft/client/renderer/RenderBlaze
 	FIELD a BLAZE_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vm;)Lnone/jz;
-CLASS none/bil net/minecraft/client/renderers/RenderBoat
+CLASS none/bil net/minecraft/client/renderer/RenderBoat
 	FIELD e BOAT_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/uy;)Lnone/jz;
-CLASS none/bim net/minecraft/client/renderers/RenderCaveSpider
+CLASS none/bim net/minecraft/client/renderer/RenderCaveSpider
 	FIELD a CAVE_SPIDER_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vn;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/wd;)Lnone/jz;
-CLASS none/bin net/minecraft/client/renderers/RenderChicken
+CLASS none/bin net/minecraft/client/renderer/RenderChicken
 	FIELD a CHICKEN_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/to;)Lnone/jz;
-CLASS none/bio net/minecraft/client/renderers/RenderCow
+CLASS none/bio net/minecraft/client/renderer/RenderCow
 	FIELD a COW_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/tp;)Lnone/jz;
-CLASS none/bip net/minecraft/client/renderers/RenderCreeper
+CLASS none/bip net/minecraft/client/renderer/RenderCreeper
 	FIELD a CREEPER_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vo;)Lnone/jz;
-CLASS none/biq net/minecraft/client/renderers/RenderEntity
+CLASS none/biq net/minecraft/client/renderer/RenderEntity
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
-CLASS none/bir net/minecraft/client/renderers/RenderEnderCrystal
+CLASS none/bir net/minecraft/client/renderer/RenderEnderCrystal
 	FIELD a ENDERCRYSTAL_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/ug;)Lnone/jz;
-CLASS none/bis net/minecraft/client/renderers/RenderEnderdragon
+CLASS none/bis net/minecraft/client/renderer/RenderEnderdragon
 	FIELD e ENDERCRYSTAL_BEAM_PNG Lnone/jz;
 	FIELD j DRAGON_EXPLODING_PNG Lnone/jz;
 	FIELD k DRAGON_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a rotateCorpse (Lnone/ps;FFF)V
 	METHOD a getTextureLocation (Lnone/uh;)Lnone/jz;
-CLASS none/bit net/minecraft/client/renderers/RenderEnderman
+CLASS none/bit net/minecraft/client/renderer/RenderEnderman
 	FIELD a ENDERMAN_PNG Lnone/jz;
 	FIELD e modelEnderman Lnone/bbe;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vp;)Lnone/jz;
-CLASS none/biu net/minecraft/client/renderers/RenderEndermite
+CLASS none/biu net/minecraft/client/renderer/RenderEndermite
 	FIELD a ENDERMITE_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
-CLASS none/biv net/minecraft/client/renderers/EntityRenderer
+CLASS none/biv
 	FIELD a renderEngine Lnone/bmk;
 	FIELD b level Lnone/adn;
 	FIELD g gameSettings Lnone/avi;
@@ -21506,7 +21502,7 @@ CLASS none/biv net/minecraft/client/renderers/EntityRenderer
 	METHOD a renderEntityWithPosYaw (Lnone/pl;DDDFF)Z
 	METHOD a renderEntityWithPosYaw (Lnone/pl;DDDFFZ)Z
 	METHOD c getFontRenderer ()Lnone/avo;
-CLASS none/biw net/minecraft/client/renderers/Render
+CLASS none/biw net/minecraft/client/renderer/Render
 	FIELD a SHADOW_PNG Lnone/jz;
 	FIELD b renderer Lnone/biv;
 	METHOD a getLevel ()Lnone/adn;
@@ -21514,36 +21510,36 @@ CLASS none/biw net/minecraft/client/renderers/Render
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD c getFontRenderer ()Lnone/avo;
 	METHOD d getRenderer ()Lnone/biv;
-CLASS none/bix net/minecraft/client/renderers/RenderXBOrb
+CLASS none/bix net/minecraft/client/renderer/RenderXBOrb
 	FIELD a EXPERIENCE_ORB_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pq;)Lnone/jz;
-CLASS none/biy net/minecraft/client/renderers/RenderFallingBlock
+CLASS none/biy net/minecraft/client/renderer/RenderFallingBlock
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/uz;)Lnone/jz;
-CLASS none/biz net/minecraft/client/renderers/RenderFireball
+CLASS none/biz net/minecraft/client/renderer/RenderFireball
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/wt;)Lnone/jz;
-CLASS none/bja net/minecraft/client/renderers/RenderFishingHook
+CLASS none/bja net/minecraft/client/renderer/RenderFishingHook
 	FIELD a PARTICLES_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/us;)Lnone/jz;
-CLASS none/bjb net/minecraft/client/renderers/RenderGhast
+CLASS none/bjb net/minecraft/client/renderer/RenderGhast
 	FIELD a GHAST_PNG Lnone/jz;
 	FIELD e GHAST_SHOOTING_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vs;)Lnone/jz;
-CLASS none/bjc net/minecraft/client/renderers/RenderGiant
+CLASS none/bjc net/minecraft/client/renderer/RenderGiant
 	FIELD a ZOMBIE_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vt;)Lnone/jz;
-CLASS none/bjd net/minecraft/client/renderers/RenderGuardian
+CLASS none/bjd net/minecraft/client/renderer/RenderGuardian
 	FIELD e GUARDIAN_PNG Lnone/jz;
 	FIELD j GUARDIAN_ELDER_PNG Lnone/jz;
 	FIELD k GUARDIAN_BEAM_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vu;)Lnone/jz;
-CLASS none/bje net/minecraft/client/renderers/RenderHorse
+CLASS none/bje net/minecraft/client/renderer/RenderHorse
 	FIELD e HORSE_WHITE_PNG Lnone/jz;
 	FIELD j MULE_PNG Lnone/jz;
 	FIELD k DONKEY_PNG Lnone/jz;
@@ -21556,10 +21552,10 @@ CLASS none/bjf
 	FIELD j STEVE_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pt;)Lnone/jz;
-CLASS none/bjg net/minecraft/client/renderers/RenderItem
+CLASS none/bjg net/minecraft/client/renderer/RenderItem
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/va;)Lnone/jz;
-CLASS none/bjh net/minecraft/client/renderers/RenderItemFrame
+CLASS none/bjh net/minecraft/client/renderer/RenderItemFrame
 	FIELD a MAP_BACKGROUND_PNG Lnone/jz;
 	FIELD e minecraft Lnone/avf;
 	FIELD h itemRenderer Lnone/bji;
@@ -21573,16 +21569,16 @@ CLASS none/bji net/minecraft/item/ItemRenderer
 	METHOD a renderItemOverlayIntoGUI (Lnone/avo;Lnone/zy;IILjava/lang/String;)V
 	METHOD a onReload (Lnone/bnj;)V
 	METHOD b renderItemAndEffectIntoGUI (Lnone/zy;II)V
-CLASS none/bjj net/minecraft/client/renderers/RenderMagmaCube
+CLASS none/bjj net/minecraft/client/renderer/RenderMagmaCube
 	FIELD a MAGMACUBE_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vv;)Lnone/jz;
 	METHOD a scaleMagmaCube (Lnone/vv;F)V
-CLASS none/bjk net/minecraft/client/renderers/RenderLeashKnot
+CLASS none/bjk net/minecraft/client/renderer/RenderLeashKnot
 	FIELD a LEAD_KNOT_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/uq;)Lnone/jz;
-CLASS none/bjl net/minecraft/client/renderers/RenderLightningBolt
+CLASS none/bjl net/minecraft/client/renderer/RenderLightningBolt
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/uw;)Lnone/jz;
 CLASS none/bjm
@@ -21590,37 +21586,37 @@ CLASS none/bjm
 	FIELD f model Lnone/bbp;
 	METHOD a rotateCorpse (Lnone/ps;FFF)V
 	METHOD b getModel ()Lnone/bbp;
-CLASS none/bjn net/minecraft/client/renderers/RenderMinecartBase
+CLASS none/bjn net/minecraft/client/renderer/RenderMinecartBase
 	FIELD e MINECART_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vb;)Lnone/jz;
-CLASS none/bjo net/minecraft/client/renderers/RenderMinecartSpawner
-CLASS none/bjp net/minecraft/client/renderers/RenderLiving
-CLASS none/bjq net/minecraft/client/renderers/RenderMooshroom
+CLASS none/bjo net/minecraft/client/renderer/RenderMinecartSpawner
+CLASS none/bjp net/minecraft/client/renderer/RenderLiving
+CLASS none/bjq net/minecraft/client/renderer/RenderMooshroom
 	FIELD a MOOSHROOM_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/ts;)Lnone/jz;
-CLASS none/bjr net/minecraft/client/renderers/RenderOcelot
+CLASS none/bjr net/minecraft/client/renderer/RenderOcelot
 	FIELD a CAT_BLACK_PNG Lnone/jz;
 	FIELD e CAT_OCELOT_PNG Lnone/jz;
 	FIELD j CAT_RED_PNG Lnone/jz;
 	FIELD k CAT_SIAMESE_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/tt;)Lnone/jz;
-CLASS none/bjs net/minecraft/client/renderers/RenderPainting
+CLASS none/bjs net/minecraft/client/renderer/RenderPainting
 	FIELD a PAINTINGS_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/ur;)Lnone/jz;
-CLASS none/bjt net/minecraft/client/renderers/RenderPig
+CLASS none/bjt net/minecraft/client/renderer/RenderPig
 	FIELD a PIG_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/tu;)Lnone/jz;
-CLASS none/bju net/minecraft/client/renderers/RenderPigZombie
+CLASS none/bju net/minecraft/client/renderer/RenderPigZombie
 	FIELD j ZOMBIE_PIGMAN_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pt;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vx;)Lnone/jz;
-CLASS none/bjv net/minecraft/client/renderers/RenderRabbit
+CLASS none/bjv net/minecraft/client/renderer/RenderRabbit
 	FIELD a RABBIT_BROWN_PNG Lnone/jz;
 	FIELD e RABBIT_WHITE_PNG Lnone/jz;
 	FIELD j RABBIT_BLACK_PNG Lnone/jz;
@@ -21631,52 +21627,52 @@ CLASS none/bjv net/minecraft/client/renderers/RenderRabbit
 	FIELD o RABBIT_CAERBANNOG_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/tv;)Lnone/jz;
-CLASS none/bjw net/minecraft/client/renderers/RenderSheep
+CLASS none/bjw net/minecraft/client/renderer/RenderSheep
 	FIELD a SHEEP_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/tw;)Lnone/jz;
-CLASS none/bjx net/minecraft/client/renderers/RenderSilverfish
+CLASS none/bjx net/minecraft/client/renderer/RenderSilverfish
 	FIELD a SILVERFISH_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
-CLASS none/bjy net/minecraft/client/renderers/RenderSkeleton
+CLASS none/bjy net/minecraft/client/renderer/RenderSkeleton
 	FIELD j SKELETON_PNG Lnone/jz;
 	FIELD k WITHER_SKELETON_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pt;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/wb;)Lnone/jz;
-CLASS none/bjz net/minecraft/client/renderers/RenderSlime
+CLASS none/bjz net/minecraft/client/renderer/RenderSlime
 	FIELD a SLIME_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/wc;)Lnone/jz;
-CLASS none/bka net/minecraft/client/renderers/RenderSnowman
+CLASS none/bka net/minecraft/client/renderer/RenderSnowman
 	FIELD a SNOWMAN_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/tx;)Lnone/jz;
 	METHOD b getModel ()Lnone/bbp;
-CLASS none/bkb net/minecraft/client/renderers/RenderSpider
+CLASS none/bkb net/minecraft/client/renderer/RenderSpider
 	FIELD a SPIDER_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/wd;)Lnone/jz;
-CLASS none/bkc net/minecraft/client/renderers/RenderSquid
+CLASS none/bkc net/minecraft/client/renderer/RenderSquid
 	FIELD a SQUID_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a rotateCorpse (Lnone/ps;FFF)V
 	METHOD a getTextureLocation (Lnone/ty;)Lnone/jz;
-CLASS none/bkd net/minecraft/client/renderers/RenderThrown
+CLASS none/bkd net/minecraft/client/renderer/RenderThrown
 	FIELD a item Lnone/zx;
 	FIELD e itemRenderer Lnone/bji;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
-CLASS none/bke net/minecraft/client/renderers/RenderPotion
-CLASS none/bkf net/minecraft/client/renderers/RenderMinecartTNT
-CLASS none/bkg net/minecraft/client/renderers/RenderPrimedTNT
+CLASS none/bke net/minecraft/client/renderer/RenderPotion
+CLASS none/bkf net/minecraft/client/renderer/RenderMinecartTNT
+CLASS none/bkg net/minecraft/client/renderer/RenderPrimedTNT
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/vk;)Lnone/jz;
-CLASS none/bkh net/minecraft/client/renderers/RenderIronGolem
+CLASS none/bkh net/minecraft/client/renderer/RenderIronGolem
 	FIELD a IRON_GOLEM_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a rotateCorpse (Lnone/ps;FFF)V
 	METHOD a getTextureLocation (Lnone/tz;)Lnone/jz;
-CLASS none/bki net/minecraft/client/renderers/RenderVillager
+CLASS none/bki net/minecraft/client/renderer/RenderVillager
 	FIELD a VILLAGER_PNG Lnone/jz;
 	FIELD e FARMER_PNG Lnone/jz;
 	FIELD j LIBRARIAN_PNG Lnone/jz;
@@ -21686,27 +21682,27 @@ CLASS none/bki net/minecraft/client/renderers/RenderVillager
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/wj;)Lnone/jz;
 	METHOD b getModel ()Lnone/bbp;
-CLASS none/bkj net/minecraft/client/renderers/RenderWitch
+CLASS none/bkj net/minecraft/client/renderer/RenderWitch
 	FIELD a WITCH_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/we;)Lnone/jz;
-CLASS none/bkk net/minecraft/client/renderers/RenderWither
+CLASS none/bkk net/minecraft/client/renderer/RenderWither
 	FIELD a WITHER_INVULNERABLE_PNG Lnone/jz;
 	FIELD e WITHER_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/ul;)Lnone/jz;
-CLASS none/bkl net/minecraft/client/renderers/RenderWitherSkull
+CLASS none/bkl net/minecraft/client/renderer/RenderWitherSkull
 	FIELD a WITHER_INVULNERABLE_PNG Lnone/jz;
 	FIELD e WITHER_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/xe;)Lnone/jz;
-CLASS none/bkm net/minecraft/client/renderers/RenderWolf
+CLASS none/bkm net/minecraft/client/renderer/RenderWolf
 	FIELD a WOLF_PNG Lnone/jz;
 	FIELD e WOLF_TAME_PNG Lnone/jz;
 	FIELD j WOLF_ANGRY_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/ub;)Lnone/jz;
-CLASS none/bkn net/minecraft/client/renderers/RenderZombie
+CLASS none/bkn net/minecraft/client/renderer/RenderZombie
 	FIELD j ZOMBIE_PNG Lnone/jz;
 	FIELD k ZOMBIE_VILLAGER_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
@@ -21723,7 +21719,7 @@ CLASS none/bkq
 CLASS none/bkr
 	FIELD a renderEnderman Lnone/bit;
 	METHOD a render (Lnone/ps;FFFFFFF)V
-CLASS none/bks net/minecraft/client/renderers/RenderCreeperArmor
+CLASS none/bks net/minecraft/client/renderer/RenderCreeperArmor
 	FIELD a CREEPER_ARMOR_PNG Lnone/jz;
 	FIELD b renderCreeper Lnone/bip;
 	FIELD c modelCreeper Lnone/bbd;
@@ -21735,12 +21731,12 @@ CLASS none/bku
 	METHOD a render (Lnone/ps;FFFFFFF)V
 CLASS none/bkv
 	METHOD a render (Lnone/ps;FFFFFFF)V
-CLASS none/bkw net/minecraft/client/renderers/RenderDragonEyes
+CLASS none/bkw net/minecraft/client/renderer/RenderDragonEyes
 	FIELD a DRAGON_EYES_PNG Lnone/jz;
 	FIELD b renderEnderdragon Lnone/bis;
 	METHOD a render (Lnone/ps;FFFFFFF)V
 	METHOD a render (Lnone/uh;FFFFFFF)V
-CLASS none/bkx net/minecraft/client/renderers/RenderEndermanEyes
+CLASS none/bkx net/minecraft/client/renderer/RenderEndermanEyes
 	FIELD a ENDERMAN_EYES_PNG Lnone/jz;
 	FIELD b renderEnderman Lnone/bit;
 	METHOD a render (Lnone/ps;FFFFFFF)V
@@ -21749,15 +21745,15 @@ CLASS none/bkz
 	METHOD a render (Lnone/ps;FFFFFFF)V
 CLASS none/bla
 	METHOD a render (Lnone/ps;FFFFFFF)V
-CLASS none/blb net/minecraft/client/renderers/RenderPigSaddle
+CLASS none/blb net/minecraft/client/renderer/RenderPigSaddle
 	FIELD a PIG_SADDLE_PNG Lnone/jz;
 	FIELD b renderPig Lnone/bjt;
 	FIELD c modelPig Lnone/bbr;
 	METHOD a render (Lnone/ps;FFFFFFF)V
 	METHOD a render (Lnone/tu;FFFFFFF)V
-CLASS none/blc net/minecraft/client/renderers/IRenderLivingEntityProp
+CLASS none/blc net/minecraft/client/renderer/IRenderLivingEntityProp
 	METHOD a render (Lnone/ps;FFFFFFF)V
-CLASS none/bld net/minecraft/client/renderers/RenderSheepFur
+CLASS none/bld net/minecraft/client/renderer/RenderSheepFur
 	FIELD a SHEEP_FUR_PNG Lnone/jz;
 	FIELD b renderSheep Lnone/bjw;
 	FIELD c modelSheep Lnone/bbw;
@@ -21767,7 +21763,7 @@ CLASS none/ble
 	METHOD a render (Lnone/ps;FFFFFFF)V
 CLASS none/blf
 	METHOD a render (Lnone/ps;FFFFFFF)V
-CLASS none/blg net/minecraft/client/renderers/RenderSpiderEyes
+CLASS none/blg net/minecraft/client/renderer/RenderSpiderEyes
 	FIELD a SPIDER_EYES_PNG Lnone/jz;
 	FIELD b renderSpider Lnone/bkb;
 	METHOD a render (Lnone/ps;FFFFFFF)V
@@ -21779,18 +21775,18 @@ CLASS none/blj
 	FIELD a renderWitch Lnone/bkj;
 	METHOD a render (Lnone/ps;FFFFFFF)V
 	METHOD a render (Lnone/we;FFFFFFF)V
-CLASS none/blk net/minecraft/client/renderers/RenderWitherArmor
+CLASS none/blk net/minecraft/client/renderer/RenderWitherArmor
 	FIELD a WITHER_ARMOR_PNG Lnone/jz;
 	FIELD b renderWither Lnone/bkk;
 	FIELD c modelWither Lnone/bcm;
 	METHOD a render (Lnone/ps;FFFFFFF)V
 	METHOD a render (Lnone/ul;FFFFFFF)V
-CLASS none/bll net/minecraft/client/renderers/RenderWolfCollar
+CLASS none/bll net/minecraft/client/renderer/RenderWolfCollar
 	FIELD a WOLF_COLLAR_PNG Lnone/jz;
 	FIELD b renderWolf Lnone/bkm;
 	METHOD a render (Lnone/ps;FFFFFFF)V
 	METHOD a render (Lnone/ub;FFFFFFF)V
-CLASS none/blo net/minecraft/client/renderers/RenderPlayer
+CLASS none/blo net/minecraft/client/renderer/RenderPlayer
 	METHOD a getTextureLocation (Lnone/beu;)Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
 	METHOD a rotateCorpse (Lnone/ps;FFF)V
@@ -22107,7 +22103,11 @@ CLASS none/bmi net/minecraft/client/texture/TextureMap
 	FIELD l atlasPath Ljava/lang/String;
 	FIELD m iconCreator Lnone/bmc;
 	FIELD n mipLevel I
-	FIELD o sprite Lnone/bmj;
+	FIELD o missingSprite Lnone/bmj;
+	METHOD <init> (Ljava/lang/String;)V
+		ARG 0 atlasPath
+	METHOD <init> (Ljava/lang/String;Lnone/bmc;)V
+		ARG 0 atlasPath
 	METHOD a setMipLevel (I)V
 		ARG 0 mipmapLevel
 	METHOD a getSprite (Ljava/lang/String;)Lnone/bmj;
@@ -22270,8 +22270,8 @@ CLASS none/bmq net/minecraft/client/renderer/texture/TextureCompass
 	METHOD a updateCompass (Lnone/adn;DDDZZ)V
 		ARG 0 world
 	METHOD j updateAnimation ()V
-CLASS none/bmt net/minecraft/client/renderers/VertexFormats
-CLASS none/bmu net/minecraft/client/renderers/vertex/VBO
+CLASS none/bmt net/minecraft/client/renderer/VertexFormats
+CLASS none/bmu net/minecraft/client/renderer/vertex/VBO
 	FIELD a bufferID I
 	FIELD b vertexFormat Lnone/bmv;
 	FIELD c vertexCount I
@@ -22280,7 +22280,7 @@ CLASS none/bmu net/minecraft/client/renderers/vertex/VBO
 		ARG 0 mode
 	METHOD b unbindBuffer ()V
 	METHOD c deleteBuffer ()V
-CLASS none/bmv net/minecraft/client/renderers/vertex/VertexFormat
+CLASS none/bmv net/minecraft/client/renderer/vertex/VertexFormat
 	CLASS none/bmv$1 VertexFormatSwitchEnumUsage
 		FIELD a VALUES [I
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
@@ -22305,7 +22305,7 @@ CLASS none/bmv net/minecraft/client/renderers/vertex/VertexFormat
 	METHOD h getElements ()Ljava/util/List;
 	METHOD i getElementCount ()I
 	METHOD j hasPosition ()Z
-CLASS none/bmw net/minecraft/client/renderers/vertex/VertexFormatElement
+CLASS none/bmw net/minecraft/client/renderer/vertex/VertexFormatElement
 	CLASS none/bmw$a VertexFormatElementEnumType
 		FIELD a FLOAT Lnone/bmw$a;
 		FIELD b UBYTE Lnone/bmw$a;
@@ -23025,7 +23025,7 @@ CLASS none/bqp tv/twitch/dat
 	METHOD E getError ()Lnone/bqn$a;
 	METHOD f shutdownStream ()V
 CLASS none/bqr net/minecraft/math/Matrix4f
-CLASS none/bqt net/minecraft/client/renderers/OpenGlHelper
+CLASS none/bqt net/minecraft/client/renderer/OpenGlHelper
 	FIELD A GL_SOURCE1_RGB I
 	FIELD B GL_SOURCE2_RGB I
 	FIELD C GL_OPERAND0_RGB I
