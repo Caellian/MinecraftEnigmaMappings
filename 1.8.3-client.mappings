@@ -5938,7 +5938,7 @@ CLASS none/pu net/minecraft/entity/CreatureTypes
 	METHOD b getMaxAmountInWorld ()I
 	METHOD d isPeacefulCreature ()Z
 	METHOD e isAnimal ()Z
-CLASS none/pv empty/pv
+CLASS none/pv net/minecraft/entity/IEntityLivingData
 CLASS none/pw net/minecraft/entity/MobTypes
 	FIELD a MOB_TYPES Ljava/util/HashMap;
 	METHOD a getMobType (Ljava/lang/Class;)Lnone/pt$a;
@@ -5951,8 +5951,12 @@ CLASS none/py net/minecraft/entity/ITamable
 	METHOD b getOwner ()Ljava/lang/String;
 	METHOD m_ getTamableEntity ()Lnone/pl;
 CLASS none/pz net/minecraft/entity/EntityCreature
+	FIELD a homePosition Lnone/ck;
+	FIELD b maximumHomeDistance F
 	FIELD bk FLEEING_SPEED_ID Ljava/util/UUID;
 	FIELD bl FLEEING_SPEED_BONUS Lnone/qe;
+	FIELD bm isMovementAITaskSet Z
+	FIELD c aiBase Lnone/re;
 	METHOD bR getCanSpawnHere ()Z
 	METHOD cf getNoAI ()Z
 	METHOD e isHomeDistanceFromPosition (Lnone/ck;)Z
@@ -6172,40 +6176,40 @@ CLASS none/qr net/minecraft/entity/ai/MovementHelper
 	METHOD d getPosX ()D
 	METHOD e getPosY ()D
 	METHOD f getPosZ ()D
-CLASS none/qt net/minecraft/entity/ai/GoalAvoidEntity
+CLASS none/qt net/minecraft/entity/ai/TaskAvoidEntity
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/qu net/minecraft/entity/ai/GoalBeg
+CLASS none/qu net/minecraft/entity/ai/TaskBeg
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/qv net/minecraft/entity/ai/GoalBreakDoor
+CLASS none/qv net/minecraft/entity/ai/TaskBreakDoor
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/qw net/minecraft/entity/ai/GoalMate
+CLASS none/qw net/minecraft/entity/ai/TaskMate
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/qx net/minecraft/entity/ai/GoalPlayerControl
+CLASS none/qx net/minecraft/entity/ai/TaskPlayerControl
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/qy net/minecraft/entity/ai/GoalDoorInteract
+CLASS none/qy net/minecraft/entity/ai/TaskDoorInteract
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD e opUpdate ()V
-CLASS none/qz net/minecraft/entity/ai/GoalEatGrass
+CLASS none/qz net/minecraft/entity/ai/TaskEatGrass
 	FIELD b PREDICATE Lcom/google/common/base/Predicate;
 	FIELD c executor Lnone/pt;
 	FIELD d level Lnone/adn;
@@ -6216,26 +6220,26 @@ CLASS none/qz net/minecraft/entity/ai/GoalEatGrass
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/ra net/minecraft/entity/ai/GoalFleeSun
+CLASS none/ra net/minecraft/entity/ai/TaskFleeSun
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
-CLASS none/rb net/minecraft/entity/ai/GoalSwimming
+CLASS none/rb net/minecraft/entity/ai/TaskSwimming
 	METHOD a shouldExecute ()Z
 	METHOD e opUpdate ()V
-CLASS none/rc net/minecraft/entity/ai/GoalFollowOwner
-	METHOD a shouldExecute ()Z
-	METHOD b continueExecuting ()Z
-	METHOD c startExecuting ()V
-	METHOD d resetTask ()V
-	METHOD e opUpdate ()V
-CLASS none/rd net/minecraft/entity/ai/GoalFollowParent
+CLASS none/rc net/minecraft/entity/ai/TaskFollowOwner
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/re net/minecraft/entity/ai/Goal
+CLASS none/rd net/minecraft/entity/ai/TaskFollowParent
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
+	METHOD e opUpdate ()V
+CLASS none/re net/minecraft/entity/ai/Task
 	FIELD a mutexBits I
 	METHOD a shouldExecute ()Z
 	METHOD a setMutexBits (I)V
@@ -6246,34 +6250,34 @@ CLASS none/re net/minecraft/entity/ai/Goal
 	METHOD e opUpdate ()V
 	METHOD i isInterruptible ()Z
 	METHOD j getMutexBits ()I
-CLASS none/rf net/minecraft/entity/ai/EntityGoals
+CLASS none/rf net/minecraft/entity/ai/EntityTasks
 	METHOD a add (ILnone/re;)V
 	METHOD a add (Lnone/re;)V
-CLASS none/rg net/minecraft/entity/ai/GoalPlantCrops
+CLASS none/rg net/minecraft/entity/ai/TaskPlantCrops
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/ri net/minecraft/entity/ai/GoalLeapAtTarget
+CLASS none/ri net/minecraft/entity/ai/TaskLeapAtTarget
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
-CLASS none/rj net/minecraft/entity/ai/GoalWatchEntity
-	METHOD a shouldExecute ()Z
-	METHOD b continueExecuting ()Z
-	METHOD c startExecuting ()V
-	METHOD d resetTask ()V
-	METHOD e opUpdate ()V
-CLASS none/rk net/minecraft/entity/ai/GoalWatchTradingPlayer
-	METHOD a shouldExecute ()Z
-CLASS none/rl net/minecraft/entity/ai/GoalVillagerReproduce
+CLASS none/rj net/minecraft/entity/ai/TaskWatchEntity
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/rm net/minecraft/entity/ai/GoalTargetEntity
+CLASS none/rk net/minecraft/entity/ai/TaskWatchTradingPlayer
+	METHOD a shouldExecute ()Z
+CLASS none/rl net/minecraft/entity/ai/TaskVillagerReproduce
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
+	METHOD e opUpdate ()V
+CLASS none/rm net/minecraft/entity/ai/TaskTargetEntity
 	FIELD g targetEntity Ljava/lang/Class;
 	METHOD <init> (Lnone/pz;Ljava/lang/Class;DZ)V
 		ARG 0 goalExecutor
@@ -6285,17 +6289,17 @@ CLASS none/rm net/minecraft/entity/ai/GoalTargetEntity
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/rn net/minecraft/entity/ai/GoalMoveIndoors
+CLASS none/rn net/minecraft/entity/ai/TaskMoveIndoors
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
-CLASS none/ro net/minecraft/entity/ai/GoalMoveThroughVillage
+CLASS none/ro net/minecraft/entity/ai/TaskMoveThroughVillage
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
-CLASS none/rp net/minecraft/entity/ai/GoalMoveToBlock
+CLASS none/rp net/minecraft/entity/ai/TaskMoveToBlock
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
@@ -6305,17 +6309,17 @@ CLASS none/rq
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
-CLASS none/rr net/minecraft/entity/ai/GoalMoveToTarget
+CLASS none/rr net/minecraft/entity/ai/TaskMoveToTarget
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
-CLASS none/rs net/minecraft/entity/ai/GoalOcelotAttack
+CLASS none/rs net/minecraft/entity/ai/TaskOcelotAttack
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/rt net/minecraft/entity/ai/GoalOcelotSit
+CLASS none/rt net/minecraft/entity/ai/TaskOcelotSit
 	METHOD a shouldExecute ()Z
 	METHOD a (Lnone/adn;Lnone/ck;)Z
 		ARG 0 level
@@ -6324,7 +6328,7 @@ CLASS none/rt net/minecraft/entity/ai/GoalOcelotSit
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/ru net/minecraft/entity/ai/GoalWatchVillager
+CLASS none/ru net/minecraft/entity/ai/TaskWatchVillager
 	FIELD a executor Lnone/tz;
 	METHOD <init> (Lnone/tz;)V
 		ARG 0 golem
@@ -6333,31 +6337,31 @@ CLASS none/ru net/minecraft/entity/ai/GoalWatchVillager
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/rv net/minecraft/entity/ai/GoalOpenDoor
+CLASS none/rv net/minecraft/entity/ai/TaskOpenDoor
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/rw net/minecraft/entity/ai/GoalPanic
+CLASS none/rw net/minecraft/entity/ai/TaskPanic
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
-CLASS none/rx net/minecraft/entity/ai/GoalVillagerPlay
+CLASS none/rx net/minecraft/entity/ai/TaskVillagerPlay
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/rz net/minecraft/entity/ai/GoalIdleLook
+CLASS none/rz net/minecraft/entity/ai/TaskIdleLook
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD e opUpdate ()V
-CLASS none/sa net/minecraft/entity/ai/GoalWander
+CLASS none/sa net/minecraft/entity/ai/TaskWander
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
-CLASS none/sb net/minecraft/entity/ai/GoalArrowAttack
+CLASS none/sb net/minecraft/entity/ai/TaskArrowAttack
 	FIELD b rangedAttackMob Lnone/vy;
 	METHOD <init> (Lnone/vy;DIF)V
 		ARG 0 rangedAttackMob
@@ -6367,13 +6371,13 @@ CLASS none/sb net/minecraft/entity/ai/GoalArrowAttack
 	METHOD b continueExecuting ()Z
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/sc net/minecraft/entity/ai/GoalRestrictOpenDoor
+CLASS none/sc net/minecraft/entity/ai/TaskRestrictOpenDoor
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/sd net/minecraft/entity/ai/GoalAvoidSun
+CLASS none/sd net/minecraft/entity/ai/TaskAvoidSun
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
@@ -6382,38 +6386,38 @@ CLASS none/se
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD e opUpdate ()V
-CLASS none/sf net/minecraft/entity/ai/GoalSit
+CLASS none/sf net/minecraft/entity/ai/TaskSit
 	FIELD a entity Lnone/qb;
 	FIELD b sitting Z
 	METHOD a shouldExecute ()Z
 	METHOD a setSitting (Z)V
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
-CLASS none/sg net/minecraft/entity/ai/GoalCreeperSwell
+CLASS none/sg net/minecraft/entity/ai/TaskCreeperSwell
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/sh net/minecraft/entity/ai/GoalFollowGolem
-	METHOD a shouldExecute ()Z
-	METHOD b continueExecuting ()Z
-	METHOD c startExecuting ()V
-	METHOD d resetTask ()V
-	METHOD e opUpdate ()V
-CLASS none/si net/minecraft/entity/ai/GoalTempt
+CLASS none/sh net/minecraft/entity/ai/TaskFollowGolem
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/sj net/minecraft/entity/ai/GoalTradePlayer
+CLASS none/si net/minecraft/entity/ai/TaskTempt
+	METHOD a shouldExecute ()Z
+	METHOD b continueExecuting ()Z
+	METHOD c startExecuting ()V
+	METHOD d resetTask ()V
+	METHOD e opUpdate ()V
+CLASS none/sj net/minecraft/entity/ai/TaskTradePlayer
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
-CLASS none/sk net/minecraft/entity/ai/GoalExchangeProduce
+CLASS none/sk net/minecraft/entity/ai/TaskExchangeProduce
 	METHOD c startExecuting ()V
 	METHOD e opUpdate ()V
-CLASS none/sm net/minecraft/entity/ai/GoalDefendVillage
+CLASS none/sm net/minecraft/entity/ai/TaskDefendVillage
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 CLASS none/sn
@@ -6425,13 +6429,13 @@ CLASS none/so
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
-CLASS none/sp net/minecraft/entity/ai/GoalFindNearestPlayer
+CLASS none/sp net/minecraft/entity/ai/TaskFindNearestPlayer
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
-CLASS none/sq net/minecraft/entity/ai/GoalFollowEntity
+CLASS none/sq net/minecraft/entity/ai/TaskFollowEntity
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 CLASS none/sr
@@ -6442,7 +6446,7 @@ CLASS none/ss
 CLASS none/st
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
-CLASS none/su net/minecraft/entity/ai/GoalTarget
+CLASS none/su net/minecraft/entity/ai/TaskTarget
 	FIELD a nearbyOnly Z
 	FIELD b targetSearchStatus I
 	FIELD c targetSearchDelay I
@@ -12812,6 +12816,7 @@ CLASS none/ahw net/minecraft/block/BlockLiquidBase
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a canCollide (Lnone/ama;Z)Z
 	METHOD b getRenderType ()I
+	METHOD b getHeightPercent (I)F
 	METHOD b isPassable (Lnone/adr;Lnone/ck;)Z
 	METHOD b isFaceVisible (Lnone/adr;Lnone/ck;Lnone/cr;)Z
 	METHOD c isOpaque ()Z
@@ -17518,9 +17523,32 @@ CLASS none/auw net/minecraft/scoreboard/criteria/StatCriteria
 	FIELD j stat Lnone/mx;
 	METHOD <init> (Lnone/mx;)V
 		ARG 0 stat
-CLASS none/ava
-	METHOD a (Lnone/wo;Z)V
+CLASS none/ava net/minecraft/client/renderer/ActiveRenderInfo
+	FIELD a VIEWPORT Ljava/nio/IntBuffer;
+	FIELD b MODELVIEW Ljava/nio/FloatBuffer;
+	FIELD c PROJECTION Ljava/nio/FloatBuffer;
+	FIELD d OBJECTCOORDS Ljava/nio/FloatBuffer;
+	FIELD e position Lnone/auj;
+	FIELD f rotationX F
+	FIELD g rotationXZ F
+	FIELD h rotationZ F
+	FIELD i rotationYZ F
+	FIELD j rotationXY F
+	METHOD a getPosition ()Lnone/auj;
+	METHOD a getBlockAtEntityViewpoint (Lnone/adn;Lnone/pl;F)Lnone/afi;
+		ARG 0 world
+		ARG 1 entity
+		ARG 2 exponent
+	METHOD a projectViewFromEntity (Lnone/pl;D)Lnone/auj;
+		ARG 0 entity
+		ARG 1 exponent
+	METHOD a updateRenderInfo (Lnone/wo;Z)V
 		ARG 0 player
+	METHOD b getRotationX ()F
+	METHOD c getRotationXZ ()F
+	METHOD d getRotationZ ()F
+	METHOD e getRotationYZ ()F
+	METHOD f getRotationXY ()F
 CLASS none/avb net/minecraft/chat/ChatLine
 	FIELD a updateCounter I
 	FIELD b component Lnone/ev;
@@ -22505,7 +22533,7 @@ CLASS none/bnt net/minecraft/client/resources/LanguageManager
 	METHOD b isCurrentLanguageBidirectional ()Z
 	METHOD c getCurrentLanguage ()Lnone/bns;
 CLASS none/bnw net/minecraft/client/resources/data/MetadataSectionSerializer
-CLASS none/bnx empty/cwi
+CLASS none/bnx net/minecraft/client/resources/data/IMetadataSection
 CLASS none/bny net/minecraft/client/resources/data/IMetadataSectionSerializer
 CLASS none/bnz net/minecraft/client/resources/data/MetadataSerializer
 	FIELD a registry Lnone/dc;
@@ -22517,6 +22545,13 @@ CLASS none/bnz net/minecraft/client/resources/data/MetadataSerializer
 CLASS none/bob net/minecraft/client/resources/data/AnimationMetadataSection
 CLASS none/boc net/minecraft/client/resources/data/AnimationMetadataSectionSerializer
 CLASS none/boe net/minecraft/client/resources/data/FontMetadataSection
+	FIELD a charWidths [F
+	FIELD b charLefts [F
+	FIELD c charSpacings [F
+	METHOD <init> ([F[F[F)V
+		ARG 0 charWidths
+		ARG 1 charLefts
+		ARG 2 charSpacings
 CLASS none/bof net/minecraft/client/resources/data/FontMetadataSectionSerializer
 CLASS none/boh net/minecraft/client/resources/data/LanguageMetadataSection
 CLASS none/boi net/minecraft/client/resources/data/LanguageMetadataSectionSerializer
