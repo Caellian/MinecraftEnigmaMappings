@@ -5704,7 +5704,7 @@ CLASS none/pr net/minecraft/entity/EntityFlying
 		ARG 0 strafe
 		ARG 1 forward
 	METHOD k_ isOnLadder ()Z
-CLASS none/ps Basenet/minecraft/entity/EntityLivingBase
+CLASS none/ps net/minecraft/entity/EntityLivingBase
 	FIELD aA prevLimbSwingAmount F
 	FIELD aB limbSwingAmount F
 	FIELD aC limbSwing F
