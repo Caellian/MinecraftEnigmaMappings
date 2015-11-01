@@ -9589,7 +9589,7 @@ CLASS none/abi
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
-CLASS none/abj net/minecraft/item/crafting/ArmorCraftingRecipes
+CLASS none/abj net/minecraft/crafting/ArmorCraftingRecipes
 	FIELD a arrangements [[Ljava/lang/String;
 	FIELD b ingredients [[Lnone/zx;
 	METHOD a addToRecipes (Lnone/abu;)V
@@ -9612,7 +9612,7 @@ CLASS none/abl
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
-CLASS none/abm net/minecraft/item/crafting/ColoredCraftingRecipes
+CLASS none/abm net/minecraft/crafting/ColoredCraftingRecipes
 	METHOD a addToRecipes (Lnone/abu;)V
 CLASS none/abn
 	METHOD a getSize ()I
@@ -9620,9 +9620,9 @@ CLASS none/abn
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
-CLASS none/abo net/minecraft/item/crafting/FoodCraftingRecipes
+CLASS none/abo net/minecraft/crafting/FoodCraftingRecipes
 	METHOD a addToRecipes (Lnone/abu;)V
-CLASS none/abp net/minecraft/item/crafting/FurnaceRecipes
+CLASS none/abp net/minecraft/crafting/FurnaceRecipes
 	FIELD a RECIPES Lnone/abp;
 	FIELD b recipeList Ljava/util/Map;
 	FIELD c experienceValues Ljava/util/Map;
@@ -9656,10 +9656,10 @@ CLASS none/abq
 CLASS none/abr
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
-CLASS none/abs net/minecraft/item/crafting/StorageBlockCraftingRecipes
+CLASS none/abs net/minecraft/crafting/StorageBlockCraftingRecipes
 	FIELD a ingredients [[Ljava/lang/Object;
 	METHOD a addToRecipes (Lnone/abu;)V
-CLASS none/abt net/minecraft/item/crafting/IRecipe
+CLASS none/abt net/minecraft/crafting/IRecipe
 	METHOD a getSize ()I
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
 		ARG 0 craftingInventory
@@ -9669,7 +9669,7 @@ CLASS none/abt net/minecraft/item/crafting/IRecipe
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
 		ARG 0 craftingInventory
-CLASS none/abu net/minecraft/item/crafting/CraftingRecipes
+CLASS none/abu net/minecraft/crafting/CraftingRecipes
 	FIELD a INSTANCE Lnone/abu;
 	FIELD b recipes Ljava/util/List;
 	METHOD a getInstance ()Lnone/abu;
@@ -9683,7 +9683,7 @@ CLASS none/abv
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
-CLASS none/abw net/minecraft/item/crafting/RecipeShaped
+CLASS none/abw net/minecraft/crafting/RecipeShaped
 	FIELD a width I
 	FIELD b height I
 	FIELD c input [Lnone/zy;
@@ -9705,7 +9705,7 @@ CLASS none/abw net/minecraft/item/crafting/RecipeShaped
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
 		ARG 0 craftingInventory
-CLASS none/abx net/minecraft/item/crafting/RecipeShapeless
+CLASS none/abx net/minecraft/crafting/RecipeShapeless
 	FIELD a output Lnone/zy;
 	FIELD b ingredients Ljava/util/List;
 	METHOD <init> (Lnone/zy;Ljava/util/List;)V
@@ -9720,13 +9720,13 @@ CLASS none/abx net/minecraft/item/crafting/RecipeShapeless
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
 		ARG 0 craftingInventory
-CLASS none/aby net/minecraft/item/crafting/MiscCraftingRecipes
+CLASS none/aby net/minecraft/crafting/MiscCraftingRecipes
 	METHOD a addToRecipes (Lnone/abu;)V
-CLASS none/abz net/minecraft/item/crafting/ToolCraftingRecipes
+CLASS none/abz net/minecraft/crafting/ToolCraftingRecipes
 	FIELD a arrangements [[Ljava/lang/String;
 	FIELD b ingredients [[Ljava/lang/Object;
 	METHOD a addToRecipes (Lnone/abu;)V
-CLASS none/aca net/minecraft/item/crafting/WeaponCraftingRecipes
+CLASS none/aca net/minecraft/crafting/WeaponCraftingRecipes
 	FIELD a arrangements [[Ljava/lang/String;
 	FIELD b ingredients [[Ljava/lang/Object;
 	METHOD a addToRecipes (Lnone/abu;)V
@@ -10514,7 +10514,7 @@ CLASS none/adn net/minecraft/world/World
 		ARG 0 time
 	METHOD e isAnyLavaInRegion (Lnone/auh;)Z
 		ARG 0 aaBB
-	METHOD e checkBlockIsInWorld (Lnone/ck;)Z
+	METHOD e isBlockLoaded (Lnone/ck;)Z
 		ARG 0 blockPos
 	METHOD e updateComparatorOuputLevel (Lnone/ck;Lnone/afi;)V
 		ARG 0 blockPos
@@ -13485,12 +13485,30 @@ CLASS none/aiv net/minecraft/block/BlockPrismarine
 	METHOD e initPropertyManager ()Lnone/amb;
 	METHOD f getTranslatedName ()Ljava/lang/String;
 CLASS none/aiw net/minecraft/block/BlockPumpkin
+	CLASS none/aiw$1
+		METHOD a checkMatch (Lnone/ama;)Z
+			ARG 0 blockState
+	FIELD N ironGolemBasePattern Lnone/ame;
+	FIELD P ironGolemPattern Lnone/ame;
+	FIELD Q pumpkinType Lcom/google/common/base/Predicate;
+	FIELD a snowGolemBasePattern Lnone/ame;
+	FIELD b snowGolemPattern Lnone/ame;
+	METHOD T getIronGolemBasePatter ()Lnone/ame;
+	METHOD U getIronGolemPatter ()Lnone/ame;
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
 	METHOD a getStateAfterPlacement (Lnone/adn;Lnone/ck;Lnone/cr;FFFILnone/ps;)Lnone/ama;
 	METHOD c onSet (Lnone/adn;Lnone/ck;Lnone/ama;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 state
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD d canBePlaced (Lnone/adn;Lnone/ck;)Z
 	METHOD e initPropertyManager ()Lnone/amb;
+	METHOD e (Lnone/adn;Lnone/ck;)Z
+		ARG 0 world
+		ARG 1 pos
+	METHOD l getSnowGolemBasePatter ()Lnone/ame;
+	METHOD n getSnowGolemPatter ()Lnone/ame;
 CLASS none/aix net/minecraft/block/BlockQuartzBlock
 	CLASS none/aix$a EnumQuartzBlockVariant
 		FIELD a DEFAULT Lnone/aix$a;
@@ -13691,9 +13709,16 @@ CLASS none/ajm net/minecraft/block/BlockSignBase
 	METHOD d canBePlaced (Lnone/adn;Lnone/ck;)Z
 	METHOD g canProvidePower ()Z
 CLASS none/ajn net/minecraft/block/BlockSkull
+	CLASS none/ajn$1
+		METHOD a check (Lnone/amd;)Z
+			ARG 0 other
+	FIELD N skullType Lcom/google/common/base/Predicate;
+	FIELD O witherBasePattern Lnone/ame;
+	FIELD P witherPattern Lnone/ame;
 	FIELD a facing Lnone/amm;
 	FIELD b noDrop Lnone/aml;
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
+		ARG 0 metadata
 	METHOD a getBlockEntity (Lnone/adn;I)Lnone/akx;
 	METHOD a getBoundingBox (Lnone/adn;Lnone/ck;Lnone/ama;)Lnone/auh;
 	METHOD a dropAsItem (Lnone/adn;Lnone/ck;Lnone/ama;FI)V
@@ -13705,10 +13730,13 @@ CLASS none/ajn net/minecraft/block/BlockSkull
 	METHOD c isOpaque ()Z
 	METHOD c getItem (Lnone/adn;Lnone/ck;)Lnone/zx;
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
+		ARG 0 blockState
 	METHOD d hasFullCubeHitbox ()Z
 	METHOD e initPropertyManager ()Lnone/amb;
 	METHOD f getTranslatedName ()Ljava/lang/String;
 	METHOD j getItemData (Lnone/adn;Lnone/ck;)I
+	METHOD l getWItherBasePattern ()Lnone/ame;
+	METHOD n getWitherPattern ()Lnone/ame;
 CLASS none/ajo net/minecraft/block/BlockSlime
 	METHOD a onEntityCollide (Lnone/adn;Lnone/ck;Lnone/pl;)V
 	METHOD a onEntityFallOn (Lnone/adn;Lnone/ck;Lnone/pl;F)V
@@ -14526,19 +14554,34 @@ CLASS none/alp net/minecraft/block/entity/BlockEntitySkull
 	METHOD y_ getDescriptionPacket ()Lnone/fg;
 CLASS none/alq net/minecraft/block/entity/BlockEntityEndPortal
 CLASS none/alt net/minecraft/block/BlockPistonBase
+	FIELD N sticky Z
 	FIELD a facing Lnone/amm;
 	FIELD b extended Lnone/aml;
+	METHOD <init> (Z)V
+		ARG 0 sticky
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
 	METHOD a getBoundingBox (Lnone/adn;Lnone/ck;Lnone/ama;)Lnone/auh;
 	METHOD a onBlockEvent (Lnone/adn;Lnone/ck;Lnone/ama;II)Z
 	METHOD a onUpdate (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/afi;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 state
+		ARG 3 block
 	METHOD a checkCollision (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/auh;Ljava/util/List;Lnone/pl;)V
 	METHOD a onPlaced (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/ps;Lnone/zy;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 state
+		ARG 3 placer
+		ARG 4 sourceStack
 	METHOD a getStateAfterPlacement (Lnone/adn;Lnone/ck;Lnone/cr;FFFILnone/ps;)Lnone/ama;
 	METHOD a updateCollisionHitbox (Lnone/adr;Lnone/ck;)V
 	METHOD b getRenderState (Lnone/ama;)Lnone/ama;
 	METHOD c isOpaque ()Z
 	METHOD c onSet (Lnone/adn;Lnone/ck;Lnone/ama;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 state
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD d hasFullCubeHitbox ()Z
 	METHOD e initPropertyManager ()Lnone/amb;
@@ -14626,24 +14669,87 @@ CLASS none/amb net/minecraft/block/BlockPropertyManager
 	METHOD c getBlock ()Lnone/afi;
 	METHOD d getProperties ()Ljava/util/Collection;
 	METHOD toString ()Ljava/lang/String;
-CLASS none/amd
-	FIELD a dim Lnone/adn;
-	FIELD b blockCoords Lnone/ck;
+CLASS none/amd net/minecraft/block/state/InspectedBlockState
+	CLASS none/amd$1
+		METHOD a compare (Lnone/amd;)Z
+			ARG 0 other
+	FIELD a world Lnone/adn;
+	FIELD b blockPos Lnone/ck;
+	FIELD c ignoreWorldNotLoaded Z
 	FIELD d blockState Lnone/ama;
 	FIELD e blockEntity Lnone/akx;
+	FIELD f blockEntityInitialized Z
 	METHOD <init> (Lnone/adn;Lnone/ck;Z)V
 		ARG 0 world
 		ARG 1 blockPos
-	METHOD a (Lcom/google/common/base/Predicate;)Lcom/google/common/base/Predicate;
-		ARG 0 block
+		ARG 2 ignoreWorldNotLoaded
+	METHOD a getBlockState ()Lnone/ama;
+	METHOD a hasState (Lcom/google/common/base/Predicate;)Lcom/google/common/base/Predicate;
+		ARG 0 state
+	METHOD b getBlockEntity ()Lnone/akx;
 	METHOD d getBlockCoors ()Lnone/ck;
-CLASS none/ame
-	CLASS none/ame$a
-		FIELD a dim Lnone/adn;
-CLASS none/amf
+CLASS none/ame net/minecraft/crafting/multiblock/BlockPattern
+	CLASS none/ame$a CacheLoader
+		FIELD a world Lnone/adn;
+		METHOD <init> (Lnone/adn;Z)V
+			ARG 0 world
+		METHOD a getBlockFromPos (Lnone/ck;)Lnone/amd;
+			ARG 0 pos
+	CLASS none/ame$b PatternHelper
+		FIELD a pos Lnone/ck;
+		FIELD b depth Lnone/cr;
+		FIELD c height Lnone/cr;
+		FIELD d cache Lcom/google/common/cache/LoadingCache;
+		METHOD <init> (Lnone/ck;Lnone/cr;Lnone/cr;Lcom/google/common/cache/LoadingCache;III)V
+			ARG 0 pos
+			ARG 1 depth
+			ARG 2 height
+			ARG 3 cache
+		METHOD a getPos ()Lnone/ck;
+		METHOD b getDepth ()Lnone/cr;
+		METHOD c getHeight ()Lnone/cr;
+	FIELD a pattern [[[Lcom/google/common/base/Predicate;
+	FIELD b depth I
+	FIELD c height I
+	FIELD d width I
+	METHOD <init> ([[[Lcom/google/common/base/Predicate;)V
+		ARG 0 pattern
+	METHOD a match (Lnone/adn;Lnone/ck;)Lnone/ame$b;
+		ARG 0 world
+		ARG 1 pos
+	METHOD a checkPatternAt (Lnone/ck;Lnone/cr;Lnone/cr;Lcom/google/common/cache/LoadingCache;)Lnone/ame$b;
+		ARG 0 pos
+	METHOD b getHeight ()I
+	METHOD c getWidth ()I
+CLASS none/amf net/minecraft/crafting/multiblock/SimpleMultiblockStructure
 	FIELD a JOINER Lcom/google/common/base/Joiner;
+	FIELD b depth Ljava/util/List;
+	FIELD c elementDefinitions Ljava/util/Map;
+	FIELD d strucureHeight I
+	FIELD e structureWidth I
+	METHOD a makeNew ()Lnone/amf;
+	METHOD a defineElement (CLcom/google/common/base/Predicate;)Lnone/amf;
+		ARG 0 symbol
+		ARG 1 block
+	METHOD a defineStructure ([Ljava/lang/String;)Lnone/amf;
+		ARG 0 pattern
+	METHOD b construct ()Lnone/ame;
+	METHOD c getPredicateArray ()[[[Lcom/google/common/base/Predicate;
+	METHOD d checkValid ()V
 CLASS none/amh net/minecraft/world/gen/feature/OreGenerationValidInBlockPredicate
 	METHOD a create (Lnone/afi;)Lnone/amh;
+CLASS none/ami net/minecraft/block/state/pattern/BlockStateHelper
+	FIELD a blockState Lnone/amb;
+	FIELD b propertyPredicates Ljava/util/Map;
+	METHOD <init> (Lnone/amb;)V
+		ARG 0 propertyManager
+	METHOD a forBlock (Lnone/afi;)Lnone/ami;
+		ARG 0 block
+	METHOD a doesMatch (Lnone/ama;)Z
+		ARG 0 blockState
+	METHOD a define (Lnone/amp;Lcom/google/common/base/Predicate;)Lnone/ami;
+		ARG 0 property
+		ARG 1 predicate
 CLASS none/amk net/minecraft/block/BlockProperty
 	FIELD a clazz Ljava/lang/Class;
 	FIELD b name Ljava/lang/String;
@@ -16193,7 +16299,8 @@ CLASS none/aqf net/minecraft/world/gen/structure/StructureBoundingBox
 	METHOD f getCenter ()Lnone/dg;
 	METHOD g writeRangeToNBT ()Lnone/dt;
 CLASS none/aqg net/minecraft/world/gen/structure/MineshaftGenerator
-CLASS none/aqh
+	METHOD a getName ()Ljava/lang/String;
+CLASS none/aqh net/minecraft/world/gen/structure/MineshaftStructureGenerator
 	CLASS none/aqh$a ComponentMineshaftCorridor
 		FIELD a hasRails Z
 		FIELD b hasSpiders Z
@@ -16239,6 +16346,7 @@ CLASS none/aqj net/minecraft/world/gen/structure/NetherFortressGenerator
 			ARG 1 rand
 			ARG 2 chunkX
 			ARG 3 chunkZ
+	METHOD a getName ()Ljava/lang/String;
 CLASS none/aqk net/minecraft/world/gen/structure/NetherFortressComponents
 	CLASS none/aqk$a ComponentNetherBridgeCrossing3
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
@@ -16304,7 +16412,8 @@ CLASS none/aqk net/minecraft/world/gen/structure/NetherFortressComponents
 		METHOD b readNBT (Lnone/dp;)V
 CLASS none/aql net/minecraft/world/gen/structure/OceanMonumentGenerator
 	CLASS none/aql$a OceanMonumentStart
-CLASS none/aqm
+	METHOD a getName ()Ljava/lang/String;
+CLASS none/aqm net/minecraft/world/gen/structure/GuardianTempleStructureGenerator
 	CLASS none/aqm$h
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 	CLASS none/aqm$j
@@ -16334,6 +16443,7 @@ CLASS none/aqm
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 CLASS none/aqn net/minecraft/world/gen/structure/TempleGenerator
 	CLASS none/aqn$a TempleStart
+	METHOD a getName ()Ljava/lang/String;
 CLASS none/aqo net/minecraft/world/gen/structure/TempleStructureGenerator
 	CLASS none/aqo$a DesertTemple
 		FIELD e placedTreasureChests [Z
@@ -16416,6 +16526,7 @@ CLASS none/aqp net/minecraft/world/gen/structure/StrongholdGenerator
 			ARG 1 rand
 			ARG 2 chunkX
 			ARG 3 chunkZ
+	METHOD a getName ()Ljava/lang/String;
 CLASS none/aqq net/minecraft/world/gen/structure/StrongholdComponents
 	CLASS none/aqq$a
 		METHOD <init> (ILjava/util/Random;Lnone/aqf;Lnone/cr;)V
@@ -16492,6 +16603,7 @@ CLASS none/aqq net/minecraft/world/gen/structure/StrongholdComponents
 	FIELD e STRONGHOLD_STONES Lnone/aqq$k;
 	METHOD a registerComponents ()V
 CLASS none/aqr net/minecraft/world/gen/structure/StructureFeatureGenerator
+	METHOD a getName ()Ljava/lang/String;
 CLASS none/aqs net/minecraft/world/gen/structure/StructureIO
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
 	METHOD a registerComponent (Ljava/lang/Class;Ljava/lang/String;)V
@@ -16704,7 +16816,8 @@ CLASS none/aqw net/minecraft/world/gen/structure/VillageGenerator
 			ARG 1 rand
 			ARG 2 chunkX
 			ARG 3 chunkZ
-CLASS none/aqx
+	METHOD a getName ()Ljava/lang/String;
+CLASS none/aqx net/minecraft/world/gen/structure/VillageStructureGenerator
 	CLASS none/aqx$a
 		METHOD a addComponentParts (Lnone/adn;Ljava/util/Random;Lnone/aqf;)Z
 	CLASS none/aqx$b ComponentVillageField
@@ -17067,7 +17180,7 @@ CLASS none/asw net/minecraft/pathfinding/PathPoint
 		ARG 0 other
 	METHOD equals (Ljava/lang/Object;)Z
 		ARG 0 other
-CLASS none/asx net/minecraft/world/pathfinder/PathNodeProcessor
+CLASS none/asx net/minecraft/pathfinding/PathNodeProcessor
 	FIELD a blockAccess Lnone/adr;
 	FIELD b pointMap Lnone/nn;
 	FIELD c entitySizeX I
@@ -17130,13 +17243,35 @@ CLASS none/asz net/minecraft/pathfinding/PathFinder
 		ARG 0 entity
 		ARG 1 start
 		ARG 2 end
-CLASS none/ata
+CLASS none/ata net/minecraft/pathfinding/SwimNodeProcessor
 	METHOD a postProcess ()V
 	METHOD a initProcessor (Lnone/adr;Lnone/pl;)V
+		ARG 0 blockAccess
+		ARG 1 entity
 	METHOD a getPathPointTo (Lnone/pl;)Lnone/asw;
+		ARG 0 entity
 	METHOD a getPathPointToCoords (Lnone/pl;DDD)Lnone/asw;
+		ARG 0 entity
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+	METHOD a getSafePoint (Lnone/pl;III)Lnone/asw;
+		ARG 0 entity
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
 	METHOD a findPathOptions ([Lnone/asw;Lnone/pl;Lnone/asw;Lnone/asw;F)I
-CLASS none/atb net/minecraft/world/pathfinder/WalkNodeProcessor
+		ARG 0 points
+		ARG 1 entity
+		ARG 2 start
+		ARG 3 end
+		ARG 4 distance
+	METHOD b getBlockLiquid (Lnone/pl;III)I
+		ARG 0 entity
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+CLASS none/atb net/minecraft/pathfinding/WalkNodeProcessor
 	FIELD f canEnterDoors Z
 	FIELD g canBreakDoors Z
 	FIELD h avoidsWater Z
