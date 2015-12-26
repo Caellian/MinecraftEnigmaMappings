@@ -4797,6 +4797,14 @@ CLASS none/nv net/minecraft/util/IProgressBar
 	METHOD a setProgressBarPercentage (I)V
 	METHOD b resetProgressAndMessage (Ljava/lang/String;)V
 	METHOD c setProgressBarMessage (Ljava/lang/String;)V
+CLASS none/nw net/minecraft/util/EulerSmoothRotationUtil
+	FIELD a yaw F
+	FIELD b pitch F
+	FIELD c roll F
+	METHOD a reset ()V
+	METHOD a smooth (FF)F
+		ARG 0 goal
+		ARG 1 amount
 CLASS none/nx net/minecraft/block/IBlockPropertyValue
 	METHOD l getName ()Ljava/lang/String;
 CLASS none/ny net/minecraft/util/StringUtil
@@ -5819,7 +5827,7 @@ CLASS none/ps net/minecraft/entity/EntityLivingBase
 	METHOD ba isAdult ()Z
 	METHOD bb isPlayer ()Z
 	METHOD bc getRandom ()Ljava/util/Random;
-	METHOD bd getDamagerEntity ()Lnone/ps;
+	METHOD bd getAttackerEntity ()Lnone/ps;
 	METHOD be getHurtByTimestamp ()I
 	METHOD bf getLastAttacker ()Lnone/ps;
 	METHOD bg getLastAttackedTime ()I
@@ -6093,7 +6101,7 @@ CLASS none/qa net/minecraft/entity/DataWatcher
 		ARG 0 dataId
 	METHOD j getData (I)Lnone/qa$a;
 		ARG 0 id
-CLASS none/qb net/minecraft/entity/EntityTamable
+CLASS none/qb net/minecraft/entity/EntityTameable
 	FIELD bm goalSit Lnone/sf;
 	METHOD <init> (Lnone/adn;)V
 		ARG 0 world
@@ -6106,10 +6114,13 @@ CLASS none/qb net/minecraft/entity/EntityTamable
 	METHOD b writeToNBT (Lnone/dp;)V
 	METHOD bO getTeam ()Lnone/aur;
 	METHOD c isOnSameTeam (Lnone/ps;)Z
-	METHOD cl isSitting ()Z
-	METHOD cn isOwned ()Z
+	METHOD cl isOwned ()Z
+	METHOD cm setupTamedAI ()V
+	METHOD cn isSitting ()Z
+	METHOD co getOwner ()Lnone/ps;
 	METHOD e isOwner (Lnone/ps;)Z
 	METHOD h init ()V
+	METHOD l playTameEffect (Z)V
 	METHOD m setOwned (Z)V
 	METHOD m_ getTamableEntity ()Lnone/pl;
 	METHOD n setSitting (Z)V
@@ -6574,9 +6585,17 @@ CLASS none/sp net/minecraft/entity/ai/TaskFindNearestPlayer
 CLASS none/sq net/minecraft/entity/ai/TaskFollowEntity
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
-CLASS none/sr
+CLASS none/sr net/minecraft/entity/ai/TaskUntamedFollowEntity
+	FIELD g self Lnone/qb;
+	METHOD <init> (Lnone/qb;Ljava/lang/Class;ZLcom/google/common/base/Predicate;)V
+		ARG 0 self
 	METHOD a shouldExecute ()Z
-CLASS none/ss
+CLASS none/ss net/minecraft/entity/ai/TaskOwnerHurtTarget
+	FIELD a tameableEntity Lnone/qb;
+	FIELD b attacker Lnone/ps;
+	FIELD c hurtTimestamp I
+	METHOD <init> (Lnone/qb;)V
+		ARG 0 tameable
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 CLASS none/st
@@ -6762,15 +6781,32 @@ CLASS none/tl net/minecraft/entity/passive/EntityBat
 	METHOD z getIdleSound ()Ljava/lang/String;
 CLASS none/tn net/minecraft/entity/passive/EntityAnimal
 	FIELD bm inLove I
+	FIELD bn naturalTerrain Lnone/afi;
+	METHOD <init> (Lnone/adn;)V
+		ARG 0 world
 	METHOD C canDespawn ()Z
 	METHOD E updateAITasks ()V
 	METHOD a handleEntityStatusPacket (B)V
 	METHOD a readFromNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD a attackEntity (Lnone/ox;F)Z
+	METHOD a canBreed (Lnone/tn;)Z
+		ARG 0 other
 	METHOD a doInteractionWith (Lnone/wo;)Z
+		ARG 0 player
+	METHOD a decreaseSelectedStack (Lnone/wo;Lnone/zy;)V
+		ARG 0 player
+		ARG 1 itemStack
 	METHOD b writeToNBT (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD b getDroppedXp (Lnone/wo;)I
+		ARG 0 player
 	METHOD bR getCanSpawnHere ()Z
+	METHOD c setInLove (Lnone/wo;)V
+	METHOD cr isInLove ()Z
+	METHOD cs resetLove ()V
+	METHOD d isValidFood (Lnone/zy;)Z
+		ARG 0 itemStack
 	METHOD m entityInit ()V
 	METHOD w getTalkInterval ()I
 CLASS none/to net/minecraft/entity/passive/EntityChicken
@@ -6790,6 +6826,7 @@ CLASS none/to net/minecraft/entity/passive/EntityChicken
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD cl isChickenJockey ()Z
+	METHOD d isValidFood (Lnone/zy;)Z
 	METHOD e onHitGround (FF)V
 	METHOD l setChickenJockey (Z)V
 	METHOD m entityInit ()V
@@ -6819,6 +6856,7 @@ CLASS none/tq net/minecraft/entity/passive/EntityHorse
 	METHOD a attackEntity (Lnone/ox;F)Z
 	METHOD a createChildFrom (Lnone/pi;)Lnone/pi;
 	METHOD a dropInventoryContents (Lnone/pl;Lnone/xk;)V
+	METHOD a canBreed (Lnone/tn;)Z
 	METHOD a doInteractionWith (Lnone/wo;)Z
 	METHOD aS getEyeHeight ()F
 	METHOD aX setAttributes ()V
@@ -6848,6 +6886,7 @@ CLASS none/tq net/minecraft/entity/passive/EntityHorse
 	METHOD cw isChestedHorse ()Z
 	METHOD cy isEatingHaystack ()Z
 	METHOD d replaceItem (ILnone/zy;)Z
+	METHOD d isValidFood (Lnone/zy;)Z
 	METHOD e onHitGround (FF)V
 	METHOD e_ getName ()Ljava/lang/String;
 	METHOD f getArmorMaterialId (Lnone/zy;)I
@@ -6889,6 +6928,7 @@ CLASS none/tt net/minecraft/entity/passive/EntityOcelot
 	METHOD a onSpawnWithEgg (Lnone/ol;Lnone/pv;)Lnone/pv;
 	METHOD a attackEntity (Lnone/ox;F)Z
 	METHOD a createChildFrom (Lnone/pi;)Lnone/pi;
+	METHOD a canBreed (Lnone/tn;)Z
 	METHOD a doInteractionWith (Lnone/wo;)Z
 	METHOD aX setAttributes ()V
 	METHOD b writeToNBT (Lnone/dp;)V
@@ -6898,7 +6938,9 @@ CLASS none/tt net/minecraft/entity/passive/EntityOcelot
 	METHOD bS isNotColliding ()Z
 	METHOD bo getHurtSound ()Ljava/lang/String;
 	METHOD bp getDeathSound ()Ljava/lang/String;
+	METHOD cm setupTamedAI ()V
 	METHOD ct getCatType ()I
+	METHOD d isValidFood (Lnone/zy;)Z
 	METHOD e onHitGround (FF)V
 	METHOD e_ getName ()Ljava/lang/String;
 	METHOD h init ()V
@@ -6920,6 +6962,7 @@ CLASS none/tu net/minecraft/entity/passive/EntityPig
 	METHOD bo getDeathSound ()Ljava/lang/String;
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD cl isSaddled ()Z
+	METHOD d isValidFood (Lnone/zy;)Z
 	METHOD e onHitGround (FF)V
 	METHOD h init ()V
 	METHOD l setSaddled (Z)V
@@ -6960,6 +7003,7 @@ CLASS none/tv net/minecraft/entity/passive/EntityRabbit
 	METHOD bq spawnSpecialLoot ()V
 	METHOD br getTotalArmorValue ()I
 	METHOD cn getRabbitType ()I
+	METHOD d isValidFood (Lnone/zy;)Z
 	METHOD h init ()V
 	METHOD m entityInit ()V
 	METHOD r setRabbitType (I)V
@@ -7052,6 +7096,7 @@ CLASS none/ub net/minecraft/entity/passive/EntityWolf
 	METHOD a readFromNBT (Lnone/dp;)V
 	METHOD a attackEntity (Lnone/ox;F)Z
 	METHOD a createChildFrom (Lnone/pi;)Lnone/pi;
+	METHOD a canBreed (Lnone/tn;)Z
 	METHOD a doInteractionWith (Lnone/wo;)Z
 	METHOD a setCollarColor (Lnone/ze;)V
 	METHOD aS getEyeHeight ()F
@@ -7066,6 +7111,7 @@ CLASS none/ub net/minecraft/entity/passive/EntityWolf
 	METHOD ct isAngry ()Z
 	METHOD cw getCollarColor ()Lnone/ze;
 	METHOD d setAttackTarget (Lnone/ps;)V
+	METHOD d isValidFood (Lnone/zy;)Z
 	METHOD h init ()V
 	METHOD m entityInit ()V
 	METHOD m setOwned (Z)V
@@ -7073,10 +7119,10 @@ CLASS none/ub net/minecraft/entity/passive/EntityWolf
 	METHOD r attackEntityAsMob (Lnone/pl;)Z
 	METHOD t_ update ()V
 	METHOD z getIdleSound ()Ljava/lang/String;
-CLASS none/ud
+CLASS none/ud net/minecraft/entity/boss/IBossDisplayData
 	METHOD bn getHealth ()F
 	METHOD bu getMaxHealth ()F
-	METHOD f_ ()Lnone/ev;
+	METHOD f_ getDisplayName ()Lnone/ev;
 CLASS none/ue net/minecraft/entity/IEntityMultiPart
 	METHOD a getWorld ()Lnone/adn;
 	METHOD a (Lnone/uf;Lnone/ox;F)Z
@@ -14576,6 +14622,7 @@ CLASS none/alt net/minecraft/block/BlockPistonBase
 		ARG 4 sourceStack
 	METHOD a getStateAfterPlacement (Lnone/adn;Lnone/ck;Lnone/cr;FFFILnone/ps;)Lnone/ama;
 	METHOD a updateCollisionHitbox (Lnone/adr;Lnone/ck;)V
+	METHOD a canPush (Lnone/afi;Lnone/adn;Lnone/ck;Lnone/cr;Z)Z
 	METHOD b getRenderState (Lnone/ama;)Lnone/ama;
 	METHOD c isOpaque ()Z
 	METHOD c onSet (Lnone/adn;Lnone/ck;Lnone/ama;)V
@@ -14585,6 +14632,7 @@ CLASS none/alt net/minecraft/block/BlockPistonBase
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD d hasFullCubeHitbox ()Z
 	METHOD e initPropertyManager ()Lnone/amb;
+	METHOD e checkForMove (Lnone/adn;Lnone/ck;Lnone/ama;)V
 	METHOD j updateTargetingHitbox ()V
 CLASS none/alu net/minecraft/block/BlockPistonHead
 	CLASS none/alu$a EnumPistonType
@@ -14635,6 +14683,28 @@ CLASS none/alw net/minecraft/block/BlockPistonMoving
 	METHOD d canBePlaced (Lnone/adn;Lnone/ck;)Z
 	METHOD d onDestroyed (Lnone/adn;Lnone/ck;Lnone/ama;)V
 	METHOD e initPropertyManager ()Lnone/amb;
+CLASS none/alx net/minecraft/block/state/PistonStructureHelper
+	FIELD a world Lnone/adn;
+	FIELD b pistonPos Lnone/ck;
+	FIELD c blockToMove Lnone/ck;
+	FIELD d moveDirection Lnone/cr;
+	FIELD e toMove Ljava/util/List;
+	FIELD f toDestroy Ljava/util/List;
+	METHOD <init> (Lnone/adn;Lnone/ck;Lnone/cr;Z)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 facing
+		ARG 3 extending
+	METHOD a canMove ()Z
+	METHOD a reorder (II)V
+		ARG 0 end
+		ARG 1 start
+	METHOD a canMoveIndividual (Lnone/ck;)Z
+		ARG 0 origin
+	METHOD b canPosBeMoved (Lnone/ck;)Z
+		ARG 0 pos
+	METHOD c getToMove ()Ljava/util/List;
+	METHOD d getToDestroy ()Ljava/util/List;
 CLASS none/alz net/minecraft/block/BlockStateBase
 	FIELD a JOINER Lcom/google/common/base/Joiner;
 	METHOD a cycleProperty (Lnone/amp;)Lnone/ama;
@@ -20556,6 +20626,8 @@ CLASS none/bdc net/minecraft/world/WorldClient
 	METHOD q getRenderDistanceChunks ()I
 CLASS none/bdd
 	CLASS none/bdd$2
+CLASS none/bde
+	METHOD a (Ljava/lang/String;)Lnone/bde;
 CLASS none/bdf net/minecraft/network/ServerData
 	CLASS none/bdf$a EnumResourcePackSetting
 		FIELD a ENABLED Lnone/bdf$a;
@@ -20903,6 +20975,14 @@ CLASS none/bfa
 	METHOD g getFieldAmount ()I
 	METHOD i getLock ()Lnone/oo;
 	METHOD r_ isLocked ()Z
+CLASS none/bfd net/minecraft/entity/boss/BossStatus
+	FIELD a healthScale F
+	FIELD b statusBarTime I
+	FIELD c bossName Ljava/lang/String;
+	FIELD d hasColorModifier Z
+	METHOD a setBossStatus (Lnone/ud;Z)V
+		ARG 0 displayData
+		ARG 1 hasColorModifier
 CLASS none/bfe net/minecraft/client/renderer/BufferBuilder
 	CLASS none/bfe$a VertexFormatWithInts
 		FIELD c vertexFormat Lnone/bmv;
@@ -21026,13 +21106,17 @@ CLASS none/bfk net/minecraft/client/renderer/EnumBlockVertices
 	METHOD a getBlockVertex (I)Lnone/bfk$b;
 	METHOD a getBlockVerticesFromBlockFace (Lnone/cr;)Lnone/bfk;
 CLASS none/bfl net/minecraft/client/renderer/EntityRenderer
+	FIELD A bossColorModifierPrev F
 	FIELD E lastFocusTime J
+	FIELD T fogColorB F
+	FIELD U fogColorA F
 	FIELD a anaglyph3D Z
 	FIELD aa activeShaderGroup Lnone/bls;
 	FIELD ab SHADERS [Lnone/jz;
 	FIELD ac activeShaderCount I
 	FIELD ad alternativeShaderGroupActive Z
 	FIELD b anaglyphField I
+	FIELD c itemRenderer Lnone/bfo;
 	FIELD d SHADER_COUNT I
 	FIELD e LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD f RAIN_PNG Lnone/jz;
@@ -21043,12 +21127,25 @@ CLASS none/bfl net/minecraft/client/renderer/EntityRenderer
 	FIELD k farPlaneDistance F
 	FIELD l mapItemRenderer Lnone/avr;
 	FIELD m rendererUpdateCount I
+	FIELD o mouseFilterXAxis Lnone/nw;
+	FIELD p mouseFilterYAxis Lnone/nw;
+	FIELD q thirdPersonCameraDistance F
+	FIELD r thirdPersonCameraTmp F
+	FIELD s smoothCamYaw F
+	FIELD t smoothCamPitch F
+	FIELD u smoothCamFilterX F
+	FIELD v smoothCamFilterY F
+	FIELD w smoothCamPartialTicks F
+	FIELD z bossColorModifier F
 	METHOD a onReload (Lnone/bnj;)V
 	METHOD a loadShaderGroup (Lnone/jz;)V
 	METHOD a setViewEntity (Lnone/pl;)V
 	METHOD e tick ()V
 	METHOD h resetActiveTexture ()V
 	METHOD j setupOverlayRendering ()V
+	METHOD l updateFOV ()V
+	METHOD m updateTorchFlicker ()V
+	METHOD o addRainLayers ()V
 CLASS none/bfm net/minecraft/client/OpenGL
 	CLASS none/bfm$1
 		FIELD a VALUES [I
@@ -21284,6 +21381,7 @@ CLASS none/bfo net/minecraft/client/renderer/ItemRenderer
 	FIELD d heldItemStack Lnone/zy;
 	FIELD g entityRenderer Lnone/biv;
 	FIELD h itemRenderer Lnone/bji;
+	METHOD a updateCurrentItem ()V
 CLASS none/bfs net/minecraft/client/renderer/WorldRenderer
 	CLASS none/bfs$a ChunkSectionRendererWithFacings
 		FIELD a chunkSectionRenderer Lnone/bhu;
