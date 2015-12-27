@@ -3624,7 +3624,7 @@ CLASS none/lb net/minecraft/entity/EntityTracker
 	METHOD <init> (Lnone/lf;)V
 		ARG 0 dimensionServer
 	METHOD a updateTrackedEntities ()V
-	METHOD a (Lnone/pl;)V
+	METHOD a trackEntity (Lnone/pl;)V
 		ARG 0 entity
 	METHOD a (Lnone/pl;II)V
 		ARG 0 entity
@@ -3996,10 +3996,55 @@ CLASS none/lh net/minecraft/network/GameSession
 		ARG 0 gameType
 	METHOD c isSurvival ()Z
 	METHOD d isCreative ()Z
-CLASS none/li
-	FIELD a entity1 Lnone/pl;
+CLASS none/li net/minecraft/entity/EntityTrackerEntry
+	FIELD a tracked Lnone/pl;
+	FIELD b maxTrackingDistance I
+	FIELD c updateFrequency I
+	FIELD d encPosX I
+	FIELD e encPosY I
+	FIELD f encPosZ I
+	FIELD g encRotationYaw I
+	FIELD h encRotationPitch I
+	FIELD i lastHeadMotion I
+	FIELD j lastMotionX D
+	FIELD k lastMotionY D
+	FIELD l motionZ D
+	FIELD m updateCounter I
+	FIELD n playerEntitiesUpdated Z
+	FIELD o trackingPlayers Ljava/util/Set;
 	FIELD p LOGGER Lorg/apache/logging/log4j/Logger;
-	FIELD w entity2 Lnone/pl;
+	FIELD q lastPosX D
+	FIELD r lastPosY D
+	FIELD s lastPosZ D
+	FIELD t firstUpdateDone Z
+	FIELD u sendVelocityUpdates Z
+	FIELD v lastForcedTeleportTicks I
+	FIELD w riddenEntity Lnone/pl;
+	FIELD x ridingEntity Z
+	FIELD y onGround Z
+	METHOD <init> (Lnone/pl;IIZ)V
+		ARG 0 tracked
+		ARG 1 maxTrackingDistance
+		ARG 2 updateFrequency
+		ARG 3 sendVelocityUpdates
+	METHOD a sendDestroyEntityPacket ()V
+	METHOD a updatePlayerList (Ljava/util/List;)V
+		ARG 0 players
+	METHOD a removeFromTrackedPlayers (Lnone/lg;)V
+		ARG 0 player
+	METHOD b sendMetadata ()V
+	METHOD b updatePlayerEntities (Ljava/util/List;)V
+		ARG 0 players
+	METHOD b updatePlayerEntity (Lnone/lg;)V
+		ARG 0 player
+	METHOD c isWithinTrackingDistance (Lnone/lg;)Z
+		ARG 0 player
+	METHOD d removeTrackedPlayerSymmetric (Lnone/lg;)V
+		ARG 0 player
+	METHOD e isChunkWatched (Lnone/lg;)Z
+		ARG 0 player
+	METHOD equals (Ljava/lang/Object;)Z
+		ARG 0 other
 CLASS none/lk net/minecraft/network/PingResponseHandler
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD b networkSystem Lnone/lm;
@@ -4167,6 +4212,10 @@ CLASS none/ly net/minecraft/server/ServerConfigurationManager
 	METHOD a (Lnone/lg;IZ)Lnone/lg;
 	METHOD a setPlayerManager ([Lnone/lf;)V
 	METHOD c getServer ()Lnet/minecraft/server/MinecraftServer;
+	METHOD c removePlayerFromWhitelist (Lcom/mojang/authlib/GameProfile;)V
+		ARG 0 profile
+	METHOD d addWhitelistedPlayer (Lcom/mojang/authlib/GameProfile;)V
+		ARG 0 profile
 	METHOD e sendPlayerInfoToAllPlayers ()V
 	METHOD e removePlayer (Lnone/lg;)V
 	METHOD f getAllUsernames ()[Ljava/lang/String;
@@ -4241,7 +4290,7 @@ CLASS none/me net/minecraft/network/BanRecord
 CLASS none/mf net/minecraft/network/ListWhitelist
 	METHOD a getUserNames ()[Ljava/lang/String;
 	METHOD a objectToString (Ljava/lang/Object;)Ljava/lang/String;
-CLASS none/mg
+CLASS none/mg net/minecraft/server/management/UserListWhitelistEntry
 	METHOD a onSerialization (Lcom/google/gson/JsonObject;)V
 CLASS none/mk net/minecraft/command/RconSender
 	FIELD a sender Lnone/mk;
@@ -4875,18 +4924,29 @@ CLASS none/og net/minecraft/container/DoubleContainer
 	METHOD r_ isLocked ()Z
 CLASS none/oh net/minecraft/container/inventory/IInventory
 	METHOD a getStack (I)Lnone/zy;
+		ARG 0 slot
 	METHOD a retrieveFromStack (II)Lnone/zy;
-		ARG 0 slotIndex
+		ARG 0 slot
 		ARG 1 amount
 	METHOD a setStack (ILnone/zy;)V
+		ARG 0 slot
+		ARG 1 stack
 	METHOD a canViewInventory (Lnone/wo;)Z
+		ARG 0 player
 	METHOD a_ getField (I)I
+		ARG 0 id
 	METHOD b removeStack (I)Lnone/zy;
+		ARG 0 slot
 	METHOD b setField (II)V
+		ARG 0 id
 		ARG 1 value
 	METHOD b canPlaceItem (ILnone/zy;)Z
+		ARG 0 slot
+		ARG 1 stack
 	METHOD b onInventoryOpened (Lnone/wo;)V
+		ARG 0 player
 	METHOD c onInventoryClosed (Lnone/wo;)V
+		ARG 0 player
 	METHOD g getFieldAmount ()I
 	METHOD l clear ()V
 	METHOD o_ getSize ()I
@@ -5487,7 +5547,7 @@ CLASS none/pl net/minecraft/entity/Entity
 	METHOD aE getMaxFallHeight ()I
 	METHOD aI doesNotTriggerPressurePlate ()Z
 	METHOD aJ canRenderOnFire ()Z
-	METHOD aK getUuid ()Ljava/util/UUID;
+	METHOD aK getUUID ()Ljava/util/UUID;
 	METHOD aL isPushedByWater ()Z
 	METHOD aM getCustomName ()Ljava/lang/String;
 	METHOD aN isCustomNameVisible ()Z
@@ -6134,6 +6194,7 @@ CLASS none/qa net/minecraft/entity/DataWatcher
 	FIELD f lock Ljava/util/concurrent/locks/ReadWriteLock;
 	METHOD <init> (Lnone/pl;)V
 		ARG 0 entity
+	METHOD a hasObjectChanged ()Z
 	METHOD a getByte (I)B
 		ARG 0 dataId
 	METHOD a (II)V
@@ -6458,11 +6519,32 @@ CLASS none/rg net/minecraft/entity/ai/TaskPlantCrops
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
+CLASS none/rh net/minecraft/entity/ai/TaskVillagerWatchEntity
+	METHOD <init> (Lnone/pt;Ljava/lang/Class;FF)V
+		ARG 0 watcher
+		ARG 1 watched
+		ARG 2 maxDistance
+		ARG 3 chance
 CLASS none/ri net/minecraft/entity/ai/TaskLeapAtTarget
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 CLASS none/rj net/minecraft/entity/ai/TaskWatchEntity
+	FIELD a watcher Lnone/pt;
+	FIELD b closest Lnone/pl;
+	FIELD c maxDistance F
+	FIELD d watchedClass Ljava/lang/Class;
+	FIELD e lookTime I
+	FIELD f chance F
+	METHOD <init> (Lnone/pt;Ljava/lang/Class;F)V
+		ARG 0 watcher
+		ARG 1 watched
+		ARG 2 maxDistance
+	METHOD <init> (Lnone/pt;Ljava/lang/Class;FF)V
+		ARG 0 watcher
+		ARG 1 watched
+		ARG 2 maxDistance
+		ARG 3 chance
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
@@ -6504,7 +6586,15 @@ CLASS none/rp net/minecraft/entity/ai/TaskMoveToBlock
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD e opUpdate ()V
-CLASS none/rq
+CLASS none/rq net/minecraft/entity/ai/TaskMoveTowardsRestriction
+	FIELD a entity Lnone/pz;
+	FIELD b posX D
+	FIELD c posY D
+	FIELD d posZ D
+	FIELD e speed D
+	METHOD <init> (Lnone/pz;D)V
+		ARG 0 entity
+		ARG 1 speed
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
@@ -7939,11 +8029,13 @@ CLASS none/vk net/minecraft/entity/item/EntityTNTPrimed
 	METHOD s_ canTriggerWalking ()Z
 	METHOD t_ update ()V
 CLASS none/vm net/minecraft/entity/monster/EntityBlaze
-	CLASS none/vm$a
+	CLASS none/vm$a TaskFireballAttack
 		METHOD a shouldExecute ()Z
 		METHOD c startExecuting ()V
 		METHOD d resetTask ()V
 		METHOD e opUpdate ()V
+	FIELD a heightOffset F
+	FIELD b heightOffsetUpdateTime I
 	METHOD <init> (Lnone/adn;)V
 		ARG 0 level
 	METHOD A getDroppedItem ()Lnone/zx;
@@ -8351,10 +8443,25 @@ CLASS none/wf net/minecraft/entity/monster/EntityZombie
 	METHOD r attackEntityAsMob (Lnone/pl;)Z
 	METHOD t_ update ()V
 	METHOD z getIdleSound ()Ljava/lang/String;
-CLASS none/wh
+CLASS none/wh net/minecraft/entity/NPCTrader
+	FIELD a traderInventory Lnone/yb;
+	FIELD b player Lnone/wo;
+	FIELD c trades Lnone/adb;
+	FIELD d displayName Lnone/ev;
+	METHOD <init> (Lnone/wo;Lnone/ev;)V
+		ARG 0 player
+		ARG 1 displayName
+	METHOD a increaseTradeUses (Lnone/ada;)V
+		ARG 0 trader
+	METHOD a setTradesList (Lnone/adb;)V
+		ARG 0 trades
 	METHOD a_ setTradingPlayer (Lnone/wo;)V
+		ARG 0 player
 	METHOD a_ verifySellingItem (Lnone/zy;)V
+		ARG 0 stack
 	METHOD b_ getRecipes (Lnone/wo;)Lnone/adb;
+		ARG 0 player
+	METHOD f_ getName ()Lnone/ev;
 	METHOD v_ getTradingPlayer ()Lnone/wo;
 CLASS none/wi net/minecraft/entity/IVillager
 CLASS none/wj net/minecraft/entity/passive/EntityVillager
@@ -8369,6 +8476,8 @@ CLASS none/wj net/minecraft/entity/passive/EntityVillager
 	METHOD C canDespawn ()Z
 	METHOD E updateAITasks ()V
 	METHOD a handleEntityStatusPacket (B)V
+	METHOD a increaseTradeUses (Lnone/ada;)V
+	METHOD a setTradesList (Lnone/adb;)V
 	METHOD a playVillagerEffect (Lnone/cz;)V
 	METHOD a readFromNBT (Lnone/dp;)V
 	METHOD a onSpawnWithEgg (Lnone/ol;Lnone/pv;)Lnone/pv;
@@ -8391,7 +8500,7 @@ CLASS none/wj net/minecraft/entity/passive/EntityVillager
 	METHOD cm isInTrade ()Z
 	METHOD cw initializeOffers ()V
 	METHOD d replaceItem (ILnone/zy;)Z
-	METHOD f_ getNameComponent ()Lnone/ev;
+	METHOD f_ getName ()Lnone/ev;
 	METHOD h init ()V
 	METHOD n attackGoals ()V
 	METHOD r setProfession (I)V
@@ -8920,19 +9029,37 @@ CLASS none/ye net/minecraft/container/inventory/TempInventoryEnderChest
 	METHOD b onInventoryOpened (Lnone/wo;)V
 	METHOD c onInventoryClosed (Lnone/wo;)V
 	METHOD h getEnderItems ()Lnone/dv;
-CLASS none/yf
+CLASS none/yf net/minecraft/inventory/InventoryCraftResult
+	FIELD a stackResult [Lnone/zy;
 	METHOD a getStack (I)Lnone/zy;
+		ARG 0 slot
 	METHOD a retrieveFromStack (II)Lnone/zy;
+		ARG 0 slot
+		ARG 1 amount
 	METHOD a setStack (ILnone/zy;)V
+		ARG 0 slot
+		ARG 1 stack
 	METHOD a canViewInventory (Lnone/wo;)Z
+		ARG 0 player
 	METHOD a_ getField (I)I
+		ARG 0 id
 	METHOD b removeStack (I)Lnone/zy;
+		ARG 0 slot
 	METHOD b setField (II)V
+		ARG 0 id
+		ARG 1 value
 	METHOD b canPlaceItem (ILnone/zy;)Z
+		ARG 0 slot
+		ARG 1 stack
 	METHOD b onInventoryOpened (Lnone/wo;)V
+		ARG 0 player
 	METHOD c onInventoryClosed (Lnone/wo;)V
+		ARG 0 player
+	METHOD e_ getName ()Ljava/lang/String;
+	METHOD f_ getDisplayName ()Lnone/ev;
 	METHOD g getFieldAmount ()I
 	METHOD l clear ()V
+	METHOD l_ hasCustomName ()Z
 	METHOD o_ getSize ()I
 	METHOD p_ onChanged ()V
 	METHOD q_ getMaxStackSize ()I
@@ -10199,9 +10326,12 @@ CLASS none/acv net/minecraft/enchantment/EnchantmentDepthStrider
 CLASS none/acw net/minecraft/enchantment/EnchantmentAquaAffinity
 	METHOD b getMaxLevel ()I
 CLASS none/acz net/minecraft/entity/ITrader
+	METHOD a increaseTradeUses (Lnone/ada;)V
+	METHOD a setTradesList (Lnone/adb;)V
 	METHOD a_ setTradingPlayer (Lnone/wo;)V
 	METHOD a_ verifySellingItem (Lnone/zy;)V
 	METHOD b_ getRecipes (Lnone/wo;)Lnone/adb;
+	METHOD f_ getName ()Lnone/ev;
 	METHOD v_ getTradingPlayer ()Lnone/wo;
 CLASS none/ada net/minecraft/village/RecipeTrader
 	FIELD a itemPaid Lnone/zy;
