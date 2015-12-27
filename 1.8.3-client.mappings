@@ -4884,8 +4884,31 @@ CLASS none/oh net/minecraft/container/inventory/IInventory
 	METHOD o_ getSize ()I
 	METHOD p_ onChanged ()V
 	METHOD q_ getMaxStackSize ()I
-CLASS none/oj
+CLASS none/oi net/minecraft/inventory/IInventoryBasic
+	METHOD a onInventoryUpdate (Lnone/or;)V
+		ARG 0 tmp
+CLASS none/oj net/minecraft/inventory/InventoryHelper
 	FIELD a RANDOM Ljava/util/Random;
+	METHOD a spawnInventory (Lnone/adn;DDDLnone/oh;)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+		ARG 4 inventory
+	METHOD a spawnItemStack (Lnone/adn;DDDLnone/zy;)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+		ARG 4 itemStack
+	METHOD a dropInventoryItems (Lnone/adn;Lnone/ck;Lnone/oh;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 inventory
+	METHOD a dropEntityInventory (Lnone/adn;Lnone/pl;Lnone/oh;)V
+		ARG 0 world
+		ARG 1 entity
+		ARG 2 inventory
 CLASS none/ok net/minecraft/world/EnumDifficulty
 	FIELD a PEACEFUL Lnone/ok;
 	FIELD b EASY Lnone/ok;
@@ -4987,6 +5010,17 @@ CLASS none/ot net/minecraft/profiler/IPlayerUsage
 	METHOD ac isSnooperEnabled ()Z
 	METHOD b addServerTypeToSnooper (Lnone/os;)V
 		ARG 0 snooper
+CLASS none/ou net/minecraft/inventory/ISidedInventory
+	METHOD a canInsertItem (ILnone/zy;Lnone/cr;)Z
+		ARG 0 slot
+		ARG 1 stack
+		ARG 2 face
+	METHOD a getFaceSlots (Lnone/cr;)[I
+		ARG 0 face
+	METHOD b canExtractItem (ILnone/zy;Lnone/cr;)Z
+		ARG 0 slot
+		ARG 1 stack
+		ARG 2 face
 CLASS none/ov net/minecraft/entity/DeathCause
 	FIELD a damageSource Lnone/ox;
 	FIELD e environmentDescription Ljava/lang/String;
@@ -5335,9 +5369,9 @@ CLASS none/pl net/minecraft/entity/Entity
 	FIELD p prevXPos D
 	FIELD q prevYPos D
 	FIELD r prevZPos D
-	FIELD s xPos D
-	FIELD t yPos D
-	FIELD u zPos D
+	FIELD s posX D
+	FIELD t posY D
+	FIELD u posZ D
 	FIELD v motionX D
 	FIELD w motionY D
 	FIELD x motionZ D
@@ -6059,10 +6093,20 @@ CLASS none/pz net/minecraft/entity/EntityCreature
 	FIELD bl FLEEING_SPEED_BONUS Lnone/qe;
 	FIELD bm isMovementAITaskSet Z
 	FIELD c aiBase Lnone/re;
+	METHOD <init> (Lnone/adn;)V
+		ARG 0 world
+	METHOD a setHomePos (Lnone/ck;I)V
+		ARG 0 pos
+		ARG 1 maxDist
 	METHOD bR getCanSpawnHere ()Z
 	METHOD ca checkLeashed ()V
 	METHOD cf getNoAI ()Z
-	METHOD e isHomeDistanceFromPosition (Lnone/ck;)Z
+	METHOD cg isCurrentWithinHomeBounds ()Z
+	METHOD ch getHomePos ()Lnone/ck;
+	METHOD ci getMaxHomeDistance ()F
+	METHOD ck hasHome ()Z
+	METHOD e isWithinHomeBounds (Lnone/ck;)Z
+		ARG 0 pos
 CLASS none/qa net/minecraft/entity/DataWatcher
 	CLASS none/qa$a xw
 		FIELD a typeID I
@@ -6528,7 +6572,15 @@ CLASS none/sd net/minecraft/entity/ai/TaskAvoidSun
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
-CLASS none/se
+CLASS none/se net/minecraft/entity/ai/TaskHorseWander
+	FIELD a horse Lnone/tq;
+	FIELD b speed D
+	FIELD c posX D
+	FIELD d posY D
+	FIELD e posZ D
+	METHOD <init> (Lnone/tq;D)V
+		ARG 0 horse
+		ARG 1 speed
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
@@ -6567,15 +6619,37 @@ CLASS none/sk net/minecraft/entity/ai/TaskExchangeProduce
 CLASS none/sm net/minecraft/entity/ai/TaskDefendVillage
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
-CLASS none/sn
+CLASS none/sn net/minecraft/entity/ai/EntityAIHurtByTarget
+	FIELD a produceNoise Z
+	FIELD b revengeOld I
+	FIELD c attackers [Ljava/lang/Class;
+	METHOD <init> (Lnone/pz;Z[Ljava/lang/Class;)V
+		ARG 0 creature
+		ARG 1 produceNoise
+		ARG 2 attackers
 	METHOD a shouldExecute ()Z
+	METHOD a setAttackTarget (Lnone/pz;Lnone/ps;)V
+		ARG 0 attacker
+		ARG 1 attacked
 	METHOD c startExecuting ()V
-CLASS none/so
+CLASS none/so net/minecraft/entity/ai/TaskAttackEntityClass
+	CLASS none/so$1
+		METHOD a checkIsVisible (Lnone/ps;)Z
+			ARG 0 target
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
+	FIELD b attacker Lnone/pt;
+	FIELD c targetPredicate Lcom/google/common/base/Predicate;
+	FIELD d distanceComparator Lnone/sq$a;
+	FIELD e target Lnone/ps;
+	FIELD f targetClass Ljava/lang/Class;
+	METHOD <init> (Lnone/pt;Ljava/lang/Class;)V
+		ARG 0 attacker
+		ARG 1 targetClass
 	METHOD a shouldExecute ()Z
 	METHOD b continueExecuting ()Z
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
+	METHOD f getFollowRange ()D
 CLASS none/sp net/minecraft/entity/ai/TaskFindNearestPlayer
 	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
 	METHOD a shouldExecute ()Z
@@ -6583,6 +6657,13 @@ CLASS none/sp net/minecraft/entity/ai/TaskFindNearestPlayer
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 CLASS none/sq net/minecraft/entity/ai/TaskFollowEntity
+	CLASS none/sq$a EntityDistanceComparator
+		FIELD a entity Lnone/pl;
+		METHOD <init> (Lnone/pl;)V
+			ARG 0 entity
+		METHOD a compare (Lnone/pl;Lnone/pl;)I
+			ARG 0 a
+			ARG 1 b
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 CLASS none/sr net/minecraft/entity/ai/TaskUntamedFollowEntity
@@ -6598,7 +6679,12 @@ CLASS none/ss net/minecraft/entity/ai/TaskOwnerHurtTarget
 		ARG 0 tameable
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
-CLASS none/st
+CLASS none/st net/minecraft/entity/ai/TaskAttackTameable
+	FIELD a tameable Lnone/qb;
+	FIELD b target Lnone/ps;
+	FIELD c lastAttackTime I
+	METHOD <init> (Lnone/qb;)V
+		ARG 0 tameable
 	METHOD a shouldExecute ()Z
 	METHOD c startExecuting ()V
 CLASS none/su net/minecraft/entity/ai/TaskTarget
@@ -6629,7 +6715,7 @@ CLASS none/su net/minecraft/entity/ai/TaskTarget
 	METHOD c startExecuting ()V
 	METHOD d resetTask ()V
 	METHOD f getTargetDistance ()D
-CLASS none/sw net/minecraft/pathfinding/PathNavigateGround
+CLASS none/sw net/minecraft/pathfinding/PathNavigateWalking
 	FIELD a nodeProcessor Lnone/atb;
 	FIELD f shouldAvoidSun Z
 	METHOD <init> (Lnone/pt;Lnone/adn;)V
@@ -6712,12 +6798,23 @@ CLASS none/sx net/minecraft/pathfinding/PathNavigate
 	METHOD m noPath ()Z
 	METHOD n clearPathEntity ()V
 	METHOD o isInLiquid ()Z
-CLASS none/sy
+CLASS none/sy net/minecraft/pathfinding/PathNavigateClimbing
+	FIELD f destination Lnone/ck;
+	METHOD <init> (Lnone/pt;Lnone/adn;)V
+		ARG 0 self
+		ARG 1 world
 	METHOD a getPathToPos (Lnone/ck;)Lnone/asy;
+		ARG 0 destination
 	METHOD a getPathToEntityLiving (Lnone/pl;)Lnone/asy;
+		ARG 0 entity
 	METHOD a tryToMoveToEntity (Lnone/pl;D)Z
+		ARG 0 entity
+		ARG 1 speed
 	METHOD k onNavigationUpdated ()V
-CLASS none/sz
+CLASS none/sz net/minecraft/pathfinding/PathNavigateSwimming
+	METHOD <init> (Lnone/pt;Lnone/adn;)V
+		ARG 0 self
+		ARG 1 world
 	METHOD a getPathFinder ()Lnone/asz;
 	METHOD a isPathDirect (Lnone/auj;Lnone/auj;III)Z
 	METHOD b canNavigate ()Z
@@ -6733,6 +6830,59 @@ CLASS none/tb net/minecraft/entity/ai/EntitySenses
 	METHOD a reset ()V
 	METHOD a canSee (Lnone/pl;)Z
 		ARG 0 entity
+CLASS none/td net/minecraft/entity/ai/WanderRandomizer
+	FIELD a reference Lnone/auj;
+	METHOD a findRandomTarget (Lnone/pz;II)Lnone/auj;
+		ARG 0 creature
+	METHOD a findRandomTargetTowards (Lnone/pz;IILnone/auj;)Lnone/auj;
+		ARG 0 creature
+	METHOD b findRandomTargetAwayFrom (Lnone/pz;IILnone/auj;)Lnone/auj;
+		ARG 0 creature
+	METHOD c findRandomTargetBlock (Lnone/pz;IILnone/auj;)Lnone/auj;
+		ARG 0 creature
+CLASS none/tf net/minecraft/village/VillageDoorData
+	FIELD a doorBlockPos Lnone/ck;
+	FIELD b insideBlock Lnone/ck;
+	FIELD c insideDirection Lnone/cr;
+	FIELD d lastActivityTimestamp I
+	FIELD e isNotInVillage Z
+	FIELD f doorOpeningCntr I
+	METHOD <init> (Lnone/ck;III)V
+		ARG 0 doorPos
+		ARG 1 rotationX
+		ARG 2 rotationY
+		ARG 3 lastActivity
+	METHOD <init> (Lnone/ck;Lnone/cr;I)V
+		ARG 0 doorPos
+		ARG 1 insideDirection
+		ARG 2 lastActivity
+	METHOD a resetDoorOpeningCntr ()V
+	METHOD a updateActivityTimestamp (I)V
+		ARG 0 timestamp
+	METHOD a getFaceDirection (II)Lnone/cr;
+		ARG 0 posX
+		ARG 1 posZ
+	METHOD a getDistanceToDoorSq (Lnone/ck;)I
+		ARG 0 pos
+	METHOD a setIsInVillage (Z)V
+		ARG 0 inVillage
+	METHOD b incrementDoorOpeningCntr ()V
+	METHOD b getDistanceSq (III)I
+		ARG 0 posX
+		ARG 1 posY
+		ARG 2 posZ
+	METHOD b getDistanceToInsideBlockSq (Lnone/ck;)I
+		ARG 0 pos
+	METHOD c getDoorOpeningCntr ()I
+	METHOD d getDoorBlockPos ()Lnone/ck;
+	METHOD e getInsideBlock ()Lnone/ck;
+	METHOD f getInsideOffsetX ()I
+	METHOD g getInsideOffsetZ ()I
+	METHOD h getLastActivityTimestamp ()I
+	METHOD i isNotInVillage ()Z
+CLASS none/tg net/minecraft/village/Village
+	METHOD a tick (I)V
+	METHOD a setWorld (Lnone/adn;)V
 CLASS none/th net/minecraft/world/ZombieSpawner
 	FIELD a world Lnone/adn;
 	FIELD g x I
@@ -6745,10 +6895,30 @@ CLASS none/th net/minecraft/world/ZombieSpawner
 		ARG 0 pos
 	METHOD c spawnZombie ()Z
 CLASS none/ti net/minecraft/world/storage/VillagesData
-	FIELD b level Lnone/adn;
+	FIELD b world Lnone/adn;
+	FIELD c villagerPositions Ljava/util/List;
+	FIELD d newDoors Ljava/util/List;
+	FIELD e villages Ljava/util/List;
+	FIELD f tickCounter I
+	METHOD <init> (Ljava/lang/String;)V
+		ARG 0 worldName
+	METHOD <init> (Lnone/adn;)V
+		ARG 0 world
+	METHOD a tick ()V
+	METHOD a setWorldsForAll (Lnone/adn;)V
+		ARG 0 world
 	METHOD a getNameForDimension (Lnone/ann;)Ljava/lang/String;
+	METHOD a addToVillagerPositionList (Lnone/ck;)V
+		ARG 0 blockPos
+	METHOD a getNearestVillage (Lnone/ck;I)Lnone/tg;
+		ARG 0 pos
 	METHOD a load (Lnone/dp;)V
+	METHOD b getVillages ()Ljava/util/List;
 	METHOD b save (Lnone/dp;)V
+	METHOD e removeEmptyVillages ()V
+	METHOD e positionInList (Lnone/ck;)Z
+	METHOD f removeOldestVillagerPosition ()V
+	METHOD g populateVillage ()V
 CLASS none/tk net/minecraft/entity/EntityFlyingCreature
 	METHOD <init> (Lnone/adn;)V
 		ARG 0 level
@@ -6844,14 +7014,33 @@ CLASS none/tp net/minecraft/entity/passive/EntityCow
 	METHOD bp getHurtSound ()Ljava/lang/String;
 	METHOD z getIdleSound ()Ljava/lang/String;
 CLASS none/tq net/minecraft/entity/passive/EntityHorse
+	CLASS none/tq$1
+		METHOD a canBreed (Lnone/pl;)Z
+			ARG 0 other
+	CLASS none/tq$a GroupData
+	FIELD bC openMouthCounter I
+	FIELD bD jumpRearingCounter I
 	FIELD bE horseChest Lnone/xk;
 	FIELD bF hasReproduced Z
-	FIELD bo temper I
+	FIELD bH headLean F
+	FIELD bI headLeanPrev F
+	FIELD bJ rearingAmount F
+	FIELD bK rearingAmountPrev F
+	FIELD bL mouthOpenAmount F
+	FIELD bM mouthOpenAmountPrev F
+	FIELD bq temper I
+	FIELD bs horseBreedingSelector Lcom/google/common/base/Predicate;
+	FIELD bt horseJumpStrength Lnone/qc;
+	FIELD bu horseArmorTextures [Ljava/lang/String;
+	FIELD bw armorValues [I
+	FIELD bx horseTextures [Ljava/lang/String;
+	FIELD bz horseMarkingTextures [Ljava/lang/String;
 	METHOD A getDroppedItem ()Lnone/zx;
 	METHOD a handleEntityStatusPacket (B)V
 	METHOD a playStepSound (Lnone/ck;Lnone/afi;)V
 	METHOD a readFromNBT (Lnone/dp;)V
 	METHOD a onSpawnWithEgg (Lnone/ol;Lnone/pv;)Lnone/pv;
+	METHOD a onInventoryUpdate (Lnone/or;)V
 	METHOD a handleDeathFrom (Lnone/ox;)V
 	METHOD a attackEntity (Lnone/ox;F)Z
 	METHOD a createChildFrom (Lnone/pi;)Lnone/pi;
@@ -6876,7 +7065,13 @@ CLASS none/tq net/minecraft/entity/passive/EntityHorse
 	METHOD cA isBred ()Z
 	METHOD cB hasReproduced ()Z
 	METHOD cC getTemper ()I
+	METHOD cD prepareChunkForSpawn ()Z
 	METHOD cE dropChest ()V
+	METHOD cH getAngrySoundName ()Ljava/lang/String;
+	METHOD cP canCarryChest ()Z
+	METHOD cW makeHorseRearWithSound ()V
+	METHOD cX dropChestItems ()V
+	METHOD cY playEatSound ()V
 	METHOD cb allowLeashing ()Z
 	METHOD cl getType ()I
 	METHOD cm getVariant ()I
@@ -6885,25 +7080,44 @@ CLASS none/tq net/minecraft/entity/passive/EntityHorse
 	METHOD ct getOwner ()Ljava/lang/String;
 	METHOD cw isChestedHorse ()Z
 	METHOD cy isEatingHaystack ()Z
+	METHOD cz isRearing ()Z
 	METHOD d replaceItem (ILnone/zy;)Z
 	METHOD d isValidFood (Lnone/zy;)Z
+	METHOD dc resetTexturePrefix ()V
+	METHOD df openHorseMouth ()V
+	METHOD dg canBreed ()Z
+	METHOD dh makeHorseRear ()V
 	METHOD e onHitGround (FF)V
 	METHOD e_ getName ()Ljava/lang/String;
 	METHOD f getArmorMaterialId (Lnone/zy;)I
 	METHOD f setEating (Z)V
+		ARG 0 eating
 	METHOD g moveByHeading (FF)V
 	METHOD h init ()V
+	METHOD h setTamedBy (Lnone/wo;)Z
+		ARG 0 player
 	METHOD k_ isOnLadder ()Z
 	METHOD l setTame (Z)V
 	METHOD m entityInit ()V
 	METHOD n setBred (Z)V
+		ARG 0 bred
 	METHOD o setChestedHorse (Z)V
+		ARG 0 chested
 	METHOD p setHasReproduced (Z)V
+		ARG 0 reproduced
+	METHOD q setHorseSaddled (Z)V
+		ARG 0 saddled
 	METHOD r setType (I)V
 	METHOD r setEatingHaystack (Z)V
+		ARG 0 eating
 	METHOD s setVariant (I)V
+	METHOD s setRearing (Z)V
+		ARG 0 rearing
 	METHOD t setTemper (I)V
+		ARG 0 temper
 	METHOD t_ update ()V
+	METHOD u increaseTemper (I)I
+		ARG 0 amount
 	METHOD w getTalkInterval ()I
 	METHOD w getWatchedBoolean (I)Z
 		ARG 0 bit
@@ -7477,6 +7691,17 @@ CLASS none/va net/minecraft/entity/item/EntityItem
 	FIELD g owner Ljava/lang/String;
 	METHOD <init> (Lnone/adn;)V
 		ARG 0 level
+	METHOD <init> (Lnone/adn;DDD)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+	METHOD <init> (Lnone/adn;DDDLnone/zy;)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+		ARG 4 stack
 	METHOD W isEntityInWater ()Z
 	METHOD a setPickupDelay (I)V
 		ARG 0 pickupDelay
@@ -7925,6 +8150,8 @@ CLASS none/vw net/minecraft/entity/monster/EntityMonster
 CLASS none/vx net/minecraft/entity/monster/EntityPigZombie
 	CLASS none/vx$a
 		METHOD a shouldExecute ()Z
+	CLASS none/vx$b
+		METHOD a setAttackTarget (Lnone/pz;Lnone/ps;)V
 	FIELD bm anger I
 	FIELD bo hurtBy Ljava/util/UUID;
 	METHOD E updateAITasks ()V
@@ -10323,13 +10550,8 @@ CLASS none/adn net/minecraft/world/World
 		ARG 0 vec
 		ARG 1 aaBB
 	METHOD a raytraceBlocks (Lnone/auj;Lnone/auj;)Lnone/aui;
-		ARG 0 vec3_1
-		ARG 1 vec3_2
 	METHOD a raytraceBlocks (Lnone/auj;Lnone/auj;Z)Lnone/aui;
-		ARG 0 vec3_1
-		ARG 1 vec3_2
 	METHOD a raytraceBlocks (Lnone/auj;Lnone/auj;ZZZ)Lnone/aui;
-		ARG 0 asdfsadfads
 		ARG 1 end
 	METHOD a addLevelInfoToCrashReport (Lnone/b;)Lnone/c;
 		ARG 0 crashReport
@@ -13141,12 +13363,14 @@ CLASS none/aho net/minecraft/block/BlockHopper
 	METHOD a updateCollisionHitbox (Lnone/adr;Lnone/ck;)V
 	METHOD a shouldFaceRender (Lnone/adr;Lnone/ck;Lnone/cr;)Z
 	METHOD b getRenderType ()I
+	METHOD b getFacing (I)Lnone/cr;
 	METHOD b onRemoved (Lnone/adn;Lnone/ck;Lnone/ama;)V
 	METHOD c isOpaque ()Z
 	METHOD c onSet (Lnone/adn;Lnone/ck;Lnone/ama;)V
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD d hasFullCubeHitbox ()Z
 	METHOD e initPropertyManager ()Lnone/amb;
+	METHOD f isEnabled (I)Z
 	METHOD l getComparatorInput (Lnone/adn;Lnone/ck;)I
 	METHOD m getBlockRenderMode ()Lnone/adg;
 CLASS none/ahp net/minecraft/block/BlockHugeMushroom
@@ -14413,8 +14637,11 @@ CLASS none/akx net/minecraft/block/entity/BlockEntity
 	METHOD y_ getDescriptionPacket ()Lnone/fg;
 	METHOD z getDimension ()Lnone/adn;
 CLASS none/aky net/minecraft/block/entity/BlockEntityBrewingStand
+	METHOD a canInsertItem (ILnone/zy;Lnone/cr;)Z
+	METHOD a getFaceSlots (Lnone/cr;)[I
 	METHOD a load (Lnone/dp;)V
 	METHOD a getInterfaceContainer (Lnone/wn;Lnone/wo;)Lnone/xj;
+	METHOD b canExtractItem (ILnone/zy;Lnone/cr;)Z
 	METHOD b save (Lnone/dp;)V
 	METHOD c update ()V
 	METHOD k getBlockID ()Ljava/lang/String;
@@ -14525,8 +14752,11 @@ CLASS none/alh net/minecraft/block/entity/BlockEntityFlowerPot
 	METHOD c getData ()I
 	METHOD y_ getDescriptionPacket ()Lnone/fg;
 CLASS none/ali net/minecraft/block/entity/BlockEntityFurnace
+	METHOD a canInsertItem (ILnone/zy;Lnone/cr;)Z
+	METHOD a getFaceSlots (Lnone/cr;)[I
 	METHOD a load (Lnone/dp;)V
 	METHOD a getInterfaceContainer (Lnone/wn;Lnone/wo;)Lnone/xj;
+	METHOD b canExtractItem (ILnone/zy;Lnone/cr;)Z
 	METHOD b save (Lnone/dp;)V
 	METHOD c update ()V
 	METHOD k getBlockID ()Ljava/lang/String;
@@ -14536,15 +14766,49 @@ CLASS none/alj net/minecraft/container/inventory/IHopperInventory
 	METHOD C getZ ()D
 	METHOD z getWorld ()Lnone/adn;
 CLASS none/alk net/minecraft/block/entity/BlockEntityHopper
+	FIELD a inventory [Lnone/zy;
+	FIELD f customName Ljava/lang/String;
+	FIELD g transferCooldown I
 	METHOD A getX ()D
 	METHOD B getY ()D
 	METHOD C getZ ()D
+	METHOD a getStackInSlot (I)Lnone/zy;
+		ARG 0 slot
+	METHOD a decreaseStackSize (II)Lnone/zy;
+		ARG 0 slot
+		ARG 1 count
+	METHOD a setSlot (ILnone/zy;)V
+		ARG 0 slot
+		ARG 1 item
+	METHOD a setCustomName (Ljava/lang/String;)V
+		ARG 0 name
 	METHOD a load (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD a getInterfaceContainer (Lnone/wn;Lnone/wo;)Lnone/xj;
+	METHOD a isUseableByPlayer (Lnone/wo;)Z
+		ARG 0 player
+	METHOD b getClosingStackInSlot (I)Lnone/zy;
+		ARG 0 slot
+	METHOD b isItemValidForSlot (ILnone/zy;)Z
+		ARG 0 slot
+		ARG 1 stack
 	METHOD b save (Lnone/dp;)V
+		ARG 0 tagCompound
+	METHOD b openInventory (Lnone/wo;)V
+		ARG 0 player
 	METHOD c update ()V
+	METHOD c closeInventory (Lnone/wo;)V
+		ARG 0 player
+	METHOD d setTransferCooldown (I)V
+	METHOD e_ getName ()Ljava/lang/String;
 	METHOD k getBlockID ()Ljava/lang/String;
+	METHOD l_ hasCustomName ()Z
+	METHOD n isOnCooldown ()Z
+	METHOD o_ getInventorySize ()I
+	METHOD p isEmpty ()Z
 	METHOD p_ onChanged ()V
+	METHOD q isNotFull ()Z
+	METHOD q_ getStackLimit ()I
 CLASS none/all net/minecraft/block/entity/BlockEntityContainer
 	FIELD a lock Lnone/oo;
 	METHOD a load (Lnone/dp;)V
@@ -17278,6 +17542,7 @@ CLASS none/asx net/minecraft/pathfinding/PathNodeProcessor
 		ARG 3 end
 		ARG 4 distance
 CLASS none/asy net/minecraft/pathfinding/PathEntity
+	METHOD a incrementPathIndex ()V
 	METHOD a getPathPointFromIndex (I)Lnone/asw;
 	METHOD a getPosition (Lnone/pl;)Lnone/auj;
 	METHOD a getVectorFromIndex (Lnone/pl;I)Lnone/auj;
@@ -23695,21 +23960,36 @@ CLASS none/bpw net/minecraft/client/audio/MusicTicker
 	FIELD b mc Lnone/avf;
 	METHOD c update ()V
 CLASS none/bpx net/minecraft/client/audio/SoundPoolEntry
+	METHOD a setPitch (D)V
+	METHOD b getPitch ()D
+	METHOD b setVolume (D)V
+	METHOD c getVolume ()D
 CLASS none/bpy net/minecraft/client/sound/SoundSystem
 	FIELD a MARKER Lorg/apache/logging/log4j/Marker;
 	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
 	METHOD c playSound (Lnone/bpk;)V
 		ARG 0 sound
 	METHOD d update ()V
-CLASS none/bpz
+CLASS none/bpz net/minecraft/client/audio/SoundEventAccessorComposite
+	FIELD a soundPool Ljava/util/List;
 	FIELD b random Ljava/util/Random;
 	FIELD c resourceLocation Lnone/jz;
 	FIELD d soundType Lnone/bph;
+	FIELD e eventPitch D
+	FIELD f eventVolume D
 	METHOD <init> (Lnone/jz;DDLnone/bph;)V
 		ARG 0 resourceLocation
+	METHOD a getWeight ()I
+	METHOD a addSoundToEventPool (Lnone/bqc;)V
+		ARG 0 sound
+	METHOD b cloneEntry ()Lnone/bpx;
 	METHOD c getResourceLocation ()Lnone/jz;
 	METHOD d getSoundType ()Lnone/bph;
+	METHOD g cloneEntry ()Ljava/lang/Object;
 CLASS none/bqa net/minecraft/client/sound/SoundManager
+	CLASS none/bqa$2
+		METHOD a getWeight ()I
+		METHOD g cloneEntry ()Ljava/lang/Object;
 	FIELD a MISSING_SOUND Lnone/bpx;
 	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD c GSON Lcom/google/gson/Gson;
@@ -23725,8 +24005,12 @@ CLASS none/bqb net/minecraft/client/audio/SoundRegistry
 	METHOD a clearRegistry ()V
 	METHOD b initializeMap ()Ljava/util/Map;
 CLASS none/bqc net/minecraft/client/audio/ISoundEventAccessor
+	METHOD a getWeight ()I
+	METHOD g cloneEntry ()Ljava/lang/Object;
 CLASS none/bqd net/minecraft/client/audio/SoundEventAccessor
 	FIELD a poolEntry Lnone/bpx;
+	METHOD a getWeight ()I
+	METHOD g cloneEntry ()Ljava/lang/Object;
 CLASS none/bqf net/minecraft/client/stream/AchievementMetadata
 	METHOD <init> (Lnone/mr;)V
 		ARG 0 achievement
