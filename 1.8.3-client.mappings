@@ -4815,6 +4815,14 @@ CLASS none/ny net/minecraft/util/StringUtil
 		ARG 0 s
 	METHOD b isNullOrEmpty (Ljava/lang/String;)Z
 		ARG 0 s
+CLASS none/oa net/minecraft/util/Pointer
+	FIELD a a Ljava/lang/Object;
+	FIELD b b Ljava/lang/Object;
+	METHOD <init> (Ljava/lang/Object;Ljava/lang/Object;)V
+		ARG 0 a
+		ARG 1 b
+	METHOD a getA ()Ljava/lang/Object;
+	METHOD b getB ()Ljava/lang/Object;
 CLASS none/ob net/minecraft/util/WeightedRandom
 	CLASS none/ob$a Item
 		FIELD a itemWeight I
@@ -8958,8 +8966,11 @@ CLASS none/yk net/minecraft/item/ItemArmor
 		ARG 2 armorPieceId
 	METHOD a getColor (Lnone/zy;I)I
 	METHOD a onRightClick (Lnone/zy;Lnone/adn;Lnone/wo;)Lnone/zy;
-	METHOD b (Lnone/zy;I)V
+	METHOD b getColor (Lnone/zy;)I
+	METHOD b setColor (Lnone/zy;I)V
 		ARG 1 dataValue
+	METHOD d_ hasColor (Lnone/zy;)Z
+	METHOD x_ getArmorMaterial ()Lnone/yk$a;
 CLASS none/yl net/minecraft/item/ItemArmorStand
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
 CLASS none/ym net/minecraft/item/ItemAxe
@@ -9130,6 +9141,7 @@ CLASS none/ze net/minecraft/item/EnumDyeColor
 	METHOD b getByID (I)Lnone/ze;
 	METHOD e getMapColor ()Lnone/aro;
 	METHOD l getName ()Ljava/lang/String;
+	METHOD values values ()[Lnone/ze;
 CLASS none/zf net/minecraft/item/ItemDye
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
 	METHOD a onBlockPlace (Lnone/zy;Lnone/wo;Lnone/adn;Lnone/ck;Lnone/cr;FFF)Z
@@ -9713,6 +9725,7 @@ CLASS none/aab net/minecraft/item/ItemBlockLeaves
 	METHOD a getColor (Lnone/zy;I)I
 	METHOD e_ getUnlocalizedName (Lnone/zy;)Ljava/lang/String;
 CLASS none/aac net/minecraft/item/ItemMapFilled
+	METHOD a getMapData (Lnone/zy;Lnone/adn;)Lnone/ath;
 	METHOD a onUpdate (Lnone/zy;Lnone/adn;Lnone/pl;IZ)V
 	METHOD d onCreated (Lnone/zy;Lnone/adn;Lnone/wo;)V
 CLASS none/aad net/minecraft/item/ItemMilkBucket
@@ -9856,41 +9869,65 @@ CLASS none/abe net/minecraft/item/ItemWrittenBook
 	METHOD h getGeneration (Lnone/zy;)I
 CLASS none/abf net/minecraft/potion/PotionBrewer
 	FIELD r POTION_PREFIXES [Ljava/lang/String;
-CLASS none/abi
+CLASS none/abi net/minecraft/item/crafting/RecipesArmorDyes
 	METHOD a getSize ()I
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
+		ARG 0 craftingInventory
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
+		ARG 0 craftingInventory
+		ARG 1 world
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
+		ARG 0 craftingInventory
 CLASS none/abj net/minecraft/crafting/ArmorCraftingRecipes
 	FIELD a arrangements [[Ljava/lang/String;
 	FIELD b ingredients [[Lnone/zx;
 	METHOD a addToRecipes (Lnone/abu;)V
-CLASS none/abk
-	CLASS none/abk$a
+CLASS none/abk net/minecraft/item/crafting/RecipesBanners
+	CLASS none/abk$a RecipeAddPattern
 		METHOD a getSize ()I
 		METHOD a getResult (Lnone/xq;)Lnone/zy;
+			ARG 0 craftingInventory
 		METHOD a matches (Lnone/xq;Lnone/adn;)Z
+			ARG 0 craftingInventory
+			ARG 1 world
 		METHOD b getOutput ()Lnone/zy;
 		METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
-	CLASS none/abk$b
+			ARG 0 craftingInventory
+		METHOD c getPattern (Lnone/xq;)Lnone/akv$a;
+			ARG 0 craftingInventory
+	CLASS none/abk$b RecipeDuplicatePattern
 		METHOD a getSize ()I
 		METHOD a getResult (Lnone/xq;)Lnone/zy;
+			ARG 0 craftingInventory
 		METHOD a matches (Lnone/xq;Lnone/adn;)Z
+			ARG 0 craftingInventory
+			ARG 1 world
 		METHOD b getOutput ()Lnone/zy;
 		METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
-CLASS none/abl
+			ARG 0 craftingInventory
+	METHOD a initBannerRecipes (Lnone/abu;)V
+		ARG 0 craftingRecipes
+CLASS none/abl net/minecraft/item/crafting/RecipeBookCloning
 	METHOD a getSize ()I
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
+		ARG 0 craftingInventory
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
+		ARG 0 craftingInventory
+		ARG 1 world
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
+		ARG 0 craftingInventory
 CLASS none/abm net/minecraft/crafting/ColoredCraftingRecipes
 	METHOD a addToRecipes (Lnone/abu;)V
-CLASS none/abn
+CLASS none/abn net/minecraft/item/crafting/RecipeFireworks
+	FIELD a result Lnone/zy;
 	METHOD a getSize ()I
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
+		ARG 0 craftingInventory
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
+		ARG 0 craftingInventory
+		ARG 1 world
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
 CLASS none/abo net/minecraft/crafting/FoodCraftingRecipes
@@ -9920,15 +9957,22 @@ CLASS none/abp net/minecraft/crafting/FurnaceRecipes
 	METHOD b getRecipeList ()Ljava/util/Map;
 	METHOD b getExperience (Lnone/zy;)F
 		ARG 0 stack
-CLASS none/abq
+CLASS none/abq net/minecraft/item/crafting/RecipesMapCloning
 	METHOD a getSize ()I
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
+		ARG 0 craftingInventory
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
+		ARG 0 craftingInventory
+		ARG 1 world
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
-CLASS none/abr
+		ARG 0 craftingInventory
+CLASS none/abr net/minecraft/item/crafting/RecipesMapExtending
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
+		ARG 0 craftingInventory
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
+		ARG 0 craftingInventory
+		ARG 1 world
 CLASS none/abs net/minecraft/crafting/StorageBlockCraftingRecipes
 	FIELD a ingredients [[Ljava/lang/Object;
 	METHOD a addToRecipes (Lnone/abu;)V
@@ -9946,16 +9990,21 @@ CLASS none/abu net/minecraft/crafting/CraftingRecipes
 	FIELD a INSTANCE Lnone/abu;
 	FIELD b recipes Ljava/util/List;
 	METHOD a getInstance ()Lnone/abu;
+	METHOD a addRecipe (Lnone/abt;)V
 	METHOD a addRecipe (Lnone/zy;[Ljava/lang/Object;)Lnone/abw;
 		ARG 0 craftingResult
 	METHOD b getRecipeList ()Ljava/util/List;
 	METHOD b addShapelessRecipe (Lnone/zy;[Ljava/lang/Object;)V
-CLASS none/abv
+CLASS none/abv net/minecraft/item/crafting/RecipeRepairItem
 	METHOD a getSize ()I
 	METHOD a getResult (Lnone/xq;)Lnone/zy;
+		ARG 0 craftingInventory
 	METHOD a matches (Lnone/xq;Lnone/adn;)Z
+		ARG 0 craftingInventory
+		ARG 1 world
 	METHOD b getOutput ()Lnone/zy;
 	METHOD b getRemainingItems (Lnone/xq;)[Lnone/zy;
+		ARG 0 craftingInventory
 CLASS none/abw net/minecraft/crafting/RecipeShaped
 	FIELD a width I
 	FIELD b height I
@@ -11307,6 +11356,39 @@ CLASS none/aea net/minecraft/world/biome/BiomeCacheManager
 	METHOD c getCachedBiomes (II)[Lnone/adz;
 		ARG 0 xPos
 		ARG 1 zPos
+CLASS none/aeb net/minecraft/world/biome/BiomeColorHelper
+	CLASS none/aeb$1
+		METHOD a getColorAtPos (Lnone/adz;Lnone/ck;)I
+			ARG 0 biome
+			ARG 1 pos
+	CLASS none/aeb$2
+		METHOD a getColorAtPos (Lnone/adz;Lnone/ck;)I
+			ARG 0 biome
+			ARG 1 pos
+	CLASS none/aeb$3
+		METHOD a getColorAtPos (Lnone/adz;Lnone/ck;)I
+			ARG 0 biome
+			ARG 1 pos
+	CLASS none/aeb$a ColorResolver
+		METHOD a getColorAtPos (Lnone/adz;Lnone/ck;)I
+			ARG 0 biome
+			ARG 1 pos
+	FIELD a GRASS_COLOR_RESOLVER Lnone/aeb$a;
+	FIELD b LEAVES_COLOR_RESOLVER Lnone/aeb$a;
+	FIELD c WATER_COLOR_RESOLVER Lnone/aeb$a;
+	METHOD a getGrassColor (Lnone/adr;Lnone/ck;)I
+		ARG 0 world
+		ARG 1 pos
+	METHOD a getColor (Lnone/adr;Lnone/ck;Lnone/aeb$a;)I
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 colorResolver
+	METHOD b getFoliageColor (Lnone/adr;Lnone/ck;)I
+		ARG 0 world
+		ARG 1 pos
+	METHOD c getWaterColor (Lnone/adr;Lnone/ck;)I
+		ARG 0 world
+		ARG 1 pos
 CLASS none/aec net/minecraft/world/decorator/Decorator
 	FIELD A treesPerChunk I
 	FIELD B dandelionsPerChunk I
@@ -12086,7 +12168,7 @@ CLASS none/afi net/minecraft/block/Block
 	METHOD E getMaxY ()D
 	METHOD F getMinZ ()D
 	METHOD G getMaxZ ()D
-	METHOD H getColor ()I
+	METHOD H getBlockColor ()I
 	METHOD I canSilkTouch ()Z
 	METHOD J hasStats ()Z
 	METHOD K disableStats ()Lnone/afi;
@@ -12241,7 +12323,7 @@ CLASS none/afi net/minecraft/block/Block
 	METHOD a updateCollisionHitbox (Lnone/adr;Lnone/ck;)V
 		ARG 0 blockAccess
 		ARG 1 blockPos
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 		ARG 0 blockAccess
 		ARG 1 blockPos
 	METHOD a getPowerEmitted (Lnone/adr;Lnone/ck;Lnone/ama;Lnone/cr;)I
@@ -12389,7 +12471,7 @@ CLASS none/afi net/minecraft/block/Block
 	METHOD g getColor (Lnone/ama;)Lnone/aro;
 		ARG 0 blockState
 	METHOD h getOcclusionLight ()F
-	METHOD h getColor (Lnone/ama;)I
+	METHOD h getRenderColor (Lnone/ama;)I
 		ARG 0 blockState
 	METHOD i canEmitPower ()Z
 	METHOD i getItemStack (Lnone/ama;)Lnone/zy;
@@ -13023,7 +13105,7 @@ CLASS none/agj net/minecraft/block/BlockTallPlant
 	METHOD a onBlockHarvested (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/wo;)V
 	METHOD a onMined (Lnone/adn;Lnone/wo;Lnone/ck;Lnone/ama;Lnone/akx;)V
 	METHOD a updateCollisionHitbox (Lnone/adr;Lnone/ck;)V
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getItemData (Lnone/ama;)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a updateState (Lnone/ama;Lnone/adr;Lnone/ck;)Lnone/ama;
@@ -13249,7 +13331,7 @@ CLASS none/agy net/minecraft/block/BlockFlowerPot
 	METHOD a onUpdate (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/afi;)V
 	METHOD a onBlockHarvested (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/wo;)V
 	METHOD a onRightClicked (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/wo;Lnone/cr;FFF)Z
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a updateState (Lnone/ama;Lnone/adr;Lnone/ck;)Lnone/ama;
 	METHOD b getRenderType ()I
@@ -13300,14 +13382,14 @@ CLASS none/ahe net/minecraft/block/BlockGlowstone
 	METHOD g getColor (Lnone/ama;)Lnone/aro;
 CLASS none/ahf net/minecraft/block/BlockGrass
 	FIELD a snowy Lnone/aml;
-	METHOD H getColor ()I
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD H getBlockColor ()I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a updateState (Lnone/ama;Lnone/adr;Lnone/ck;)Lnone/ama;
 	METHOD b onTick (Lnone/adn;Lnone/ck;Lnone/ama;Ljava/util/Random;)V
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD e initPropertyManager ()Lnone/amb;
-	METHOD h getColor (Lnone/ama;)I
+	METHOD h getRenderColor (Lnone/ama;)I
 	METHOD m getBlockRenderMode ()Lnone/adg;
 CLASS none/ahg net/minecraft/block/BlockGravel
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
@@ -13442,10 +13524,10 @@ CLASS none/ahs net/minecraft/block/BlockLadder
 CLASS none/aht net/minecraft/block/BlockLeaves
 	FIELD a decayable Lnone/aml;
 	FIELD b checkDecay Lnone/aml;
-	METHOD H getColor ()I
+	METHOD H getBlockColor ()I
 	METHOD a getDropCount (Ljava/util/Random;)I
 	METHOD a dropAsItem (Lnone/adn;Lnone/ck;Lnone/ama;FI)V
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD b getWoodTypeByID (I)Lnone/aip$a;
 	METHOD b onRemoved (Lnone/adn;Lnone/ck;Lnone/ama;)V
@@ -13453,7 +13535,7 @@ CLASS none/aht net/minecraft/block/BlockLeaves
 	METHOD b setFancyRendering (Z)V
 	METHOD c isOpaque ()Z
 	METHOD c spawnParticles (Lnone/adn;Lnone/ck;Lnone/ama;Ljava/util/Random;)V
-	METHOD h getColor (Lnone/ama;)I
+	METHOD h getRenderColor (Lnone/ama;)I
 	METHOD m getBlockRenderMode ()Lnone/adg;
 	METHOD w isSolidCube ()Z
 CLASS none/ahv net/minecraft/block/BlockLever
@@ -13493,7 +13575,7 @@ CLASS none/ahw net/minecraft/block/BlockLiquidBase
 	METHOD a getBoundingBox (Lnone/adn;Lnone/ck;Lnone/ama;)Lnone/auh;
 	METHOD a onUpdate (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/afi;)V
 	METHOD a modifyAcceleration (Lnone/adn;Lnone/ck;Lnone/pl;Lnone/auj;)Lnone/auj;
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a shouldFaceRender (Lnone/adr;Lnone/ck;Lnone/cr;)Z
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a canCollide (Lnone/ama;Z)Z
@@ -13635,14 +13717,14 @@ CLASS none/ail net/minecraft/block/BlockOldLeaves
 	FIELD Q variant Lnone/amn;
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
 	METHOD a onMined (Lnone/adn;Lnone/wo;Lnone/ck;Lnone/ama;Lnone/akx;)V
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getItemData (Lnone/ama;)I
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
 	METHOD b getWoodTypeByID (I)Lnone/aip$a;
 		ARG 0 id
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD e initPropertyManager ()Lnone/amb;
-	METHOD h getColor (Lnone/ama;)I
+	METHOD h getRenderColor (Lnone/ama;)I
 	METHOD i getItemStack (Lnone/ama;)Lnone/zy;
 CLASS none/aim net/minecraft/block/BlockOldLog
 	CLASS none/aim$1 BlockOldLogWoodTypeValidPredicate
@@ -13849,7 +13931,7 @@ CLASS none/ajc net/minecraft/block/BlockRedstoneWire
 	METHOD a getBoundingBox (Lnone/adn;Lnone/ck;Lnone/ama;)Lnone/auh;
 	METHOD a onUpdate (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/afi;)V
 	METHOD a getUpdatedRedstoneWireState (Lnone/adn;Lnone/ck;Lnone/ck;Lnone/ama;)Lnone/ama;
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getPowerEmitted (Lnone/adr;Lnone/ck;Lnone/ama;Lnone/cr;)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a updateState (Lnone/ama;Lnone/adr;Lnone/ck;)Lnone/ama;
@@ -13897,7 +13979,7 @@ CLASS none/ajf net/minecraft/block/BlockReeds
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
 	METHOD a getBoundingBox (Lnone/adn;Lnone/ck;Lnone/ama;)Lnone/auh;
 	METHOD a onUpdate (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/afi;)V
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD b onTick (Lnone/adn;Lnone/ck;Lnone/ama;Ljava/util/Random;)V
 	METHOD c isOpaque ()Z
@@ -14043,12 +14125,27 @@ CLASS none/ajs net/minecraft/block/BlockSponge
 	FIELD a wet Lnone/aml;
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
 	METHOD a onUpdate (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/afi;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 blockState
+		ARG 3 block
 	METHOD a getItemData (Lnone/ama;)I
+		ARG 0 blockState
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
 	METHOD c onSet (Lnone/adn;Lnone/ck;Lnone/ama;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 blockState
 	METHOD c spawnParticles (Lnone/adn;Lnone/ck;Lnone/ama;Ljava/util/Random;)V
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD e initPropertyManager ()Lnone/amb;
+	METHOD e absorbWater (Lnone/adn;Lnone/ck;)Z
+		ARG 0 world
+		ARG 1 pos
+	METHOD e tryAbsorbWater (Lnone/adn;Lnone/ck;Lnone/ama;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 blockState
 	METHOD f getTranslatedName ()Ljava/lang/String;
 CLASS none/ajt net/minecraft/block/BlockStainedGlass
 	FIELD a color Lnone/amn;
@@ -14139,7 +14236,7 @@ CLASS none/ajy net/minecraft/block/BlockPlantStem
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
 	METHOD a dropAsItem (Lnone/adn;Lnone/ck;Lnone/ama;FI)V
 	METHOD a updateCollisionHitbox (Lnone/adr;Lnone/ck;)V
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a updateState (Lnone/ama;Lnone/adr;Lnone/ck;)Lnone/ama;
 	METHOD b onTick (Lnone/adn;Lnone/ck;Lnone/ama;Ljava/util/Random;)V
@@ -14147,7 +14244,7 @@ CLASS none/ajy net/minecraft/block/BlockPlantStem
 	METHOD c isPlaceableOnBlock (Lnone/afi;)Z
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD e initPropertyManager ()Lnone/amb;
-	METHOD h getColor (Lnone/ama;)I
+	METHOD h getRenderColor (Lnone/ama;)I
 	METHOD j updateTargetingHitbox ()V
 CLASS none/ajz net/minecraft/block/BlockStone
 	CLASS none/ajz$a EnumStoneVariant
@@ -14225,20 +14322,20 @@ CLASS none/akd net/minecraft/block/BlockTallGrass
 		FIELD c FERN Lnone/akd$a;
 		METHOD l getName ()Ljava/lang/String;
 	FIELD a type Lnone/amn;
-	METHOD H getColor ()I
+	METHOD H getBlockColor ()I
 	METHOD R getOffsetType ()Lnone/afi$a;
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
 	METHOD a getDropCount (ILjava/util/Random;)I
 	METHOD a isReplaceable (Lnone/adn;Lnone/ck;)Z
 	METHOD a onMined (Lnone/adn;Lnone/wo;Lnone/ck;Lnone/ama;Lnone/akx;)V
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a addCreativeStackTo (Lnone/zx;Lnone/za;Ljava/util/List;)V
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 		ARG 0 blockState
 	METHOD e initPropertyManager ()Lnone/amb;
 	METHOD f canBePlacedAt (Lnone/adn;Lnone/ck;Lnone/ama;)Z
-	METHOD h getColor (Lnone/ama;)I
+	METHOD h getRenderColor (Lnone/ama;)I
 	METHOD j getItemData (Lnone/adn;Lnone/ck;)I
 CLASS none/ake net/minecraft/block/BlockFlat
 	FIELD N south Lnone/aml;
@@ -14377,7 +14474,7 @@ CLASS none/akl net/minecraft/block/BlockVine
 	FIELD Q connections [Lnone/aml;
 	FIELD a connectedUp Lnone/aml;
 	FIELD b connectedNorth Lnone/aml;
-	METHOD H getColor ()I
+	METHOD H getBlockColor ()I
 	METHOD a getBlockStateForMetadata (I)Lnone/ama;
 	METHOD a getDropCount (Ljava/util/Random;)I
 	METHOD a isReplaceable (Lnone/adn;Lnone/ck;)Z
@@ -14386,7 +14483,7 @@ CLASS none/akl net/minecraft/block/BlockVine
 	METHOD a getStateAfterPlacement (Lnone/adn;Lnone/ck;Lnone/cr;FFFILnone/ps;)Lnone/ama;
 	METHOD a onMined (Lnone/adn;Lnone/wo;Lnone/ck;Lnone/ama;Lnone/akx;)V
 	METHOD a updateCollisionHitbox (Lnone/adr;Lnone/ck;)V
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 	METHOD a updateState (Lnone/ama;Lnone/adr;Lnone/ck;)Lnone/ama;
 	METHOD b onTick (Lnone/adn;Lnone/ck;Lnone/ama;Ljava/util/Random;)V
@@ -14395,7 +14492,7 @@ CLASS none/akl net/minecraft/block/BlockVine
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD d hasFullCubeHitbox ()Z
 	METHOD e initPropertyManager ()Lnone/amb;
-	METHOD h getColor (Lnone/ama;)I
+	METHOD h getRenderColor (Lnone/ama;)I
 	METHOD j updateTargetingHitbox ()V
 	METHOD m getBlockRenderMode ()Lnone/adg;
 CLASS none/akm net/minecraft/block/BlockWall
@@ -14436,14 +14533,14 @@ CLASS none/akn net/minecraft/block/BlockWallSign
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD e initPropertyManager ()Lnone/amb;
 CLASS none/ako net/minecraft/block/BlockLilyPad
-	METHOD H getColor ()I
+	METHOD H getBlockColor ()I
 	METHOD a getBoundingBox (Lnone/adn;Lnone/ck;Lnone/ama;)Lnone/auh;
 	METHOD a checkCollision (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/auh;Ljava/util/List;Lnone/pl;)V
-	METHOD a getColor (Lnone/adr;Lnone/ck;I)I
+	METHOD a getColorMultiplier (Lnone/adr;Lnone/ck;I)I
 	METHOD c isPlaceableOnBlock (Lnone/afi;)Z
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD f canBePlacedAt (Lnone/adn;Lnone/ck;Lnone/ama;)Z
-	METHOD h getColor (Lnone/ama;)I
+	METHOD h getRenderColor (Lnone/ama;)I
 CLASS none/akp net/minecraft/block/BlockWeb
 	METHOD I canSilkTouch ()Z
 	METHOD a getBoundingBox (Lnone/adn;Lnone/ck;Lnone/ama;)Lnone/auh;
@@ -14501,6 +14598,10 @@ CLASS none/akv net/minecraft/block/entity/BlockEntityBanner
 		FIELD K SKULL Lnone/akv$a;
 		FIELD L FLOWER Lnone/akv$a;
 		FIELD M MOJANG Lnone/akv$a;
+		FIELD N patternName Ljava/lang/String;
+		FIELD O patternID Ljava/lang/String;
+		FIELD P recipePattern [Ljava/lang/String;
+		FIELD Q recipeItem Lnone/zy;
 		FIELD a BASE Lnone/akv$a;
 		FIELD b SQUARE_BOTTOM_LEFT Lnone/akv$a;
 		FIELD c SQUARE_BOTTOM_RIGHT Lnone/akv$a;
@@ -14527,6 +14628,16 @@ CLASS none/akv net/minecraft/block/entity/BlockEntityBanner
 		FIELD x DIAGONAL_RIGHT_MIRROR Lnone/akv$a;
 		FIELD y CIRCLE_MIDDLE Lnone/akv$a;
 		FIELD z RHOMBUS Lnone/akv$a;
+		METHOD <init> (Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;)V
+		METHOD a getPatternName ()Ljava/lang/String;
+		METHOD a getEnumFromID (Ljava/lang/String;)Lnone/akv$a;
+			ARG 0 id
+		METHOD b getPatternID ()Ljava/lang/String;
+		METHOD c getRecipePattern ()[Ljava/lang/String;
+		METHOD d hasValidCrafting ()Z
+		METHOD e hasCraftingStack ()Z
+		METHOD f getRecipeItem ()Lnone/zy;
+		METHOD values values ()[Lnone/akv$a;
 	FIELD a baseColor I
 	FIELD f patterns Lnone/dv;
 	FIELD g hasPattern Z
