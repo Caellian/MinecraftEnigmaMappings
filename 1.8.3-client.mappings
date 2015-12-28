@@ -125,7 +125,7 @@ CLASS none/c net/minecraft/crash/CrashReportCategory
 		ARG 1 callable
 	METHOD a getDetailsReport (Ljava/lang/StringBuilder;)V
 		ARG 0 reportStringBuilder
-	METHOD a (Lnone/c;Lnone/ck;Lnone/afi;I)V
+	METHOD a addBlockInfo (Lnone/c;Lnone/ck;Lnone/afi;I)V
 		ARG 0 crashLogInfo
 	METHOD a (Lnone/c;Lnone/ck;Lnone/ama;)V
 		ARG 0 crashLogInfo
@@ -3439,8 +3439,45 @@ CLASS none/js net/minecraft/network/status/packet/clientbound/PacketStatusRespon
 	METHOD b write (Lnone/en;)V
 CLASS none/jt net/minecraft/network/status/data/StatusResponse
 	CLASS none/jt$a ServerPlayerInfo
+		CLASS none/jt$a$a SerializationHandler
+			METHOD a deserialize (Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Lnone/jt$a;
+				ARG 0 jsonElement
+				ARG 1 type
+				ARG 2 context
+			METHOD a serialize (Lnone/jt$a;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement;
+				ARG 0 playerInfo
+				ARG 1 type
+				ARG 2 context
+		FIELD a playerLimit I
+		FIELD b playerCount I
+		FIELD c profiles [Lcom/mojang/authlib/GameProfile;
+		METHOD <init> (II)V
+			ARG 0 limit
+			ARG 1 current
+		METHOD a getMaxPlayers ()I
+		METHOD a setGameProfiles ([Lcom/mojang/authlib/GameProfile;)V
+			ARG 0 profiles
+		METHOD b getPlayerCount ()I
+		METHOD c getGameProfiles ()[Lcom/mojang/authlib/GameProfile;
 	CLASS none/jt$b StatusResponseDeserializer
+		METHOD a deserialize (Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Lnone/jt;
+			ARG 0 jsonElement
+			ARG 1 type
+			ARG 2 context
+		METHOD a serialize (Lnone/jt;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement;
+			ARG 0 response
+			ARG 1 type
+			ARG 2 context
 	CLASS none/jt$c MinecraftVersion
+		CLASS none/jt$c$a SerializationHandler
+			METHOD a deserialize (Lcom/google/gson/JsonElement;Ljava/lang/reflect/Type;Lcom/google/gson/JsonDeserializationContext;)Lnone/jt$c;
+				ARG 0 jsonElement
+				ARG 1 type
+				ARG 2 context
+			METHOD a serialize (Lnone/jt$c;Ljava/lang/reflect/Type;Lcom/google/gson/JsonSerializationContext;)Lcom/google/gson/JsonElement;
+				ARG 0 version
+				ARG 1 type
+				ARG 2 context
 		FIELD a gameVersion Ljava/lang/String;
 		FIELD b protocolVersion I
 		METHOD <init> (Ljava/lang/String;I)V
@@ -3449,13 +3486,21 @@ CLASS none/jt net/minecraft/network/status/data/StatusResponse
 		METHOD a getGameVersion ()Ljava/lang/String;
 		METHOD b getProtocolVersion ()I
 	FIELD a motd Lnone/ev;
+	FIELD b playerInfo Lnone/jt$a;
 	FIELD c minecraftVersion Lnone/jt$c;
+	FIELD d favicon Ljava/lang/String;
 	METHOD a getMotd ()Lnone/ev;
+	METHOD a setFavicon (Ljava/lang/String;)V
+		ARG 0 favicon
 	METHOD a setMotd (Lnone/ev;)V
 		ARG 0 motd
+	METHOD a setPlayerInfo (Lnone/jt$a;)V
+		ARG 0 info
 	METHOD a setMinecraftVersion (Lnone/jt$c;)V
 		ARG 0 minecraftVersion
+	METHOD b getPlayerInfo ()Lnone/jt$a;
 	METHOD c getMinecraftVersion ()Lnone/jt$c;
+	METHOD d getFavicon ()Ljava/lang/String;
 CLASS none/ju net/minecraft/network/status/INetHandlerStatusServer
 	METHOD a handlePingRequest (Lnone/jv;)V
 		ARG 0 packet
@@ -4358,7 +4403,9 @@ CLASS none/ms net/minecraft/stats/Achievements
 	FIELD y portal Lnone/mr;
 	FIELD z ghast Lnone/mr;
 	METHOD a initialize ()V
-CLASS none/mt
+CLASS none/mt net/minecraft/util/IStringFormatter
+	METHOD a formatString (Ljava/lang/String;)Ljava/lang/String;
+		ARG 0 in
 CLASS none/mu net/minecraft/stats/StatBasic
 	METHOD h register ()Lnone/mx;
 CLASS none/mv net/minecraft/stats/StatItem
@@ -18892,13 +18939,41 @@ CLASS none/ave net/minecraft/client/GLAllocation
 	METHOD h allocateFloats (I)Ljava/nio/FloatBuffer;
 		ARG 0 capacity
 CLASS none/avf net/minecraft/main/Minecraft
+	CLASS none/avf$1
+		METHOD a formatString (Ljava/lang/String;)Ljava/lang/String;
+	CLASS none/avf$2
+		METHOD a getModdedState ()Ljava/lang/String;
+	CLASS none/avf$3
+		METHOD a getType ()Ljava/lang/String;
+	CLASS none/avf$4
+		METHOD a getResourcePacks ()Ljava/lang/String;
+	CLASS none/avf$5
+		METHOD a getLanguage ()Ljava/lang/String;
+	CLASS none/avf$6
+		METHOD a getProfilerPosition ()Ljava/lang/String;
+	CLASS none/avf$7
+		METHOD run run ()V
+	CLASS none/avf$13
+		METHOD a getVersion ()Ljava/lang/String;
+	CLASS none/avf$14
+		METHOD a getLWJGLVersion ()Ljava/lang/String;
+	CLASS none/avf$15
+		METHOD a getOpenGLVersion ()Ljava/lang/String;
+	CLASS none/avf$16
+		METHOD a getGLFeatureLog ()Ljava/lang/String;
+	CLASS none/avf$17
+		METHOD a getVBOUsage ()Ljava/lang/String;
 	FIELD A profiler Lnone/nu;
 	FIELD B running Z
+	FIELD C debug Ljava/lang/String;
+	FIELD G renderChunksMany Z
 	FIELD H lastSecondTime J
+	FIELD I fpsCounter I
+	FIELD J debugCrashKeyPressTime J
 	FIELD K LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD L MOJANG_PNG Lnone/jz;
 	FIELD M MAC_DISPLAY_MODES Ljava/util/List;
-	FIELD N resourcepacksDir Ljava/io/File;
+	FIELD N resourcePacksDirectory Ljava/io/File;
 	FIELD Q currentServerData Lnone/bdf;
 	FIELD R textureManager Lnone/bmk;
 	FIELD S instance Lnone/avf;
@@ -18917,8 +18992,11 @@ CLASS none/avf net/minecraft/main/Minecraft
 	FIELD aH soundManager Lnone/bqa;
 	FIELD aI musicTicker Lnone/bpw;
 	FIELD aK mcSessionService Lcom/mojang/authlib/minecraft/MinecraftSessionService;
+	FIELD aL skinManager Lnone/bnq;
 	FIELD aM scheduledExecutables Ljava/util/Queue;
 	FIELD aO thread Ljava/lang/Thread;
+	FIELD aP modelManager Lnone/bov;
+	FIELD aQ blockRenderDispatcher Lnone/bge;
 	FIELD aR debugProfilerName Ljava/lang/String;
 	FIELD a IS_RUNNING_ON_MAC Z
 	FIELD aa entityRenderer Lnone/biv;
@@ -18970,9 +19048,11 @@ CLASS none/avf net/minecraft/main/Minecraft
 	FIELD v dataDir Ljava/io/File;
 	FIELD w mouseGrabbed Z
 	FIELD x systemTime J
+	FIELD z nanoTime J
 	METHOD <init> (Lnone/bap;)V
 		ARG 0 mcInitializer
 	METHOD A getMinecraft ()Lnone/avf;
+	METHOD B refreshResources ()Lcom/google/common/util/concurrent/ListenableFuture;
 	METHOD C getGLMaximumTextureSize ()I
 	METHOD D getServerData ()Lnone/bdf;
 	METHOD E isIntegratedServerRunning ()Z
@@ -18983,7 +19063,7 @@ CLASS none/avf net/minecraft/main/Minecraft
 	METHOD J getSystemTime ()J
 	METHOD K isFullScreen ()Z
 	METHOD L getLogAgent ()Lnone/avn;
-	METHOD M getPropertyMap ()Lcom/mojang/authlib/properties/PropertyMap;
+	METHOD M ()Lcom/mojang/authlib/properties/PropertyMap;
 	METHOD O getProxy ()Ljava/net/Proxy;
 	METHOD P getTextureManager ()Lnone/bmk;
 	METHOD Q getResourceManager ()Lnone/bnj;
@@ -19007,7 +19087,9 @@ CLASS none/avf net/minecraft/main/Minecraft
 		ARG 1 loadingMessage
 	METHOD a setServerData (Lnone/bdf;)V
 	METHOD a addServerStatsToSnooper (Lnone/os;)V
+		ARG 0 snooper
 	METHOD a setViewEntity (Lnone/pl;)V
+	METHOD aA getGameSide ()Ljava/lang/String;
 	METHOD aI isInMainThread ()Z
 	METHOD aa getMinecraftSessionService ()Lcom/mojang/authlib/minecraft/MinecraftSessionService;
 	METHOD ac isSnooperEnabled ()Z
@@ -19029,14 +19111,16 @@ CLASS none/avf net/minecraft/main/Minecraft
 	METHOD aw onLeftClick ()V
 	METHOD ax onRightClick ()V
 	METHOD az onPickBlockClick ()V
+	METHOD b getFrameBuffer ()Lnone/bfx;
 	METHOD b setDebugOverlayView (I)V
 	METHOD b checkGLError (Ljava/lang/String;)V
 	METHOD b addGraphicsAndLevelToCrashReport (Lnone/b;)Lnone/b;
 	METHOD b addServerTypeToSnooper (Lnone/os;)V
+		ARG 0 snooper
 	METHOD c getMinecraftVersion ()Ljava/lang/String;
 	METHOD c displayCrashReport (Lnone/b;)V
 	METHOD d isCurrentLocaleUnicode ()Z
-	METHOD e refreshResources ()V
+	METHOD e forceRefreshResources ()V
 	METHOD f getSaveLoader ()Lnone/ats;
 	METHOD g shutdownMinecraftApplet ()V
 	METHOD h updateDisplay ()V
@@ -19278,6 +19362,7 @@ CLASS none/avn net/minecraft/client/main/MinecraftSession
 	FIELD d accountType Lnone/avn$a;
 	METHOD a getSessionID ()Ljava/lang/String;
 	METHOD c getUsername ()Ljava/lang/String;
+	METHOD e getProfile ()Lcom/mojang/authlib/GameProfile;
 	METHOD f getAccountType ()Lnone/avn$a;
 CLASS none/avo net/minecraft/client/renderer/FontRenderer
 	FIELD a fontHeight I
@@ -20413,6 +20498,7 @@ CLASS none/azi net/minecraft/client/gui/GuiMultiplayer
 	METHOD b initGui ()V
 	METHOD b mouseMovedOrUp (III)V
 	METHOD e updateScreen ()V
+	METHOD g getPinger ()Lnone/bdh;
 	METHOD k handleMouseInput ()V
 	METHOD m onGuiClosed ()V
 CLASS none/azj net/minecraft/client/gui/GuiSlotServer
@@ -20430,7 +20516,10 @@ CLASS none/azk net/minecraft/client/gui/GuiLanServerSlot
 	METHOD a drawEntry (IIIIIIIZ)V
 	METHOD b onMouseReleased (IIIIII)V
 CLASS none/azl net/minecraft/client/gui/GuiServerSlot
-	FIELD a logger Lorg/apache/logging/log4j/Logger;
+	CLASS none/azl$1
+		METHOD run run ()V
+	FIELD a LOGGER Lorg/apache/logging/log4j/Logger;
+	FIELD b POOL_EXECUTOR Ljava/util/concurrent/ThreadPoolExecutor;
 	FIELD c UNKNOWN_SERVER_PNG Lnone/jz;
 	FIELD d SERVER_SELECTION_PNG Lnone/jz;
 	FIELD e guiMultiplayer Lnone/azi;
@@ -20643,8 +20732,10 @@ CLASS none/bap net/minecraft/main/MinecraftInitializer
 		FIELD b port I
 	CLASS none/bap$e MinecraftProxy
 		FIELD a session Lnone/avn;
-		FIELD b propertyMap Lcom/mojang/authlib/properties/PropertyMap;
 		FIELD d proxy Ljava/net/Proxy;
+		METHOD <init> (Lnone/avn;Lcom/mojang/authlib/properties/PropertyMap;Lcom/mojang/authlib/properties/PropertyMap;Ljava/net/Proxy;)V
+			ARG 0 session
+			ARG 3 proxy
 	FIELD a proxy Lnone/bap$e;
 	FIELD b gameInfo Lnone/bap$a;
 	FIELD c assets Lnone/bap$b;
@@ -21131,9 +21222,24 @@ CLASS none/bdc net/minecraft/world/WorldClient
 	METHOD p updateWeather ()V
 	METHOD q getRenderDistanceChunks ()I
 CLASS none/bdd
+	CLASS none/bdd$1
+		METHOD a skinAvailable (Lcom/mojang/authlib/minecraft/MinecraftProfileTexture$Type;Lnone/jz;Lcom/mojang/authlib/minecraft/MinecraftProfileTexture;)V
 	CLASS none/bdd$2
-CLASS none/bde
-	METHOD a (Ljava/lang/String;)Lnone/bde;
+CLASS none/bde net/minecraft/client/multiplayer/ServerAddress
+	FIELD a ipAddress Ljava/lang/String;
+	FIELD b serverPort I
+	METHOD <init> (Ljava/lang/String;I)V
+		ARG 0 ipAddress
+		ARG 1 serverPort
+	METHOD a getIPAddress ()Ljava/lang/String;
+	METHOD a parseASCIIAddress (Ljava/lang/String;)Lnone/bde;
+		ARG 0 ascii
+	METHOD a parseIntWithDefault (Ljava/lang/String;I)I
+		ARG 0 integer
+		ARG 1 def
+	METHOD b getPort ()I
+	METHOD b getServerAddress (Ljava/lang/String;)[Ljava/lang/String;
+		ARG 0 str
 CLASS none/bdf net/minecraft/network/ServerData
 	CLASS none/bdf$a EnumResourcePackSetting
 		FIELD a ENABLED Lnone/bdf$a;
@@ -21147,8 +21253,32 @@ CLASS none/bdf net/minecraft/network/ServerData
 		METHOD a getName ()Lnone/ev;
 	FIELD a serverName Ljava/lang/String;
 	FIELD b serverIP Ljava/lang/String;
+	FIELD c populationInfo Ljava/lang/String;
+	FIELD d motd Ljava/lang/String;
+	FIELD e pingToServer J
+	FIELD f version I
+	FIELD g gameVersion Ljava/lang/String;
+	FIELD h rendered Z
+	FIELD i playerList Ljava/lang/String;
+	FIELD j resourceMode Lnone/bdf$a;
+	FIELD k serverIcon Ljava/lang/String;
+	FIELD l lanServer Z
+	METHOD <init> (Ljava/lang/String;Ljava/lang/String;Z)V
+		ARG 0 serverName
+		ARG 1 serverIP
+		ARG 2 lanServer
+	METHOD a storeToNBT ()Lnone/dp;
+	METHOD a setServerIcon (Ljava/lang/String;)V
+		ARG 0 icon
 	METHOD a setHideAddress (Lnone/bdf$a;)V
+		ARG 0 hide
+	METHOD a setServerData (Lnone/bdf;)V
+		ARG 0 data
+	METHOD a getServerDataFromNBT (Lnone/dp;)Lnone/bdf;
+		ARG 0 tagCompund
 	METHOD b getResourcePackSetting ()Lnone/bdf$a;
+	METHOD c getServerIcon ()Ljava/lang/String;
+	METHOD d isLANServer ()Z
 CLASS none/bdg net/minecraft/client/multiplayer/ServerDataStorage
 	FIELD a logger Lorg/apache/logging/log4j/Logger;
 	FIELD b minecraft Lnone/avf;
@@ -21173,6 +21303,28 @@ CLASS none/bdg net/minecraft/client/multiplayer/ServerDataStorage
 		ARG 0 serverData
 	METHOD c getSize ()I
 CLASS none/bdh net/minecraft/client/network/OldServerPinger
+	CLASS none/bdh$1
+		METHOD a onDisconnect (Lnone/ev;)V
+	CLASS none/bdh$2
+		CLASS none/bdh$2$1
+			METHOD a channelRead (Lio/netty/channel/ChannelHandlerContext;Lio/netty/buffer/ByteBuf;)V
+				ARG 0 context
+				ARG 1 buffer
+			METHOD channelActive channelActive (Lio/netty/channel/ChannelHandlerContext;)V
+			METHOD exceptionCaught exceptionCaught (Lio/netty/channel/ChannelHandlerContext;Ljava/lang/Throwable;)V
+				ARG 0 context
+				ARG 1 throwable
+		METHOD initChannel initChannel (Lio/netty/channel/Channel;)V
+			ARG 0 channel
+	FIELD a SPLITTER Lcom/google/common/base/Splitter;
+	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
+	FIELD c networkManagerList Ljava/util/List;
+	METHOD a pingPendingNetworks ()V
+	METHOD a ping (Lnone/bdf;)V
+		ARG 0 serverData
+	METHOD b clearPendingNetworks ()V
+	METHOD b tryCompatibilityPing (Lnone/bdf;)V
+		ARG 0 server
 CLASS none/bdk net/minecraft/entity/particle/ParticleItem
 	CLASS none/bdk$a ParticleBarrierBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
@@ -21382,6 +21534,7 @@ CLASS none/bes
 	METHOD t_ update ()V
 CLASS none/beu net/minecraft/entity/player/EntityPlayerSP
 	METHOD i getSkinTextureLocation ()Lnone/jz;
+	METHOD l getSkinType ()Ljava/lang/String;
 	METHOD v isSpectating ()Z
 CLASS none/bev
 	FIELD c jump Z
@@ -21529,6 +21682,7 @@ CLASS none/bfe net/minecraft/client/renderer/BufferBuilder
 	METHOD a putBrightness (IIII)V
 	METHOD a putColorRGBA (IIIII)V
 		ARG 0 alpha
+	METHOD a setColorOpaque_I (ILnone/bmv;)V
 	METHOD a addVertexData ([I)V
 	METHOD b begin ()V
 	METHOD b addVertexUV (DDD)Lnone/bfe;
@@ -21591,6 +21745,30 @@ CLASS none/bfh net/minecraft/client/renderer/BlockLayerBufferBuilders
 		ARG 0 blockLayerId
 	METHOD a getBufferBuilder (Lnone/adg;)Lnone/bfe;
 		ARG 0 blockLayer
+CLASS none/bfi net/minecraft/client/renderer/ChunkRenderContainer
+	FIELD a renderChunks Ljava/util/List;
+	FIELD b initialized Z
+	FIELD c viewEntityX D
+	FIELD d viewEntityY D
+	FIELD e viewEntityZ D
+	METHOD a initialize (DDD)V
+		ARG 0 posX
+		ARG 1 posY
+		ARG 2 posZ
+	METHOD a renderChunkLayer (Lnone/adg;)V
+		ARG 0 layer
+	METHOD a preRenderChunk (Lnone/bhu;)V
+		ARG 0 sectionRenderer
+	METHOD a addRenderChunk (Lnone/bhu;Lnone/adg;)V
+		ARG 0 sectionRenderer
+		ARG 1 layer
+CLASS none/bfj net/minecraft/client/renderer/TileEntityItemStackRenderer
+	FIELD a instance Lnone/bfj;
+	FIELD d enderChest Lnone/alg;
+	FIELD e banner Lnone/akv;
+	FIELD f skull Lnone/alp;
+	METHOD a renderByItem (Lnone/zy;)V
+		ARG 0 stack
 CLASS none/bfk net/minecraft/client/renderer/EnumBlockVertices
 	CLASS none/bfk$a FacingId
 		FIELD a SOUTH I
@@ -21648,6 +21826,7 @@ CLASS none/bfl net/minecraft/client/renderer/EntityRenderer
 	METHOD a setViewEntity (Lnone/pl;)V
 	METHOD e tick ()V
 	METHOD h resetActiveTexture ()V
+	METHOD i enableLightmap ()V
 	METHOD j setupOverlayRendering ()V
 	METHOD l updateFOV ()V
 	METHOD m updateTorchFlicker ()V
@@ -21880,6 +22059,10 @@ CLASS none/bfm net/minecraft/client/OpenGL
 	METHOD x disableActiveTexture ()V
 	METHOD y glGenTextures ()I
 	METHOD z enableNormalize ()V
+CLASS none/bfn net/minecraft/client/renderer/ISkinBuffer
+	METHOD a skinAvailable ()V
+	METHOD a parseUserSkin (Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
+		ARG 0 bufferedImage
 CLASS none/bfo net/minecraft/client/renderer/ItemRenderer
 	FIELD a MAP_BACKGROUND Lnone/jz;
 	FIELD b UNDERWATER Lnone/jz;
@@ -21888,7 +22071,7 @@ CLASS none/bfo net/minecraft/client/renderer/ItemRenderer
 	FIELD g entityRenderer Lnone/biv;
 	FIELD h itemRenderer Lnone/bji;
 	METHOD a updateCurrentItem ()V
-CLASS none/bfs net/minecraft/client/renderer/WorldRenderer
+CLASS none/bfs net/minecraft/client/renderer/GlobalRenderer
 	CLASS none/bfs$a ChunkSectionRendererWithFacings
 		FIELD a chunkSectionRenderer Lnone/bhu;
 		FIELD b facing Lnone/cr;
@@ -21898,16 +22081,34 @@ CLASS none/bfs net/minecraft/client/renderer/WorldRenderer
 			ARG 2 facing
 	FIELD A frameBuffer Lnone/bfx;
 	FIELD B entityOutlineShader Lnone/bls;
+	FIELD C frustumUpdatePosX D
+	FIELD D frustumUpdatePosY D
+	FIELD E frustumUpdatePosZ D
+	FIELD F frustumUpdatePosChunkX I
+	FIELD G frustumUpdatePosChunkY I
+	FIELD H frustumUpdatePosChunkZ I
 	FIELD I xPos D
 	FIELD J yPos D
 	FIELD K zPos D
 	FIELD L pitch D
 	FIELD M yaw D
-	FIELD N chunkSectionRenderQueue Lnone/bhp;
+	FIELD N renderDispatcher Lnone/bhp;
+	FIELD O renderContainer Lnone/bfi;
 	FIELD P renderDistance I
+	FIELD Q renderEntitiesCounter I
+	FIELD R countEntitiesTotal I
+	FIELD S countEntitiesRendered I
+	FIELD T countEntitiesHidden I
+	FIELD U debugFixTerrainFrustum Z
+	FIELD V debugFixedClippingHelper Lnone/bie;
+	FIELD W debugTerrainMatrix [Lorg/lwjgl/util/vector/Vector4f;
+	FIELD X debugTerrainFrustumPosition Lnone/bqs;
 	FIELD Y useVBO Z
+	FIELD Z prevRenderSortX D
 	FIELD a chunkSectionRendererSource Lnone/bhv;
-	FIELD ac somethingChanged Z
+	FIELD aa prevRenderSortY D
+	FIELD ab prevRenderSortZ D
+	FIELD ac dirty Z
 	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD c MOON_PHASES_PNG Lnone/jz;
 	FIELD d SUN_PNG Lnone/jz;
@@ -21919,18 +22120,24 @@ CLASS none/bfs net/minecraft/client/renderer/WorldRenderer
 	FIELD j renderManager Lnone/biv;
 	FIELD k worldClient Lnone/bdc;
 	FIELD l chunkSectionRenderers Ljava/util/Set;
-	FIELD m chunkSectionRenderersWithFacings Ljava/util/List;
+	FIELD m chunkSectionRendererInfo Ljava/util/List;
 	FIELD n blockEntities Ljava/util/Set;
-	FIELD o chunkSectionRenderers Lnone/bgb;
-	FIELD p callListId3 I
-	FIELD q callListId2 I
-	FIELD r callListId1 I
+	FIELD o viewFrustum Lnone/bgb;
+	FIELD p starGLCallList I
+	FIELD q glSkyList I
+	FIELD r glSkyList2 I
 	FIELD s vertexFormat Lnone/bmv;
-	FIELD t vbo3 Lnone/bmu;
-	FIELD u vbo2 Lnone/bmu;
-	FIELD v vbo1 Lnone/bmu;
-	FIELD z blockDestroyStageSprites [Lnone/bmj;
+	FIELD t starVBO Lnone/bmu;
+	FIELD u skyVBO Lnone/bmu;
+	FIELD v skySecondVBO Lnone/bmu;
+	FIELD w cloudTickCounter I
+	FIELD x damagedBlocks Ljava/util/Map;
+	FIELD y mapSoundPositions Ljava/util/Map;
+	FIELD z destroyBlockTextures [Lnone/bmj;
+	METHOD <init> (Lnone/avf;)V
+		ARG 0 game
 	METHOD a reload ()V
+	METHOD a createEntityFrameBuffers (II)V
 	METHOD a markBlockRangeForRenderUpdate (IIIIII)V
 	METHOD a broadcastSound (ILnone/ck;I)V
 	METHOD a addParticle (IZDDDDDD[I)V
@@ -21940,7 +22147,12 @@ CLASS none/bfs net/minecraft/client/renderer/WorldRenderer
 	METHOD a playRecord (Ljava/lang/String;Lnone/ck;)V
 	METHOD a renderBlockLayer (Lnone/adg;)V
 	METHOD a renderBlockLayer (Lnone/adg;DILnone/pl;)I
+	METHOD a setWorld (Lnone/bdc;)V
+		ARG 0 client
+	METHOD a renderStars (Lnone/bfe;)V
+	METHOD a renderSky (Lnone/bfe;FZ)V
 	METHOD a onReload (Lnone/bnj;)V
+		ARG 0 resourceManager
 	METHOD a markBlockForUpdate (Lnone/ck;)V
 	METHOD a isChunkSectionCloseToBlock (Lnone/ck;Lnone/bhu;)Z
 		ARG 0 pos
@@ -21953,6 +22165,7 @@ CLASS none/bfs net/minecraft/client/renderer/WorldRenderer
 	METHOD a renderWorld (Lnone/pl;DLnone/bib;IZ)V
 	METHOD a renderEntities (Lnone/pl;Lnone/bib;F)V
 		ARG 0 entity
+		ARG 1 camera
 	METHOD a playLevelEvent (Lnone/wo;ILnone/ck;I)V
 	METHOD a playSoundToNearExcept (Lnone/wo;Ljava/lang/String;DDDFF)V
 	METHOD b loadEntityOutlineShader ()V
@@ -21961,9 +22174,41 @@ CLASS none/bfs net/minecraft/client/renderer/WorldRenderer
 	METHOD b onEntityRemoved (Lnone/pl;)V
 	METHOD c renderFrameBuffer ()V
 	METHOD d isGoodFrameBufferAndSpectator ()Z
-	METHOD e clearChunkSectionRenderers ()V
+	METHOD e stopChunkUpdates ()V
+	METHOD f getDebugInfoRenders ()Ljava/lang/String;
+	METHOD g getDebugInfoEntities ()Ljava/lang/String;
 	METHOD j tick ()V
 	METHOD n initBlockDestroyStageSprites ()V
+	METHOD o generateSkySecond ()V
+	METHOD p generateSky ()V
+	METHOD q generateStars ()V
+	METHOD s preRenderDamagedBlocks ()V
+	METHOD t postRenderDamagedBlocks ()V
+CLASS none/bft net/minecraft/client/renderer/ImageBufferDownload
+	FIELD a imageData [I
+	FIELD b imageWidth I
+	FIELD c imageHeight I
+	METHOD a skinAvailable ()V
+	METHOD a setAreaTransparent (IIII)V
+		ARG 0 a
+		ARG 1 b
+		ARG 2 c
+		ARG 3 d
+	METHOD a parseUserSkin (Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
+		ARG 0 bufferedImage
+	METHOD b setAreaOpaque (IIII)V
+		ARG 0 a
+		ARG 1 b
+		ARG 2 c
+		ARG 3 d
+	METHOD c hasTransparency (IIII)Z
+		ARG 0 a
+		ARG 1 b
+		ARG 2 c
+		ARG 3 d
+CLASS none/bfu net/minecraft/client/renderer/RenderList
+	METHOD a renderChunkLayer (Lnone/adg;)V
+		ARG 0 layer
 CLASS none/bfx net/minecraft/client/shader/FrameBuffer
 	FIELD a textureWidth I
 	FIELD b textureHeight I
@@ -22012,15 +22257,17 @@ CLASS none/bfy net/minecraft/client/renderer/Tessellator
 	METHOD a getInstance ()Lnone/bfy;
 	METHOD b draw ()V
 	METHOD c getBufferBuilder ()Lnone/bfe;
-CLASS none/bfz
+CLASS none/bfz net/minecraft/client/renderer/VBORenderList
 	METHOD a loadBufferPointers ()V
+	METHOD a renderChunkLayer (Lnone/adg;)V
+		ARG 0 layer
 CLASS none/bga
-CLASS none/bgb net/minecraft/client/renderer/ChunkSectionRenderers
+CLASS none/bgb net/minecraft/client/renderer/ViewFrustum
 	FIELD a worldRenderer Lnone/bfs;
 	FIELD b world Lnone/adn;
-	FIELD c numYBlockRenderers I
-	FIELD d numXBlockRenderers I
-	FIELD e numZBlockRenderers I
+	FIELD c countChunksY I
+	FIELD d countChunksX I
+	FIELD e countChunksZ I
 	FIELD f blockRenderers [Lnone/bhu;
 	METHOD <init> (Lnone/adn;ILnone/bfs;Lnone/bhv;)V
 		ARG 0 world
@@ -22042,10 +22289,14 @@ CLASS none/bgb net/minecraft/client/renderer/ChunkSectionRenderers
 		ARG 3 maxBlockX
 		ARG 4 maxBlockY
 		ARG 5 maxBlockZ
-	METHOD a setRenderers (Lnone/bhv;)V
+	METHOD a createRenderChunks (Lnone/bhv;)V
 		ARG 0 chunkSectionRendererSource
 	METHOD a getRenderer (Lnone/ck;)Lnone/bhu;
 		ARG 0 pos
+CLASS none/bgc net/minecraft/client/renderer/ChestRenderer
+	METHOD a renderChestBrightness (Lnone/afi;F)V
+		ARG 0 block
+		ARG 1 brightness
 CLASS none/bgd net/minecraft/client/renderer/BlockModelShapes
 	CLASS none/bgd$1
 		METHOD a getModelResourceLocation (Lnone/ama;)Lnone/bow;
@@ -22084,11 +22335,51 @@ CLASS none/bgd net/minecraft/client/renderer/BlockModelShapes
 		ARG 0 blockState
 	METHOD c reloadModels ()V
 	METHOD d registerAllBlocks ()V
-CLASS none/bge
+CLASS none/bge net/minecraft/client/renderer/BlockRendererDispatcher
+	FIELD a modelShapes Lnone/bgd;
 	FIELD b gameSettings Lnone/avi;
-	METHOD a tryTesselateBlock (Lnone/ama;Lnone/ck;Lnone/adr;Lnone/bfe;)Z
+	FIELD c blockModelRenderer Lnone/bgg;
+	FIELD d chestRenderer Lnone/bgc;
+	FIELD e fluidRenderer Lnone/bgf;
+	METHOD <init> (Lnone/bgd;Lnone/avi;)V
+		ARG 0 modelShapes
+		ARG 1 settings
+	METHOD a getModelShapes ()Lnone/bgd;
+	METHOD a isRenderTypeChest (Lnone/afi;I)Z
+		ARG 0 block
+		ARG 1 type
+	METHOD a renderBlockBrightness (Lnone/ama;F)V
+		ARG 0 blockState
+		ARG 1 brightness
+	METHOD a getModelFromBlockState (Lnone/ama;Lnone/adr;Lnone/ck;)Lnone/bor;
+	METHOD a getModel (Lnone/ama;Lnone/ck;)Lnone/bor;
+	METHOD a renderBlock (Lnone/ama;Lnone/ck;Lnone/adr;Lnone/bfe;)Z
+		ARG 0 blockState
+		ARG 1 pos
+		ARG 2 blockAccess
+		ARG 3 bufferBuilder
+	METHOD a renderBlockDamage (Lnone/ama;Lnone/ck;Lnone/bmj;Lnone/adr;)V
+		ARG 0 blockState
+		ARG 1 pos
+		ARG 2 texture
+		ARG 3 blockAccess
 	METHOD a onReload (Lnone/bnj;)V
-CLASS none/bgg
+		ARG 0 resourceManager
+	METHOD b getBlockModelRenderer ()Lnone/bgg;
+CLASS none/bgf net/minecraft/client/renderer/BlockFluidRenderer
+	FIELD a lavaTextures [Lnone/bmj;
+	FIELD b waterTextures [Lnone/bmj;
+	METHOD a initTextures ()V
+	METHOD a renderFluid (Lnone/adr;Lnone/ama;Lnone/ck;Lnone/bfe;)Z
+		ARG 0 blockAccess
+		ARG 1 blockState
+		ARG 2 pos
+		ARG 3 bufferBuilder
+	METHOD a getFluidHeight (Lnone/adr;Lnone/ck;Lnone/arn;)F
+		ARG 0 blockAccess
+		ARG 1 pos
+		ARG 2 material
+CLASS none/bgg net/minecraft/client/renderer/BlockModelRenderer
 	CLASS none/bgg$a
 		FIELD a DOWN Lnone/bgg$a;
 		FIELD b UP Lnone/bgg$a;
@@ -22109,7 +22400,22 @@ CLASS none/bgg
 		FIELD j FLIP_SOUTH Lnone/bgg$d;
 		FIELD k FLIP_WEST Lnone/bgg$d;
 		FIELD l FLIP_EAST Lnone/bgg$d;
+	METHOD a renderModelAmbientOcclusionQuads (Lnone/adr;Lnone/afi;Lnone/ck;Lnone/bfe;Ljava/util/List;[FLjava/util/BitSet;Lnone/bgg$b;)V
+	METHOD a renderModel (Lnone/adr;Lnone/bor;Lnone/ama;Lnone/ck;Lnone/bfe;)Z
+		ARG 0 blockAccess
+		ARG 1 model
+		ARG 2 blockState
+		ARG 3 pos
+		ARG 4 bufferBuilder
 	METHOD a tesselateBlockModel (Lnone/adr;Lnone/bor;Lnone/ama;Lnone/ck;Lnone/bfe;Z)Z
+		ARG 0 blockAccess
+		ARG 1 model
+		ARG 2 blockState
+		ARG 3 pos
+		ARG 4 bufferBuilder
+	METHOD a fillQuadBounds (Lnone/afi;[ILnone/cr;[FLjava/util/BitSet;)V
+	METHOD a renderModelBrightness (Lnone/bor;Lnone/ama;FZ)V
+	METHOD b renderModelStandard (Lnone/adr;Lnone/bor;Lnone/afi;Lnone/ck;Lnone/bfe;Z)Z
 CLASS none/bgh net/minecraft/client/renderer/block/model/IntQuad
 	FIELD a vertexData [I
 	FIELD b tintIndex I
@@ -22521,6 +22827,9 @@ CLASS none/bhc net/minecraft/client/renderer/blockentity/BlockEntityBeaconRender
 	METHOD a render (Lnone/akx;DDDFI)V
 CLASS none/bhd net/minecraft/client/renderer/blockentity/BlockEntityRendererRegistry
 	FIELD a instance Lnone/bhd;
+	FIELD b staticPlayerX D
+	FIELD c staticPlayerY D
+	FIELD d staticPlayerZ D
 	FIELD e textureManager Lnone/bmk;
 	FIELD f level Lnone/adn;
 	FIELD g viewEntity Lnone/pl;
@@ -22531,6 +22840,7 @@ CLASS none/bhd net/minecraft/client/renderer/blockentity/BlockEntityRendererRegi
 	METHOD a setLevel (Lnone/adn;)V
 	METHOD a render (Lnone/akx;DDDF)V
 	METHOD a render (Lnone/akx;DDDFI)V
+	METHOD a renderBlockEntity (Lnone/akx;FI)V
 	METHOD b getDetailsRendererForBlockEntity (Lnone/akx;)Lnone/bhe;
 CLASS none/bhe net/minecraft/client/renderer/blockentity/BlockEntityRenderer
 	FIELD a DESTROY_STAGE_PNGS [Lnone/jz;
@@ -22570,10 +22880,12 @@ CLASS none/bhk net/minecraft/client/renderer/blockentity/BlockEntitySignRenderer
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/alo;DDDFI)V
 CLASS none/bhl net/minecraft/client/renderer/blockentity/BlockEntitySkullRenderer
+	FIELD c instance Lnone/bhl;
 	FIELD d SKELETON_PNG Lnone/jz;
 	FIELD e WITHER_SKELETON_PNG Lnone/jz;
 	FIELD f ZOMBIE_PNG Lnone/jz;
 	FIELD g CREEPER_PNG Lnone/jz;
+	METHOD a renderSkull (FFFLnone/cr;FILcom/mojang/authlib/GameProfile;I)V
 	METHOD a render (Lnone/akx;DDDFI)V
 	METHOD a render (Lnone/alp;DDDFI)V
 	METHOD a setBlockEntityRenderer (Lnone/bhd;)V
@@ -22624,7 +22936,7 @@ CLASS none/bhp net/minecraft/client/renderer/ChunkSectionRenderQueue
 		ARG 0 stopTime
 	METHOD a moveChunkSectionToBackOfRenderingQueue (Lnone/bhu;)Z
 		ARG 0 chunkSectionRenderer
-	METHOD b ()V
+	METHOD b stopChunkUpdates ()V
 	METHOD c queueChunkSectionRender (Lnone/bhu;)Z
 		ARG 0 chunkSectionRenderer
 	METHOD e runUntilEmpty ()V
@@ -22765,6 +23077,59 @@ CLASS none/bhy net/minecraft/util/FacingPairFlags
 		ARG 2 val
 	METHOD a setAllFlags (Z)V
 		ARG 0 val
+CLASS none/bib net/minecraft/client/renderer/culling/ICamera
+	METHOD a setPosition (DDD)V
+		ARG 0 posX
+		ARG 1 posY
+		ARG 2 posZ
+	METHOD a isBoundingBoxInFrustum (Lnone/auh;)Z
+		ARG 0 bb
+CLASS none/bic net/minecraft/client/renderer/culling/ClippingHelperExtended
+	FIELD e instance Lnone/bic;
+	FIELD f projectionMatrixBuffer Ljava/nio/FloatBuffer;
+	FIELD g modelViewMatrixBuffer Ljava/nio/FloatBuffer;
+	FIELD h clippingMatrixBuffer Ljava/nio/FloatBuffer;
+	METHOD a getInstance ()Lnone/bie;
+	METHOD a normalize ([F)V
+		ARG 0 toNormalize
+	METHOD b init ()V
+CLASS none/bid net/minecraft/client/renderer/culling/Frustum
+	FIELD a clippingHelper Lnone/bie;
+	FIELD b posX D
+	FIELD c posY D
+	FIELD d posZ D
+	METHOD <init> (Lnone/bie;)V
+		ARG 0 helper
+	METHOD a setPosition (DDD)V
+		ARG 0 posX
+		ARG 1 posY
+		ARG 2 posZ
+	METHOD a isBoundingBoxInFrustum (Lnone/auh;)Z
+		ARG 0 bb
+	METHOD b isBoxInFrustum (DDDDDD)Z
+		ARG 0 aa
+		ARG 1 ab
+		ARG 2 ac
+		ARG 3 ba
+		ARG 4 bb
+		ARG 5 bc
+CLASS none/bie net/minecraft/client/renderer/culling/ClippingHelper
+	FIELD a frustum [[F
+	FIELD b projectionMatrix [F
+	FIELD c modelViewMatrix [F
+	FIELD d clippingMatrix [F
+	METHOD a dot ([FDDD)D
+		ARG 0 frustum
+		ARG 1 a
+		ARG 2 b
+		ARG 3 c
+	METHOD b isBoxInFrustum (DDDDDD)Z
+		ARG 0 aa
+		ARG 1 ab
+		ARG 2 ac
+		ARG 3 ba
+		ARG 4 bb
+		ARG 5 bc
 CLASS none/bih net/minecraft/client/renderer/entity/RenderArmorStand
 	FIELD a ARMOR_STAND_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
@@ -22826,18 +23191,67 @@ CLASS none/bit net/minecraft/client/renderer/RenderEnderman
 CLASS none/biu net/minecraft/client/renderer/RenderEndermite
 	FIELD a ENDERMITE_PNG Lnone/jz;
 	METHOD a getTextureLocation (Lnone/pl;)Lnone/jz;
-CLASS none/biv
+CLASS none/biv net/minecraft/client/renderer/entity/RenderManager
 	FIELD a renderEngine Lnone/bmk;
-	FIELD b level Lnone/adn;
+	FIELD b world Lnone/adn;
+	FIELD c player Lnone/pl;
+	FIELD d pointedEntity Lnone/pl;
+	FIELD e playerViewY F
+	FIELD f playerViewX F
 	FIELD g gameSettings Lnone/avi;
+	FIELD h viewerPosX D
+	FIELD i viewerPosY D
+	FIELD j viewerPosZ D
 	FIELD k entityRenderMap Ljava/util/Map;
+	FIELD l skinMap Ljava/util/Map;
+	FIELD m playerRenderer Lnone/blo;
 	FIELD n fontRenderer Lnone/avo;
+	FIELD o renderPosX D
+	FIELD p renderPosY D
+	FIELD q renderPosZ D
+	FIELD r renderOutlines Z
+	FIELD s renderShadow Z
+	FIELD t debugBoundingBox Z
+	METHOD <init> (Lnone/bmk;Lnone/bji;)V
+		ARG 0 textureManager
+		ARG 1 itemRenderer
+	METHOD a getRenderShadow ()Z
+	METHOD a setRenderPosition (DDD)V
+		ARG 0 posX
+		ARG 1 posY
+		ARG 2 posZ
+	METHOD a setPlayerViewY (F)V
+		ARG 0 viewY
 	METHOD a getRenderObject (Ljava/lang/Class;)Lnone/biw;
-	METHOD a setLevel (Lnone/adn;)V
+		ARG 0 entityClass
+	METHOD a setWorld (Lnone/adn;)V
+		ARG 0 world
+	METHOD a cacheActiveRenderInfo (Lnone/adn;Lnone/avo;Lnone/pl;Lnone/pl;Lnone/avi;F)V
+		ARG 0 world
+		ARG 1 fontRenderer
+		ARG 2 player
+		ARG 3 pointedEntity
+		ARG 4 gameSettings
+		ARG 5 viewMultiplier
 	METHOD a getEntityRenderObject (Lnone/pl;)Lnone/biw;
+		ARG 0 entity
 	METHOD a renderEntityWithPosYaw (Lnone/pl;DDDFF)Z
 	METHOD a renderEntityWithPosYaw (Lnone/pl;DDDFFZ)Z
+	METHOD a renderEntitySimple (Lnone/pl;F)Z
+	METHOD a setRenderShadow (Z)V
+		ARG 0 shadow
+	METHOD b isShowingDebugBoundingBox ()Z
+	METHOD b getViewerDistanceSquared (DDD)D
+		ARG 0 posX
+		ARG 1 posY
+		ARG 2 posZ
+	METHOD b (Lnone/pl;F)V
+		ARG 0 entity
+	METHOD b showDebugBoundingBox (Z)V
+		ARG 0 debug
 	METHOD c getFontRenderer ()Lnone/avo;
+	METHOD c setRenderOutlines (Z)V
+		ARG 0 render
 CLASS none/biw net/minecraft/client/renderer/Render
 	FIELD a SHADOW_PNG Lnone/jz;
 	FIELD b renderer Lnone/biv;
@@ -23536,6 +23950,7 @@ CLASS none/bmk net/minecraft/client/texture/TextureManager
 	METHOD a onReload (Lnone/bnj;)V
 	METHOD a bindTexture (Lnone/jz;)V
 	METHOD a loadTexture (Lnone/jz;Lnone/bml;)Z
+	METHOD b getTexture (Lnone/jz;)Lnone/bml;
 	METHOD c deleteTexture (Lnone/jz;)V
 		ARG 0 resourceLocation
 	METHOD e tick ()V
@@ -23614,6 +24029,7 @@ CLASS none/bmu net/minecraft/client/renderer/vertex/VBO
 	METHOD a bindBuffer ()V
 	METHOD a drawArrays (I)V
 		ARG 0 mode
+	METHOD a bufferData (Ljava/nio/ByteBuffer;)V
 	METHOD b unbindBuffer ()V
 	METHOD c deleteBuffer ()V
 CLASS none/bmv net/minecraft/client/renderer/vertex/VertexFormat
@@ -23629,6 +24045,7 @@ CLASS none/bmv net/minecraft/client/renderer/vertex/VertexFormat
 	METHOD a clear ()V
 	METHOD a hasElementOffset (I)Z
 		ARG 0 offset
+	METHOD a setElement (Lnone/bmw;)Lnone/bmv;
 	METHOD b hasNormal ()Z
 	METHOD b getElementOffsetById (I)I
 		ARG 0 id
@@ -23710,6 +24127,7 @@ CLASS none/bmz
 CLASS none/bna net/minecraft/client/PlayerResources
 	FIELD a STEVE_PNG Lnone/jz;
 	FIELD b ALEX_PNG Lnone/jz;
+	METHOD a getDefaultSkinLegacy ()Lnone/jz;
 CLASS none/bnb net/minecraft/client/resources/DefaultResourcePackReader
 	FIELD a SUPPORTED_RESOURCES Ljava/util/Set;
 	METHOD a getIcon ()Ljava/awt/image/BufferedImage;
@@ -23814,6 +24232,41 @@ CLASS none/bnp
 	METHOD a getResourceLocation ()Lnone/jz;
 	METHOD b getInputStream ()Ljava/io/InputStream;
 	METHOD d getName ()Ljava/lang/String;
+CLASS none/bnq net/minecraft/client/resources/SkinManager
+	CLASS none/bnq$2
+		METHOD a skinAvailable ()V
+		METHOD a parseUserSkin (Ljava/awt/image/BufferedImage;)Ljava/awt/image/BufferedImage;
+			ARG 0 bufferedImage
+	CLASS none/bnq$3
+		CLASS none/bnq$3$1
+			METHOD run run ()V
+		METHOD run run ()V
+	CLASS none/bnq$a SkinAvailableCallback
+		METHOD a skinAvailable (Lcom/mojang/authlib/minecraft/MinecraftProfileTexture$Type;Lnone/jz;Lcom/mojang/authlib/minecraft/MinecraftProfileTexture;)V
+			ARG 0 profileType
+			ARG 1 resourceLocation
+			ARG 2 profileTexture
+	FIELD a THREAD_POOL Ljava/util/concurrent/ExecutorService;
+	FIELD b textureManager Lnone/bmk;
+	FIELD c skinCacheDir Ljava/io/File;
+	FIELD d sessionService Lcom/mojang/authlib/minecraft/MinecraftSessionService;
+	FIELD e skinCacheLoader Lcom/google/common/cache/LoadingCache;
+	METHOD <init> (Lnone/bmk;Ljava/io/File;Lcom/mojang/authlib/minecraft/MinecraftSessionService;)V
+		ARG 0 textureManager
+		ARG 1 skinCacheDir
+		ARG 2 sessionService
+	METHOD a loadSkinFromCache (Lcom/mojang/authlib/GameProfile;)Ljava/util/Map;
+		ARG 0 profile
+	METHOD a loadProfileTextures (Lcom/mojang/authlib/GameProfile;Lnone/bnq$a;Z)V
+		ARG 0 profile
+		ARG 1 callback
+	METHOD a loadSkin (Lcom/mojang/authlib/minecraft/MinecraftProfileTexture;Lcom/mojang/authlib/minecraft/MinecraftProfileTexture$Type;)Lnone/jz;
+		ARG 0 profileTextures
+		ARG 1 profileType
+	METHOD a loadSkin (Lcom/mojang/authlib/minecraft/MinecraftProfileTexture;Lcom/mojang/authlib/minecraft/MinecraftProfileTexture$Type;Lnone/bnq$a;)Lnone/jz;
+		ARG 0 profileTextures
+		ARG 1 profileType
+		ARG 2 callback
 CLASS none/bnr net/minecraft/client/resources/I18n
 	METHOD a getString (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
 CLASS none/bns net/minecraft/client/resources/data/LanguageMetadata
@@ -24149,15 +24602,19 @@ CLASS none/bpo
 	METHOD c getServer ()Lnet/minecraft/server/MinecraftServer;
 	METHOD t getPlayerNbt ()Lnone/dp;
 CLASS none/bpp net/minecraft/server/IntegratedServer
+	CLASS none/bpp$3
+		METHOD run run ()V
 	FIELD k LOGGER Lorg/apache/logging/log4j/Logger;
 	FIELD l minecraft Lnone/avf;
 	FIELD m levelSettings Lnone/adq;
 	FIELD n isPaused Z
+	FIELD o hostLAN Z
 	FIELD p lanPingServerThread Lnone/bps;
 	METHOD <init> (Lnone/avf;)V
 		ARG 0 minecraft
 	METHOD <init> (Lnone/avf;Ljava/lang/String;Ljava/lang/String;Lnone/adq;)V
 		ARG 0 minecraft
+	METHOD a replaceSuperInstance ()V
 	METHOD a loadWorld (Ljava/lang/String;Ljava/lang/String;JLnone/ads;Ljava/lang/String;)V
 	METHOD a setGameType (Lnone/adq$a;)V
 	METHOD a shareToLAN (Lnone/adq$a;Z)Ljava/lang/String;
@@ -24167,6 +24624,7 @@ CLASS none/bpp net/minecraft/server/IntegratedServer
 	METHOD ac isSnooperEnabled ()Z
 	METHOD ad isDedicatedServer ()Z
 	METHOD ak isCommandBlockEnabled ()Z
+	METHOD b isLANHosted ()Z
 	METHOD b addServerInfoToCrashReport (Lnone/b;)Lnone/b;
 	METHOD h getServerCommandManager ()Lnone/be;
 	METHOD i startServer ()Z
@@ -24188,6 +24646,7 @@ CLASS none/bpr net/minecraft/client/network/LanServerDetector
 	FIELD a DETECTOR_THREAD_ID Ljava/util/concurrent/atomic/AtomicInteger;
 	FIELD b LOGGER Lorg/apache/logging/log4j/Logger;
 CLASS none/bps net/minecraft/network/ThreadLanServerPing
+	METHOD interrupt interrupt ()V
 CLASS none/bpw net/minecraft/client/audio/MusicTicker
 	CLASS none/bpw$a EnumMusicType
 		FIELD a MENU Lnone/bpw$a;
@@ -24387,6 +24846,10 @@ CLASS none/bqp tv/twitch/dat
 	METHOD E getError ()Lnone/bqn$a;
 	METHOD f shutdownStream ()V
 CLASS none/bqr net/minecraft/math/Matrix4f
+CLASS none/bqs net/minecraft/math/Vec3d
+	FIELD a posX D
+	FIELD b posY D
+	FIELD c posZ D
 CLASS none/bqt net/minecraft/client/renderer/OpenGlHelper
 	FIELD A GL_SOURCE1_RGB I
 	FIELD B GL_SOURCE2_RGB I
