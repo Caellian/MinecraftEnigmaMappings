@@ -2059,6 +2059,10 @@ CLASS none/en net/minecraft/network/PacketBuffer
 	METHOD <init> (Lio/netty/buffer/ByteBuf;)V
 		ARG 0 byteBuf
 	METHOD a readArray ()[B
+	METHOD a writeEnumElement (Ljava/lang/Class;)Ljava/lang/Enum;
+		ARG 0 classIn
+	METHOD a writeEnumOrdinal (Ljava/lang/Enum;)V
+		ARG 0 element
 	METHOD a writeString (Ljava/lang/String;)Lnone/en;
 		ARG 0 s
 	METHOD a writeUUID (Ljava/util/UUID;)V
@@ -2068,8 +2072,10 @@ CLASS none/en net/minecraft/network/PacketBuffer
 	METHOD a writeNBT (Lnone/dp;)V
 		ARG 0 nbt
 	METHOD a writeChatMessageComponent (Lnone/ev;)V
+		ARG 0 chatComponent
 	METHOD a writeItemStack (Lnone/zy;)V
 	METHOD a writeArray ([B)V
+		ARG 0 array
 	METHOD alloc ()Lio/netty/buffer/ByteBufAllocator;
 	METHOD array ()[B
 	METHOD arrayOffset ()I
@@ -2163,7 +2169,7 @@ CLASS none/en net/minecraft/network/PacketBuffer
 	METHOD readDouble ()D
 	METHOD readFloat ()F
 	METHOD readInt readInt ()I
-	METHOD readLong ()J
+	METHOD readLong readLong ()J
 	METHOD readMedium ()I
 	METHOD readShort readShort ()S
 	METHOD readSlice (I)Lio/netty/buffer/ByteBuf;
@@ -2222,7 +2228,7 @@ CLASS none/en net/minecraft/network/PacketBuffer
 	METHOD writeDouble (D)Lio/netty/buffer/ByteBuf;
 	METHOD writeFloat (F)Lio/netty/buffer/ByteBuf;
 	METHOD writeInt writeInt (I)Lio/netty/buffer/ByteBuf;
-	METHOD writeLong (J)Lio/netty/buffer/ByteBuf;
+	METHOD writeLong writeLong (J)Lio/netty/buffer/ByteBuf;
 	METHOD writeMedium (I)Lio/netty/buffer/ByteBuf;
 	METHOD writeShort writeShort (I)Lio/netty/buffer/ByteBuf;
 	METHOD writeZero (I)Lio/netty/buffer/ByteBuf;
@@ -2956,6 +2962,18 @@ CLASS none/ha net/minecraft/network/play/packet/clientbound/PacketPlayerListItem
 		FIELD c UPDATE_LATENCY Lnone/ha$a;
 		FIELD d UPDATE_DISPLAY_NAME Lnone/ha$a;
 		FIELD e REMOVE_PLAYER Lnone/ha$a;
+	CLASS none/ha$b AddPlayerData
+		FIELD b latency I
+		FIELD c gameMode Lnone/adq$a;
+		FIELD d profile Lcom/mojang/authlib/GameProfile;
+		FIELD e name Lnone/ev;
+		METHOD <init> (Lnone/ha;Lcom/mojang/authlib/GameProfile;ILnone/adq$a;Lnone/ev;)V
+		METHOD a getProfile ()Lcom/mojang/authlib/GameProfile;
+		METHOD b getLatency ()I
+		METHOD c getGameMode ()Lnone/adq$a;
+		METHOD d getDisplayName ()Lnone/ev;
+	FIELD a playerListAction Lnone/ha$a;
+	FIELD b playerDataList Ljava/util/List;
 	METHOD a getEntries ()Ljava/util/List;
 	METHOD a read (Lnone/en;)V
 	METHOD a handle (Lnone/eq;)V
@@ -3135,8 +3153,10 @@ CLASS none/hy net/minecraft/network/play/packet/clientbound/PacketPlayerListHead
 	METHOD b getFooter ()Lnone/ev;
 	METHOD b write (Lnone/en;)V
 CLASS none/hz net/minecraft/network/play/packet/clientbound/PacketCollectItem
+	METHOD a getItem ()I
 	METHOD a read (Lnone/en;)V
 	METHOD a handle (Lnone/eq;)V
+	METHOD b getPlayer ()I
 	METHOD b write (Lnone/en;)V
 CLASS none/ia net/minecraft/network/play/packet/clientbound/PacketEntityTeleport
 	METHOD <init> (Lnone/pl;)V
@@ -19092,6 +19112,7 @@ CLASS none/avf net/minecraft/main/Minecraft
 	METHOD aA getGameSide ()Ljava/lang/String;
 	METHOD aI isInMainThread ()Z
 	METHOD aa getMinecraftSessionService ()Lcom/mojang/authlib/minecraft/MinecraftSessionService;
+	METHOD ab getSkinManager ()Lnone/bnq;
 	METHOD ac isSnooperEnabled ()Z
 	METHOD ad getViewEntity ()Lnone/pl;
 	METHOD af getEntityRenderer ()Lnone/biv;
@@ -20668,6 +20689,9 @@ CLASS none/bag net/minecraft/client/gui/spectator/SpectatorMenu
 	CLASS none/bag$b GuiSpectatorWidgetChangePage
 		FIELD a targetPageOffset I
 		FIELD b targetMenuEnabled Z
+		METHOD <init> (IZ)V
+			ARG 0 offset
+			ARG 1 enabled
 		METHOD A_ getWidgetHint ()Lnone/ev;
 		METHOD B_ isWidgetEnabled ()Z
 		METHOD a render (FI)V
@@ -20675,6 +20699,7 @@ CLASS none/bag net/minecraft/client/gui/spectator/SpectatorMenu
 	FIELD b CLOSE_MENU_WIDGET Lnone/bai;
 	FIELD c PREVIOUS_PAGE_WIDGET Lnone/bai;
 	FIELD d NEXT_PAGE_WIDGET Lnone/bai;
+	FIELD e NEXT_PAGE_DISABLED_WIDGET Lnone/bai;
 	FIELD h baseMenu Lnone/bah;
 CLASS none/bah net/minecraft/client/gui/spectator/IGuiSpectatorWidgetMenu
 	METHOD a getWidgets ()Ljava/util/List;
@@ -20683,9 +20708,22 @@ CLASS none/bai net/minecraft/client/gui/spectator/ISpectatorWidget
 	METHOD A_ getWidgetHint ()Lnone/ev;
 	METHOD B_ isWidgetEnabled ()Z
 	METHOD a render (FI)V
+	METHOD a (Lnone/bag;)V
+		ARG 0 menu
 CLASS none/baj net/minecraft/client/gui/spectator/ISpectatorMenuRecipient
 	METHOD a (Lnone/bag;)V
 		ARG 0 spectatorMenu
+CLASS none/bak net/minecraft/client/gui/spectator/WidgetList
+	FIELD a parent Lnone/bah;
+	FIELD b componentList Ljava/util/List;
+	FIELD c selectedIndex I
+	METHOD <init> (Lnone/bah;Ljava/util/List;I)V
+		ARG 0 widgetMenu
+		ARG 1 componentList
+		ARG 2 index
+	METHOD a getWidgetAtIndex (I)Lnone/bai;
+		ARG 0 index
+	METHOD b getSelectedIndex ()I
 CLASS none/bal net/minecraft/client/gui/spectator/GuiSpectatorWidgetTeleportToPlayer
 	FIELD b widgets Ljava/util/List;
 	METHOD A_ getWidgetHint ()Lnone/ev;
@@ -21112,6 +21150,7 @@ CLASS none/bcz net/minecraft/network/play/NetHandlerPlayClient
 	METHOD a handlePlayerListHeaderFooter (Lnone/hy;)V
 		ARG 0 packet
 	METHOD a handleCollectItem (Lnone/hz;)V
+		ARG 0 packet
 	METHOD a handleEntityTeleport (Lnone/ia;)V
 	METHOD a handleEntityProperties (Lnone/ib;)V
 	METHOD a handleEntityEffect (Lnone/ic;)V
@@ -21221,10 +21260,38 @@ CLASS none/bdc net/minecraft/world/WorldClient
 	METHOD k createChunkCache ()Lnone/amw;
 	METHOD p updateWeather ()V
 	METHOD q getRenderDistanceChunks ()I
-CLASS none/bdd
+CLASS none/bdd net/minecraft/client/network/NetworkPlayerInfo
 	CLASS none/bdd$1
 		METHOD a skinAvailable (Lcom/mojang/authlib/minecraft/MinecraftProfileTexture$Type;Lnone/jz;Lcom/mojang/authlib/minecraft/MinecraftProfileTexture;)V
 	CLASS none/bdd$2
+	FIELD a profile Lcom/mojang/authlib/GameProfile;
+	FIELD b gameMode Lnone/adq$a;
+	FIELD c responseTime I
+	FIELD d playerTexturesLoaded Z
+	FIELD e skin Lnone/jz;
+	FIELD f cape Lnone/jz;
+	FIELD g skinType Ljava/lang/String;
+	FIELD h displayName Lnone/ev;
+	METHOD <init> (Lcom/mojang/authlib/GameProfile;)V
+		ARG 0 profile
+	METHOD <init> (Lnone/ha$b;)V
+		ARG 0 playerData
+	METHOD a getGameProfile ()Lcom/mojang/authlib/GameProfile;
+	METHOD a setResponseTime (I)V
+		ARG 0 time
+	METHOD a setGameMode (Lnone/adq$a;)V
+		ARG 0 gameMode
+	METHOD a setDisplayName (Lnone/ev;)V
+		ARG 0 displayName
+	METHOD b getGameMode ()Lnone/adq$a;
+	METHOD c getResponseTime ()I
+	METHOD e hasSkin ()Z
+	METHOD f getSkinType ()Ljava/lang/String;
+	METHOD g getSkin ()Lnone/jz;
+	METHOD h getCape ()Lnone/jz;
+	METHOD i getScoreboardTeam ()Lnone/aum;
+	METHOD j loadPlayerTextures ()V
+	METHOD k getDisplayName ()Lnone/ev;
 CLASS none/bde net/minecraft/client/multiplayer/ServerAddress
 	FIELD a ipAddress Ljava/lang/String;
 	FIELD b serverPort I
@@ -21329,6 +21396,7 @@ CLASS none/bdk net/minecraft/entity/particle/ParticleItem
 	CLASS none/bdk$a ParticleBarrierBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 CLASS none/bdl net/minecraft/entity/particle/ParticleItemCrack
 	CLASS none/bdl$a ParticleItemCrackBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
@@ -21337,6 +21405,7 @@ CLASS none/bdl net/minecraft/entity/particle/ParticleItemCrack
 	CLASS none/bdl$c ParticleSnowballBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 CLASS none/bdm
 	CLASS none/bdm$a ParticleWaterBubbleBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
@@ -21346,11 +21415,12 @@ CLASS none/bdn net/minecraft/entity/particle/ParticleCrit
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	CLASS none/bdn$b ParticleCritBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/bdo net/minecraft/entity/particle/ParticleDripLiquid
-	CLASS none/bdo$a ParticleDripLavaBuilder
+	CLASS none/bdo$a ParticleLavaDripBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
-	CLASS none/bdo$b ParticleDripWaterBuilder
+	CLASS none/bdo$b ParticleWaterDripBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD b getCombinedLight (F)I
 	METHOD c getBrightness (F)F
@@ -21366,17 +21436,23 @@ CLASS none/bdq net/minecraft/entity/particle/ParticleExplosionNormal
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD t_ update ()V
 CLASS none/bdr
+	CLASS none/bdr$a
+		METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	CLASS none/bdr$b ParticleFireworksSpark
 		METHOD S getNullBoundingBox ()Lnone/auh;
+		METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 		METHOD ae canBePushed ()Z
 		METHOD b getCombinedLight (F)I
 		METHOD c getBrightness (F)F
 		METHOD t_ update ()V
+	CLASS none/bdr$c
+		METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	CLASS none/bdr$d ParticleFireworksSparkBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 CLASS none/bds net/minecraft/entity/particle/ParticleFlame
 	CLASS none/bds$a ParticleFlameBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD b getCombinedLight (F)I
 	METHOD c getBrightness (F)F
 	METHOD t_ update ()V
@@ -21385,28 +21461,44 @@ CLASS none/bdt net/minecraft/entity/particle/ParticleFootstep
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	FIELD a FOOTPRINT_PNG Lnone/jz;
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/bdu net/minecraft/entity/particle/ParticleHeart
 	CLASS none/bdu$a ParticleVillagerAngryBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	CLASS none/bdu$b ParticleHeartBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/bdv net/minecraft/entity/particle/ParticleExplosionLarge
 	CLASS none/bdv$a ParticleExplosionLargeBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	FIELD a EXPLOSION_PNG Lnone/jz;
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD b getCombinedLight (F)I
 	METHOD t_ update ()V
 CLASS none/bdw net/minecraft/entity/particle/ParticleExplosionHuge
 	CLASS none/bdw$a ParticleExplosionHugeBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
-CLASS none/bdx
+CLASS none/bdx net/minecraft/entity/particle/ParticleEntityPickup
+	FIELD aA age I
+	FIELD aB maxAge I
+	FIELD aC speed F
 	FIELD aD renderer Lnone/biv;
+	FIELD a collected Lnone/pl;
+	FIELD az collector Lnone/pl;
+	METHOD <init> (Lnone/adn;Lnone/pl;Lnone/pl;F)V
+		ARG 0 world
+		ARG 1 collected
+		ARG 2 collector
+		ARG 3 speed
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
+		ARG 0 bufferBuilder
 	METHOD t_ update ()V
 CLASS none/bdy
 	CLASS none/bdy$a ParticleSmokeLargeBuilder
@@ -21414,6 +21506,7 @@ CLASS none/bdy
 CLASS none/bdz net/minecraft/entity/particle/ParticleLava
 	CLASS none/bdz$a ParticleLavaBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD b getCombinedLight (F)I
 	METHOD c getBrightness (F)F
 	METHOD t_ update ()V
@@ -21421,10 +21514,12 @@ CLASS none/bea net/minecraft/entity/particle/ParticleMobAppearance
 	CLASS none/bea$a ParticleMobAppearanceBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/beb net/minecraft/entity/particle/ParticleNote
 	CLASS none/beb$a ParticleNoteBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/bec net/minecraft/entity/particle/EntityParticle
 	FIELD ar colorR F
@@ -21436,7 +21531,21 @@ CLASS none/bec net/minecraft/entity/particle/EntityParticle
 	FIELD c textureY I
 	FIELD f age I
 	FIELD g maxAge I
+	METHOD <init> (Lnone/adn;DDD)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+	METHOD <init> (Lnone/adn;DDDDDD)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+		ARG 4 motionX
+		ARG 5 motionY
+		ARG 6 motionZ
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD a setTex (Lnone/bmj;)V
 	METHOD a readFromNBT (Lnone/dp;)V
 	METHOD aD canAttackWithItem ()Z
@@ -21462,32 +21571,41 @@ CLASS none/bed net/minecraft/client/renderer/EffectRenderer
 	FIELD g particleMap Ljava/util/Map;
 	METHOD a (ILnone/bee;)V
 		ARG 0 id
+	METHOD a addEffect (Lnone/bec;)V
 	METHOD b getParticleCount ()Ljava/lang/String;
 	METHOD d tickParticle (Lnone/bec;)V
-CLASS none/bee net/minecraft/client/particle/IParticleFactory
+CLASS none/bee net/minecraft/entity/particle/IParticleFactory
 	METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
-		ARG 1 level
+		ARG 1 world
+		ARG 2 posX
+		ARG 3 posY
+		ARG 4 posZ
 CLASS none/bef net/minecraft/entity/particle/ParticleCloud
 	CLASS none/bef$a ParticleCloudBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/beg net/minecraft/entity/particle/ParticlePortal
 	CLASS none/beg$a ParticlePortalBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD b getCombinedLight (F)I
 	METHOD c getBrightness (F)F
 	METHOD t_ update ()V
 CLASS none/beh net/minecraft/entity/particle/ParticleRedstone
 	CLASS none/beh$a ParticleRedstoneBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/bei
 	CLASS none/bei$a ParticleSmokeNormalBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/bej
 	CLASS none/bej$a ParticleSnowShovelBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/bek
 	CLASS none/bek$a ParticleSpellMobAmbientBuilder
@@ -21500,6 +21618,7 @@ CLASS none/bek
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	CLASS none/bek$e ParticleSpellWitchBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/bel
 	CLASS none/bel$a ParticleWaterSplashBuilder
@@ -21508,11 +21627,27 @@ CLASS none/bem
 	CLASS none/bem$a ParticleSuspendedBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD t_ update ()V
-CLASS none/ben
+CLASS none/ben net/minecraft/entity/particle/ParticleTownAura
 	CLASS none/ben$a ParticleVillagerHappyBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
-	CLASS none/ben$b chw
+			ARG 1 world
+			ARG 2 posX
+			ARG 3 posY
+			ARG 4 posZ
+	CLASS none/ben$b ParticleTownAuraBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+			ARG 1 world
+			ARG 2 posX
+			ARG 3 posY
+			ARG 4 posZ
+	METHOD <init> (Lnone/adn;DDDDDD)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
+		ARG 4 motionX
+		ARG 5 motionY
+		ARG 6 motionZ
 	METHOD t_ update ()V
 CLASS none/beo net/minecraft/entity/particle/ParticleBlockDust
 	CLASS none/beo$a ParticleBlockDustBuilder
@@ -21521,24 +21656,43 @@ CLASS none/bep net/minecraft/entity/particle/ParticleBlockCrack
 	CLASS none/bep$a ParticleBlockCrackBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 CLASS none/beq
 	METHOD a getParticleType ()I
+	METHOD a render (Lnone/bfe;Lnone/pl;FFFFFF)V
 	METHOD t_ update ()V
 CLASS none/ber
 	CLASS none/ber$a ParticleWaterWakeBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
 	METHOD t_ update ()V
-CLASS none/bes
+CLASS none/bes net/minecraft/entity/particle/ParticleEntityDrop
 	CLASS none/bes$a ParticleWaterDropBuilder
 		METHOD a newParticle (ILnone/adn;DDDDDD[I)Lnone/bec;
+			ARG 1 world
+			ARG 2 posX
+			ARG 3 posY
+			ARG 4 posZ
+	METHOD <init> (Lnone/adn;DDD)V
+		ARG 0 world
+		ARG 1 posX
+		ARG 2 posY
+		ARG 3 posZ
 	METHOD t_ update ()V
 CLASS none/beu net/minecraft/entity/player/EntityPlayerSP
 	METHOD i getSkinTextureLocation ()Lnone/jz;
 	METHOD l getSkinType ()Ljava/lang/String;
 	METHOD v isSpectating ()Z
-CLASS none/bev
+CLASS none/bev net/minecraft/util/MovementInput
+	FIELD a moveStrafe F
+	FIELD b moveForward F
 	FIELD c jump Z
 	FIELD d sneak Z
+	METHOD a update ()V
+CLASS none/bew net/minecraft/util/OptionsMovementInput
+	FIELD e gameSettings Lnone/avi;
+	METHOD <init> (Lnone/avi;)V
+		ARG 0 settings
+	METHOD a update ()V
 CLASS none/bex net/minecraft/entity/EntityClientPlayerMP
 	FIELD a sendQueue Lnone/bcz;
 	FIELD bJ entityStatWriter Lnone/nc;
@@ -24128,6 +24282,7 @@ CLASS none/bna net/minecraft/client/PlayerResources
 	FIELD a STEVE_PNG Lnone/jz;
 	FIELD b ALEX_PNG Lnone/jz;
 	METHOD a getDefaultSkinLegacy ()Lnone/jz;
+	METHOD b getSkinType (Ljava/util/UUID;)Ljava/lang/String;
 CLASS none/bnb net/minecraft/client/resources/DefaultResourcePackReader
 	FIELD a SUPPORTED_RESOURCES Ljava/util/Set;
 	METHOD a getIcon ()Ljava/awt/image/BufferedImage;
