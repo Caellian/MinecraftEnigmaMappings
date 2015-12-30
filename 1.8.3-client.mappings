@@ -12830,6 +12830,7 @@ CLASS none/afi net/minecraft/block/Block
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 		ARG 0 blockState
 		ARG 1 random
+		ARG 2 fortune
 	METHOD a updateState (Lnone/ama;Lnone/adr;Lnone/ck;)Lnone/ama;
 		ARG 0 blockState
 		ARG 1 blockAccess
@@ -13203,6 +13204,7 @@ CLASS none/afl net/minecraft/block/BlockBookshelf
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
 		ARG 0 blockState
 		ARG 1 random
+		ARG 2 fortune
 CLASS none/afm net/minecraft/block/BlockBrewingStand
 	FIELD a hasBottle [Lnone/aml;
 	METHOD O isComparatorInput ()Z
@@ -13213,15 +13215,42 @@ CLASS none/afm net/minecraft/block/BlockBrewingStand
 		ARG 0 level
 		ARG 1 blockPos
 		ARG 2 blockState
+		ARG 3 axisAlignedBB
+		ARG 4 axisAlignedBBList
+		ARG 5 entity
 	METHOD a onPlaced (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/ps;Lnone/zy;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 blockState
+		ARG 3 placer
+		ARG 4 sourceStack
 	METHOD a onRightClicked (Lnone/adn;Lnone/ck;Lnone/ama;Lnone/wo;Lnone/cr;FFF)Z
 		ARG 0 level
+		ARG 1 pos
+		ARG 2 blockState
+		ARG 3 player
+		ARG 4 facing
+		ARG 5 clickX
+		ARG 6 clickY
+		ARG 7 clickZ
 	METHOD a getDroppedItem (Lnone/ama;Ljava/util/Random;I)Lnone/zx;
+		ARG 0 blockState
+		ARG 1 rand
+		ARG 2 fortune
 	METHOD b getRenderType ()I
 	METHOD b onRemoved (Lnone/adn;Lnone/ck;Lnone/ama;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 blockState
 	METHOD c isOpaque ()Z
 	METHOD c getItem (Lnone/adn;Lnone/ck;)Lnone/zx;
+		ARG 0 world
+		ARG 1 pos
 	METHOD c spawnParticles (Lnone/adn;Lnone/ck;Lnone/ama;Ljava/util/Random;)V
+		ARG 0 world
+		ARG 1 pos
+		ARG 2 blockState
+		ARG 3 rand
 	METHOD c getMetadataForBlockState (Lnone/ama;)I
 	METHOD d hasFullCubeHitbox ()Z
 	METHOD e initPropertyManager ()Lnone/amb;
@@ -15231,14 +15260,67 @@ CLASS none/akx net/minecraft/block/entity/BlockEntity
 	METHOD y_ getDescriptionPacket ()Lnone/fg;
 	METHOD z getDimension ()Lnone/adn;
 CLASS none/aky net/minecraft/block/entity/BlockEntityBrewingStand
+	FIELD a inputSlots [I
+	FIELD f outputSlots [I
+	FIELD g brewingItemStacks [Lnone/zy;
+	FIELD h brewTime I
+	FIELD i filledSlots [Z
+	FIELD j ingredientID Lnone/zx;
+	FIELD k customName Ljava/lang/String;
+	METHOD a getStackInSlot (I)Lnone/zy;
+		ARG 0 slot
+	METHOD a decreaseStackSize (II)Lnone/zy;
+		ARG 0 slot
+		ARG 1 count
+	METHOD a setInventorySlotContents (ILnone/zy;)V
+		ARG 0 slot
+		ARG 1 stack
 	METHOD a canInsertItem (ILnone/zy;Lnone/cr;)Z
+		ARG 0 slot
+		ARG 1 stack
+		ARG 2 side
+	METHOD a setCustomName (Ljava/lang/String;)V
+		ARG 0 name
 	METHOD a getFaceSlots (Lnone/cr;)[I
+		ARG 0 side
 	METHOD a load (Lnone/dp;)V
+		ARG 0 tagCompound
 	METHOD a getInterfaceContainer (Lnone/wn;Lnone/wo;)Lnone/xj;
+		ARG 0 playerInventory
+		ARG 1 player
+	METHOD a isUseableByPlayer (Lnone/wo;)Z
+		ARG 0 player
+	METHOD a_ getField (I)I
+		ARG 0 id
+	METHOD b getStackInSlotOnClosing (I)Lnone/zy;
+		ARG 0 slot
+	METHOD b setField (II)V
+		ARG 0 id
+		ARG 1 value
+	METHOD b isItemValidForSlot (ILnone/zy;)Z
+		ARG 0 slot
+		ARG 1 stack
 	METHOD b canExtractItem (ILnone/zy;Lnone/cr;)Z
+		ARG 0 slot
+		ARG 1 stack
+		ARG 2 side
 	METHOD b save (Lnone/dp;)V
+		ARG 0 tagCompound
+	METHOD b openInventory (Lnone/wo;)V
+		ARG 0 player
 	METHOD c update ()V
+	METHOD c closeInventory (Lnone/wo;)V
+		ARG 0 player
+	METHOD e_ getName ()Ljava/lang/String;
+	METHOD g getFieldCount ()I
 	METHOD k getBlockID ()Ljava/lang/String;
+	METHOD l clear ()V
+	METHOD l_ hasCustomName ()Z
+	METHOD m updateSlotsFull ()[Z
+	METHOD n canBrew ()Z
+	METHOD o brewPotions ()V
+	METHOD o_ getSizeInventory ()I
+	METHOD q_ getInventoryStackLimit ()I
 CLASS none/akz net/minecraft/block/entity/BlockEntityChest
 	FIELD a neighborsAreSet Z
 	FIELD f northBlockEntity Lnone/akz;
